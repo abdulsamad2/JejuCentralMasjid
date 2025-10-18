@@ -59,7 +59,7 @@ export default function ContactPage() {
     {
       icon: MapPinIcon,
       title: 'Location',
-      details: ['Temporary Location', 'Jeju Island, South Korea'],
+      details: ['Jeju-do, Jeju-si, 특별자치도,', 'Sancheondandong 2-gil, 15 2층'],
       action: '#location'
     },
     {
@@ -292,10 +292,11 @@ export default function ContactPage() {
                 <div className="bg-islamic-navy rounded-lg h-64 flex items-center justify-center text-white">
                   <div className="text-center">
                     <MapPinIcon className="h-12 w-12 text-islamic-gold mx-auto mb-4" />
-                    <h4 className="text-xl font-bold mb-2">Temporary Location</h4>
-                    <p className="text-islamic-cream">Exact address provided upon contact</p>
-                    <p className="text-sm text-islamic-cream mt-2">
-                      (For security and privacy reasons)
+                    <h4 className="text-xl font-bold mb-2">Mosque Location</h4>
+                    <p className="text-islamic-cream">Jeju-do, Jeju-si, 특별자치도</p>
+                    <p className="text-islamic-cream">Sancheondandong 2-gil, 15 2층</p>
+                    <p className="text-sm text-islamic-cream/80 mt-2">
+                      Jeju Island, South Korea
                     </p>
                   </div>
                 </div>

@@ -44,7 +44,8 @@ export default function Footer() {
                 <MapPinIcon className="h-5 w-5 text-islamic-gold mt-1" />
                 <div>
                   <p className="text-sm text-gray-300">
-                    Temporary Location<br />
+                    Jeju-do, Jeju-si, 특별자치도,<br />
+                    Sancheondandong 2-gil, 15 2층<br />
                     Jeju Island, South Korea
                   </p>
                 </div>
@@ -109,7 +110,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Central Jeju Mosque. All rights reserved. | Built with ❤️ for the Muslim community
+            © {new Date().getFullYear()} Jeju Central Masjid. All rights reserved. | Built with ❤️ for the Muslim community
           </p>
         </div>
       </div>

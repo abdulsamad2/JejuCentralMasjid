@@ -21,7 +21,7 @@ const upcomingEvents = [
   {
     id: 1,
     title: 'Friday Jumu\'ah Prayer',
-    date: '2024-10-25',
+    date: '2025-01-24',
     time: '12:30 PM',
     duration: '1 hour',
     location: 'Main Prayer Hall',
@@ -35,7 +35,7 @@ const upcomingEvents = [
   {
     id: 2,
     title: 'Islamic Studies Class - Seerah',
-    date: '2024-10-26',
+    date: '2025-01-25',
     time: '7:00 PM',
     duration: '2 hours',
     location: 'Education Room',
@@ -49,7 +49,7 @@ const upcomingEvents = [
   {
     id: 3,
     title: 'Community Iftar Planning Meeting',
-    date: '2024-10-28',
+    date: '2025-01-27',
     time: '6:30 PM',
     duration: '1.5 hours',
     location: 'Community Room',
@@ -63,7 +63,7 @@ const upcomingEvents = [
   {
     id: 4,
     title: 'New Muslim Support Circle',
-    date: '2024-10-30',
+    date: '2025-01-29',
     time: '3:00 PM',
     duration: '2 hours',
     location: 'Meeting Room',
@@ -77,7 +77,7 @@ const upcomingEvents = [
   {
     id: 5,
     title: 'Youth Islamic Quiz Competition',
-    date: '2024-11-02',
+    date: '2025-02-01',
     time: '2:00 PM',
     duration: '3 hours',
     location: 'Main Hall',
@@ -91,7 +91,7 @@ const upcomingEvents = [
   {
     id: 6,
     title: 'Women\'s Islamic Circle - Tajweed',
-    date: '2024-11-05',
+    date: '2025-02-04',
     time: '10:00 AM',
     duration: '2 hours',
     location: 'Women\'s Section',
