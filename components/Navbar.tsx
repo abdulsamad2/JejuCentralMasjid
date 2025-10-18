@@ -27,9 +27,9 @@ export default function Navbar() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center space-x-3">
             <Image
-              className="h-32 w-auto"
+              className="h-12 w-auto sm:h-16 lg:h-20"
               src="/assets/jeju-masjid-logo.png"
-              alt="Central Jeju Mosque"
+              alt="Jeju Central Masjid"
               width={100}
               height={100}
             />
@@ -43,7 +43,7 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            <Bars3Icon className="h-8 w-8" aria-hidden="true" />
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -75,12 +75,12 @@ export default function Navbar() {
               <Image
                 className="h-8 w-auto"
                 src="/assets/jeju-masjid-logo.png"
-                alt="Central Jeju Mosque"
+                alt="Jeju Central Masjid"
                 width={32}
                 height={32}
               />
-              <span className="font-bold text-islamic-navy">
-                Central Jeju Mosque
+              <span className="font-bold text-islamic-navy text-sm">
+                Jeju Central Masjid
               </span>
             </Link>
             <button
@@ -89,7 +89,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              <XMarkIcon className="h-8 w-8" aria-hidden="true" />
             </button>
           </div>
           <div className="mt-6 flow-root">

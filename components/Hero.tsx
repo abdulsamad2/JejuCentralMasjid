@@ -34,12 +34,11 @@ export default function Hero() {
           {/* Text Content */}
           <div className="text-white space-y-8">
             <div>
-              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-                Welcome to
-                <span className="block text-islamic-gold">Central Jeju</span>
-                <span className="block">Mosque</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight">
+                <span className="block text-islamic-gold">Jeju Central</span>
+                <span className="block">Masjid</span>
               </h1>
-              <div className="mt-4 font-arabic-display text-2xl text-islamic-cream text-optimize arabic-features-fancy arabic-text-shadow">
+              <div className="mt-4 font-arabic-display text-xl sm:text-2xl text-islamic-cream text-optimize arabic-features-fancy arabic-text-shadow">
                 مرحباً بكم في مسجد جيجو المركزي
               </div>
             </div>
