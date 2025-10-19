@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { ClockIcon, MapPinIcon, CalendarIcon, SunIcon, MoonIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import { CURRENT_PRAYER_TIMES, PRAYERS_LIST, getNextPrayer } from '../lib/constants/prayerTimes'
+import { Coordinates, Qibla } from 'adhan'
 
 export default function PrayerTimesWidget() {
   const [currentTime, setCurrentTime] = useState('')
@@ -17,6 +18,8 @@ export default function PrayerTimesWidget() {
   const [isAligned, setIsAligned] = useState(false)
   const [lastVibration, setLastVibration] = useState(0)
   const [compassAccuracy, setCompassAccuracy] = useState<number | null>(null)
+  const [qiblaLoading, setQiblaLoading] = useState(false)
+  const [qiblaError, setQiblaError] = useState<string | null>(null)
   const [prayerNames, setPrayerNames] = useState([
     { name: 'Fajr', time: CURRENT_PRAYER_TIMES.fajr, arabic: 'الفجر' },
     { name: 'Sunrise', time: CURRENT_PRAYER_TIMES.sunrise, arabic: 'الشروق' },
@@ -26,44 +29,74 @@ export default function PrayerTimesWidget() {
     { name: 'Isha', time: CURRENT_PRAYER_TIMES.isha, arabic: 'العشاء' },
   ])
 
-  // Calculate Qibla direction from user's location to Makkah
+  // Calculate Qibla direction using adhan library
   const calculateQiblaDirection = (lat: number, lng: number) => {
-    const makkahLat = 21.4225; // Makkah latitude
-    const makkahLng = 39.8262; // Makkah longitude
-    
-    const toRadians = (degrees: number) => degrees * (Math.PI / 180);
-    const toDegrees = (radians: number) => radians * (180 / Math.PI);
-    
-    const deltaLng = toRadians(makkahLng - lng);
-    const latRad = toRadians(lat);
-    const makkahLatRad = toRadians(makkahLat);
-    
-    const y = Math.sin(deltaLng) * Math.cos(makkahLatRad);
-    const x = Math.cos(latRad) * Math.sin(makkahLatRad) - 
-              Math.sin(latRad) * Math.cos(makkahLatRad) * Math.cos(deltaLng);
-    
-    let bearing = toDegrees(Math.atan2(y, x));
-    bearing = (bearing + 360) % 360; // Normalize to 0-360
-    
-    // Calculate distance using Haversine formula
-    const R = 6371; // Earth's radius in km
-    const dLat = toRadians(makkahLat - lat);
-    const dLng = deltaLng;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(toRadians(lat)) * Math.cos(makkahLatRad) *
-              Math.sin(dLng/2) * Math.sin(dLng/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    const distance = R * c;
-    
-    // Get cardinal direction
-    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-    const direction = directions[Math.round(bearing / 22.5) % 16];
-    
-    return {
-      degrees: Math.round(bearing),
-      direction,
-      distance: Math.round(distance)
-    };
+    try {
+      const coordinates = new Coordinates(lat, lng);
+      const qiblaDirection = Qibla(coordinates);
+      
+      // Get cardinal direction
+      const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+      const direction = directions[Math.round(qiblaDirection / 22.5) % 16];
+      
+      // Calculate distance to Makkah using Haversine formula
+      const makkahLat = 21.4225;
+      const makkahLng = 39.8262;
+      const toRadians = (degrees: number) => degrees * (Math.PI / 180);
+      
+      const R = 6371; // Earth's radius in km
+      const dLat = toRadians(makkahLat - lat);
+      const dLng = toRadians(makkahLng - lng);
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(toRadians(lat)) * Math.cos(toRadians(makkahLat)) *
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const distance = R * c;
+      
+      return {
+        degrees: Math.round(qiblaDirection),
+        direction,
+        distance: Math.round(distance)
+      };
+    } catch (error) {
+      console.error('Error calculating Qibla direction with adhan library:', error);
+      
+      // Fallback to manual calculation if adhan library fails
+      const makkahLat = 21.4225;
+      const makkahLng = 39.8262;
+      
+      const toRadians = (degrees: number) => degrees * (Math.PI / 180);
+      const toDegrees = (radians: number) => radians * (180 / Math.PI);
+      
+      const deltaLng = toRadians(makkahLng - lng);
+      const latRad = toRadians(lat);
+      const makkahLatRad = toRadians(makkahLat);
+      
+      const y = Math.sin(deltaLng) * Math.cos(makkahLatRad);
+      const x = Math.cos(latRad) * Math.sin(makkahLatRad) - 
+                Math.sin(latRad) * Math.cos(makkahLatRad) * Math.cos(deltaLng);
+      
+      let bearing = toDegrees(Math.atan2(y, x));
+      bearing = (bearing + 360) % 360;
+      
+      const R = 6371;
+      const dLat = toRadians(makkahLat - lat);
+      const dLng = deltaLng;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(toRadians(lat)) * Math.cos(makkahLatRad) *
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const distance = R * c;
+      
+      const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+      const direction = directions[Math.round(bearing / 22.5) % 16];
+      
+      return {
+        degrees: Math.round(bearing),
+        direction,
+        distance: Math.round(distance)
+      };
+    }
   };
 
   // Get user's current location
@@ -74,13 +107,25 @@ export default function PrayerTimesWidget() {
     }
 
     setLocationPermission('requesting');
+    setQiblaLoading(true);
+    setQiblaError(null);
     
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
         const { latitude, longitude } = position.coords;
         setUserLocation({ lat: latitude, lng: longitude });
-        const qibla = calculateQiblaDirection(latitude, longitude);
-        setQiblaDirection(qibla);
+        
+        // Use adhan library for Qibla calculation
+        try {
+          const qibla = calculateQiblaDirection(latitude, longitude);
+          setQiblaDirection(qibla);
+        } catch (error) {
+          console.error('Failed to calculate Qibla direction:', error);
+          setQiblaError('Failed to calculate Qibla direction');
+        } finally {
+          setQiblaLoading(false);
+        }
+        
         setLocationPermission('granted');
         
         // Try to enable device orientation
@@ -207,6 +252,24 @@ export default function PrayerTimesWidget() {
     // Determine which direction to turn
     const turnDirection = relativeQibla <= 180 ? 'right' : 'left';
     return { text: `Turn ${turnDirection} to find Qibla`, color: 'text-red-600' };
+  };
+
+  // Refresh Qibla direction using adhan library
+  const refreshQiblaDirection = async () => {
+    if (!userLocation) return;
+    
+    setQiblaLoading(true);
+    setQiblaError(null);
+    
+    try {
+      const qibla = calculateQiblaDirection(userLocation.lat, userLocation.lng);
+      setQiblaDirection(qibla);
+    } catch (error) {
+      console.error('Failed to refresh Qibla direction:', error);
+      setQiblaError('Failed to calculate Qibla direction');
+    } finally {
+      setQiblaLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -470,6 +533,9 @@ export default function PrayerTimesWidget() {
                 <div className="flex items-center justify-center space-x-2 mb-2 lg:mb-4">
                   <GlobeAltIcon className="h-6 w-6 text-islamic-green" />
                   <h3 className="text-xl lg:text-2xl font-bold text-islamic-navy">Qibla Compass</h3>
+                  {qiblaLoading && (
+                    <div className="animate-spin h-5 w-5 border-2 border-islamic-green border-t-transparent rounded-full"></div>
+                  )}
                 </div>
                 <p className="text-sm lg:text-base text-gray-600 mb-3">Point your device towards Makkah Al-Mukarramah</p>
                 
