@@ -11,6 +11,9 @@ export default function PrayerTimesWidget() {
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null)
   const [qiblaDirection, setQiblaDirection] = useState({ degrees: 292, direction: 'NW', distance: 8850 })
   const [locationPermission, setLocationPermission] = useState<'default' | 'requesting' | 'granted' | 'denied' | 'not-supported'>('default')
+  const [deviceOrientation, setDeviceOrientation] = useState(0)
+  const [compassSupported, setCompassSupported] = useState(false)
+  const [isCalibrating, setIsCalibrating] = useState(false)
   const [prayerNames, setPrayerNames] = useState([
     { name: 'Fajr', time: CURRENT_PRAYER_TIMES.fajr, arabic: 'الفجر' },
     { name: 'Sunrise', time: CURRENT_PRAYER_TIMES.sunrise, arabic: 'الشروق' },
@@ -76,6 +79,9 @@ export default function PrayerTimesWidget() {
         const qibla = calculateQiblaDirection(latitude, longitude);
         setQiblaDirection(qibla);
         setLocationPermission('granted');
+        
+        // Try to enable device orientation
+        requestDeviceOrientation();
       },
       (error) => {
         console.error('Location access denied:', error);
@@ -87,6 +93,61 @@ export default function PrayerTimesWidget() {
         maximumAge: 600000 // 10 minutes
       }
     );
+  };
+
+  // Request device orientation permission and setup compass
+  const requestDeviceOrientation = async () => {
+    try {
+      // Check if DeviceOrientationEvent is supported
+      if (typeof DeviceOrientationEvent !== 'undefined') {
+        // For iOS 13+ devices, we need to request permission
+        if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+          const permission = await (DeviceOrientationEvent as any).requestPermission();
+          if (permission === 'granted') {
+            setCompassSupported(true);
+            setupCompass();
+          }
+        } else {
+          // For Android and older iOS devices
+          setCompassSupported(true);
+          setupCompass();
+        }
+      }
+    } catch (error) {
+      console.error('Device orientation not supported:', error);
+      setCompassSupported(false);
+    }
+  };
+
+  // Setup compass listener
+  const setupCompass = () => {
+    const handleOrientation = (event: DeviceOrientationEvent) => {
+      if (event.alpha !== null) {
+        // Alpha is the compass heading in degrees (0-360)
+        setDeviceOrientation(event.alpha);
+      }
+    };
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    
+    // Cleanup function
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation);
+    };
+  };
+
+  // Calculate the relative Qibla direction based on device orientation
+  const getRelativeQiblaDirection = () => {
+    if (!compassSupported) return qiblaDirection.degrees;
+    
+    // Calculate relative direction: Qibla direction - device orientation
+    let relativeDegrees = qiblaDirection.degrees - deviceOrientation;
+    
+    // Normalize to 0-360 range
+    if (relativeDegrees < 0) relativeDegrees += 360;
+    if (relativeDegrees >= 360) relativeDegrees -= 360;
+    
+    return relativeDegrees;
   };
 
   useEffect(() => {
@@ -158,7 +219,7 @@ export default function PrayerTimesWidget() {
         </div>
 
         {/* Prayer Times Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-20">
+        <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 md:gap-4 mb-12">
           {prayerNames.map((prayer, index) => {
             const isNextPrayer = prayer.name === nextPrayerInfo.name
             const isDayTime = ['Fajr', 'Sunrise', 'Dhuhr', 'Jummah', 'Asr'].includes(prayer.name)
@@ -167,52 +228,95 @@ export default function PrayerTimesWidget() {
             return (
               <div 
                 key={index}
-                className={`group relative overflow-hidden rounded-2xl p-6 text-center transition-all duration-500 transform hover:-translate-y-2 ${
+                className={`relative flex items-center justify-between rounded-2xl transition-all duration-300 shadow-sm ${
                   isNextPrayer 
-                    ? 'bg-gradient-to-br from-islamic-green-light to-islamic-green-dark text-white shadow-2xl scale-105' 
-                    : 'bg-islamic-white hover:shadow-xl border border-gray-100 hover:border-islamic-gold-muted/50'
-                }`}
+                    ? 'bg-gradient-to-r from-islamic-green to-islamic-green/90 text-white shadow-lg transform scale-[1.02]' 
+                    : 'bg-white hover:shadow-md border border-gray-100/50 hover:border-islamic-green/20'
+                } md:flex md:flex-col md:items-center md:justify-center md:text-center p-4 md:p-6`}
               >
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-5">
-                  <div className="islamic-pattern h-full w-full"></div>
+                {/* Mobile Layout - Horizontal */}
+                <div className="flex items-center space-x-4 md:hidden w-full">
+                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm ${
+                    isNextPrayer 
+                      ? 'bg-white/20' 
+                      : 'bg-gradient-to-br from-islamic-green/10 to-islamic-green/5'
+                  }`}>
+                    <Icon className={`h-8 w-8 ${
+                      isNextPrayer ? 'text-white' : 'text-islamic-green'
+                    }`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0 pr-3">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <h3 className={`font-bold text-lg leading-tight ${
+                            isNextPrayer ? 'text-white' : 'text-islamic-navy'
+                          }`}>
+                            {prayer.name}
+                          </h3>
+                          {isNextPrayer && (
+                            <span className="bg-white/30 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                              Next
+                            </span>
+                          )}
+                        </div>
+                        <p className={`text-sm font-arabic-modern leading-tight ${
+                          isNextPrayer ? 'text-white/90' : 'text-islamic-green/80'
+                        }`}>
+                          {prayer.arabic}
+                        </p>
+                      </div>
+                      <div className="text-right flex-shrink-0 flex flex-col items-end">
+                        <p className={`text-2xl font-bold leading-tight mb-0.5 ${
+                          isNextPrayer ? 'text-white' : 'text-islamic-navy'
+                        }`}>
+                          {prayer.time}
+                        </p>
+                        {isNextPrayer && nextPrayerInfo.timeRemaining && (
+                          <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                            in {nextPrayerInfo.timeRemaining}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
-                {/* Content */}
-                <div className="relative z-10">
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+
+                {/* Desktop Layout - Vertical */}
+                <div className="hidden md:flex md:flex-col md:items-center md:justify-center md:text-center relative w-full">
+                  <div className={`w-16 h-16 mb-4 rounded-full flex items-center justify-center ${
                     isNextPrayer 
                       ? 'bg-white/20 backdrop-blur-sm' 
-                      : 'bg-islamic-green-light/10 group-hover:bg-islamic-green-light/20'
+                      : 'bg-islamic-green/10 group-hover:bg-islamic-green/20'
                   } transition-all duration-300`}>
                     <Icon className={`h-8 w-8 ${
                       isNextPrayer 
                         ? 'text-white' 
-                        : 'text-islamic-green-light group-hover:text-islamic-green-dark'
+                        : 'text-islamic-green group-hover:text-islamic-green'
                     }`} />
                   </div>
                   
-                  <h3 className={`font-bold text-xl mb-2 text-readable ${
-                    isNextPrayer ? 'text-white' : 'text-islamic-navy group-hover:text-islamic-gold-muted'
+                  <h3 className={`font-bold text-xl mb-2 ${
+                    isNextPrayer ? 'text-white' : 'text-islamic-navy group-hover:text-islamic-gold'
                   } transition-colors duration-300`}>
                     {prayer.name}
                   </h3>
                   
-                  <p className={`text-base font-arabic-modern mb-3 text-optimize arabic-features text-readable ${
-                    isNextPrayer ? 'text-white/90' : 'text-islamic-green-light'
+                  <p className={`text-sm font-arabic-modern mb-3 arabic-features ${
+                    isNextPrayer ? 'text-white/90' : 'text-islamic-green'
                   }`}>
                     {prayer.arabic}
                   </p>
                   
-                  <p className={`text-3xl font-bold mb-2 text-readable ${
+                  <p className={`text-3xl font-bold mb-2 ${
                     isNextPrayer ? 'text-white' : 'text-islamic-navy'
                   }`}>
                     {prayer.time}
                   </p>
                   
                   {isNextPrayer && (
-                    <div className="animate-pulse">
-                      <p className="text-sm text-white/90 font-semibold bg-white/20 rounded-full px-3 py-1 inline-block">
+                    <div className="animate-pulse flex flex-col items-center">
+                      <p className="text-sm text-white/90 font-semibold bg-white/20 rounded-full px-3 py-1">
                         Next Prayer
                       </p>
                       {nextPrayerInfo.timeRemaining && (
@@ -223,31 +327,26 @@ export default function PrayerTimesWidget() {
                     </div>
                   )}
                 </div>
-                
-                {/* Hover Effect */}
-                {!isNextPrayer && (
-                  <div className="absolute inset-0 bg-gradient-to-br from-islamic-green-light/5 to-islamic-gold-muted/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                )}
               </div>
             )
           })}
         </div>
 
         {/* Enhanced Info Panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20 mt-20">
+        <div className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-8 mb-12">
           {/* Current Time & Islamic Date */}
-          <div className="bg-gradient-to-r from-islamic-navy to-islamic-navy/90 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+          <div className="bg-gradient-to-r from-islamic-navy to-islamic-navy/90 rounded-2xl p-6 lg:p-8 text-white shadow-2xl relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="islamic-pattern h-full w-full"></div>
             </div>
             
-            <div className="relative z-10 space-y-8">
+            <div className="relative z-10 space-y-6 lg:space-y-8">
               {/* Current Time */}
               <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <ClockIcon className="h-6 w-6 text-islamic-gold" />
-              <h3 className="text-lg font-semibold text-islamic-gold">Current Time</h3>
+            <div className="flex items-center justify-center space-x-2 mb-3 lg:mb-4">
+              <ClockIcon className="h-5 w-5 lg:h-6 lg:w-6 text-islamic-gold" />
+              <h3 className="text-base lg:text-lg font-semibold text-islamic-gold">Current Time</h3>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-4">
               <p className="text-5xl font-bold mb-2 text-islamic-cream">{currentTime}</p>
@@ -256,13 +355,13 @@ export default function PrayerTimesWidget() {
               </div>
               
               {/* Islamic Date */}
-              <div className="text-center border-t border-white/20 pt-6">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <CalendarIcon className="h-6 w-6 text-islamic-gold" />
-              <h3 className="text-lg font-semibold text-islamic-gold">Islamic Calendar</h3>
+              <div className="text-center border-t border-white/20 pt-4 lg:pt-6">
+            <div className="flex items-center justify-center space-x-2 mb-3 lg:mb-4">
+              <CalendarIcon className="h-5 w-5 lg:h-6 lg:w-6 text-islamic-gold" />
+              <h3 className="text-base lg:text-lg font-semibold text-islamic-gold">Islamic Calendar</h3>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <p className="text-2xl font-bold mb-2 text-islamic-cream font-arabic-display text-optimize arabic-features-fancy">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <p className="text-lg lg:text-2xl font-bold mb-2 lg:mb-2 text-islamic-cream font-arabic-display text-optimize arabic-features-fancy">
                 {new Date().toLocaleDateString('ar-SA-u-ca-islamic', {
                   weekday: 'long',
                   year: 'numeric',
@@ -270,27 +369,27 @@ export default function PrayerTimesWidget() {
                   day: 'numeric'
                 })}
               </p>
-              <div className="grid grid-cols-3 gap-3 mt-4">
+              <div className="grid grid-cols-3 gap-2 lg:gap-3 mt-3 lg:mt-4">
                 <div className="text-center">
                   <p className="text-islamic-gold text-xs font-medium">Day</p>
-                  <p className="text-xl font-bold">
+                  <p className="text-lg lg:text-xl font-bold">
                 {new Date().toLocaleDateString('ar-SA-u-ca-islamic', { day: 'numeric' })}
                   </p>
                 </div>
                 <div className="text-center border-x border-white/20">
                   <p className="text-islamic-gold text-xs font-medium">Month</p>
-                  <p className="text-sm font-bold">
+                  <p className="text-xs lg:text-sm font-bold">
                 {new Date().toLocaleDateString('ar-SA-u-ca-islamic', { month: 'long' })}
                   </p>
                 </div>
                 <div className="text-center">
                   <p className="text-islamic-gold text-xs font-medium">Year</p>
-                  <p className="text-xl font-bold">
+                  <p className="text-lg lg:text-xl font-bold">
                 {new Date().toLocaleDateString('ar-SA-u-ca-islamic', { year: 'numeric' })}
                   </p>
                 </div>
               </div>
-              <div className="mt-4 pt-3 border-t border-white/20">
+              <div className="mt-3 lg:mt-4 pt-2 lg:pt-3 border-t border-white/20">
                 <p className="text-xs text-islamic-cream opacity-80">
                   Hijri Calendar • Based on Lunar Months
                 </p>
@@ -300,110 +399,169 @@ export default function PrayerTimesWidget() {
             </div>
           </div>
 
-          {/* Modern Qibla Direction */}
-          <div className="bg-gradient-to-br from-islamic-white via-islamic-cream/30 to-islamic-white rounded-3xl p-8 shadow-2xl border border-islamic-gold-muted/20 relative overflow-hidden">
+          {/* Android-Style Qibla Direction */}
+          <div className="bg-gradient-to-br from-white via-islamic-cream/30 to-white rounded-3xl p-4 lg:p-8 shadow-xl border border-islamic-gold/20 relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-5">
               <div className="islamic-pattern h-full w-full"></div>
             </div>
             
             <div className="relative z-10">
-              <div className="text-center mb-6">
-                <div className="flex items-center justify-center space-x-2 mb-4">
-                  <GlobeAltIcon className="h-6 w-6 text-islamic-green-light" />
-                  <h3 className="text-xl font-bold text-islamic-navy text-readable">Qibla Direction</h3>
+              <div className="text-center mb-4 lg:mb-6">
+                <div className="flex items-center justify-center space-x-2 mb-2 lg:mb-4">
+                  <GlobeAltIcon className="h-6 w-6 text-islamic-green" />
+                  <h3 className="text-xl lg:text-2xl font-bold text-islamic-navy">Qibla Direction</h3>
                 </div>
-                <p className="text-base text-gray-600 text-readable">Direction to Makkah Al-Mukarramah</p>
+                <p className="text-sm lg:text-base text-gray-600 mb-2">Direction to Makkah Al-Mukarramah</p>
+                {compassSupported && (
+                  <div className="inline-flex items-center space-x-2 bg-islamic-green/10 rounded-full px-3 py-1">
+                    <div className="w-2 h-2 bg-islamic-green rounded-full animate-pulse"></div>
+                    <span className="text-xs font-medium text-islamic-green">Live Compass</span>
+                  </div>
+                )}
               </div>
 
-              {/* Compass Display */}
+              {/* Mobile-Optimized Compass Display */}
               <div className="flex justify-center mb-6">
                 <div className="relative">
-                  {/* Outer Ring */}
-                  <div className="w-32 h-32 border-4 border-islamic-gold/30 rounded-full relative bg-gradient-to-br from-islamic-cream to-white shadow-inner">
-                    {/* Cardinal Points */}
-                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 text-xs font-bold text-islamic-navy">N</div>
-                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-xs font-bold text-islamic-navy">S</div>
-                    <div className="absolute left-1 top-1/2 transform -translate-y-1/2 text-xs font-bold text-islamic-navy">W</div>
-                    <div className="absolute right-1 top-1/2 transform -translate-y-1/2 text-xs font-bold text-islamic-navy">E</div>
+                  {/* Main Compass Ring */}
+                  <div className="w-40 h-40 lg:w-48 lg:h-48 border-4 border-islamic-gold/30 rounded-full relative bg-gradient-to-br from-islamic-cream to-white shadow-2xl">
+                    {/* Compass Marks */}
+                    <div className="absolute inset-2 rounded-full border border-islamic-gold/20"></div>
+                    <div className="absolute inset-4 rounded-full border border-islamic-gold/10"></div>
                     
-                    {/* Qibla Needle */}
-                    <div className="absolute inset-4 flex items-center justify-center">
+                    {/* Cardinal Points */}
+                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">N</div>
+                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">S</div>
+                    <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">W</div>
+                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">E</div>
+                    
+                    {/* Qibla Needle - Dynamic based on device orientation */}
+                    <div className="absolute inset-6 flex items-center justify-center">
                       <div 
-                        className="w-16 h-1 bg-gradient-to-r from-islamic-gold-muted via-islamic-gold to-islamic-green-light rounded-full shadow-lg transition-transform duration-1000"
+                        className="w-20 h-2 bg-gradient-to-r from-transparent via-islamic-gold to-islamic-green rounded-full shadow-lg transition-transform duration-300 relative"
                         style={{ 
-                          transform: `rotate(${qiblaDirection.degrees - 180}deg)`,
+                          transform: `rotate(${compassSupported ? getRelativeQiblaDirection() : qiblaDirection.degrees - 180}deg)`,
                           transformOrigin: 'center'
                         }}
-                      ></div>
+                      >
+                        {/* Arrow head */}
+                        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-l-4 border-l-islamic-green border-t-2 border-t-transparent border-b-2 border-b-transparent"></div>
+                      </div>
                     </div>
                     
-                    {/* Center Dot */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-islamic-gold rounded-full shadow-md border-2 border-white"></div>
+                    {/* Center Dot with Kaaba Icon */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-islamic-gold rounded-full shadow-lg border-4 border-white flex items-center justify-center">
+                      <div className="w-3 h-3 bg-white rounded-sm"></div>
+                    </div>
+                    
+                    {/* Device Orientation Indicator (for mobile) */}
+                    {compassSupported && (
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 border-2 border-blue-500 rounded-full -mt-12">
+                        <div className="w-1 h-3 bg-blue-500 mx-auto"></div>
+                      </div>
+                    )}
                   </div>
                   
                   {/* Animated Rings */}
-                  <div className="absolute inset-0 w-32 h-32 border-2 border-islamic-green/20 rounded-full animate-ping"></div>
-                  <div className="absolute inset-2 w-28 h-28 border border-islamic-gold/30 rounded-full animate-pulse"></div>
+                  <div className="absolute inset-0 w-40 h-40 lg:w-48 lg:h-48 border-2 border-islamic-green/20 rounded-full animate-ping"></div>
+                  <div className="absolute inset-2 w-36 h-36 lg:w-44 lg:h-44 border border-islamic-gold/30 rounded-full animate-pulse"></div>
                 </div>
               </div>
 
-              {/* Direction Info */}
-              <div className="bg-islamic-navy/5 rounded-2xl p-4 text-center space-y-3">
-                <div className="flex items-center justify-center space-x-4">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-islamic-gold-muted text-readable">{qiblaDirection.degrees}°</p>
-                    <p className="text-base text-gray-600 text-readable">Bearing</p>
+              {/* Android-Style Direction Info */}
+              <div className="space-y-4">
+                {/* Primary Info Cards */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-gradient-to-br from-islamic-gold/10 to-islamic-gold/5 rounded-2xl p-4 text-center border border-islamic-gold/20">
+                    <p className="text-2xl lg:text-3xl font-bold text-islamic-gold mb-1">{qiblaDirection.degrees}°</p>
+                    <p className="text-xs lg:text-sm text-gray-600 font-medium">Bearing</p>
                   </div>
-                  <div className="w-px h-12 bg-gray-300"></div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-islamic-green-light text-readable">{qiblaDirection.direction}</p>
-                    <p className="text-base text-gray-600 text-readable">Direction</p>
+                  <div className="bg-gradient-to-br from-islamic-green/10 to-islamic-green/5 rounded-2xl p-4 text-center border border-islamic-green/20">
+                    <p className="text-2xl lg:text-3xl font-bold text-islamic-green mb-1">{qiblaDirection.direction}</p>
+                    <p className="text-xs lg:text-sm text-gray-600 font-medium">Direction</p>
                   </div>
-                  <div className="w-px h-12 bg-gray-300"></div>
-                  <div className="text-center">
-                    <p className="text-lg font-bold text-islamic-navy text-readable">{qiblaDirection.distance.toLocaleString()}</p>
-                    <p className="text-base text-gray-600 text-readable">km</p>
+                  <div className="bg-gradient-to-br from-islamic-navy/10 to-islamic-navy/5 rounded-2xl p-4 text-center border border-islamic-navy/20">
+                    <p className="text-lg lg:text-xl font-bold text-islamic-navy mb-1">{qiblaDirection.distance.toLocaleString()}</p>
+                    <p className="text-xs lg:text-sm text-gray-600 font-medium">km</p>
                   </div>
                 </div>
+
+                {/* Device Status */}
+                {compassSupported && (
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-200">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                          <div className="w-4 h-4 bg-white rounded-full"></div>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-blue-800">Device Compass Active</p>
+                          <p className="text-sm text-blue-600">Orientation: {Math.round(deviceOrientation)}°</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-blue-600">Relative Qibla</p>
+                        <p className="text-lg font-bold text-blue-800">{Math.round(getRelativeQiblaDirection())}°</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 
                 {/* Location Status */}
-                <div className="pt-3 border-t border-gray-200">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-gray-200">
                   {locationPermission === 'default' && (
                     <button
                       onClick={getUserLocation}
-                      className="btn-islamic btn-islamic-primary flex items-center space-x-2 mx-auto"
+                      className="w-full bg-gradient-to-r from-islamic-green to-islamic-green/90 text-white py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 font-semibold"
                     >
-                      <MapPinIcon className="h-4 w-4" />
-                      <span>Use My Location</span>
+                      <MapPinIcon className="h-5 w-5" />
+                      <span>Enable Location & Compass</span>
                     </button>
                   )}
                   
                   {locationPermission === 'requesting' && (
-                    <div className="flex items-center justify-center space-x-2 text-islamic-gold-muted">
-                      <div className="animate-spin h-4 w-4 border-2 border-islamic-gold-muted border-t-transparent rounded-full"></div>
-                      <span className="text-base text-readable">Getting your location...</span>
+                    <div className="flex items-center justify-center space-x-3 text-islamic-gold py-2">
+                      <div className="animate-spin h-5 w-5 border-2 border-islamic-gold border-t-transparent rounded-full"></div>
+                      <span className="font-medium">Getting your location...</span>
                     </div>
                   )}
                   
                   {locationPermission === 'granted' && userLocation && (
-                    <div className="text-center">
-                      <p className="text-base text-islamic-green-light font-medium text-readable">✓ Using your location</p>
-                      <p className="text-sm text-gray-500">
+                    <div className="text-center space-y-2">
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-3 h-3 bg-islamic-green rounded-full"></div>
+                        <p className="font-semibold text-islamic-green">Location & Compass Active</p>
+                      </div>
+                      <p className="text-sm text-gray-600">
                         {userLocation.lat.toFixed(4)}°, {userLocation.lng.toFixed(4)}°
                       </p>
+                      {!compassSupported && (
+                        <button
+                          onClick={requestDeviceOrientation}
+                          className="bg-blue-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                          Enable Compass
+                        </button>
+                      )}
                     </div>
                   )}
                   
                   {locationPermission === 'denied' && (
-                    <div className="text-center">
-                      <p className="text-base text-alert-orange text-readable">Location access denied</p>
-                      <p className="text-xs text-gray-500">Showing default Jeju Island direction</p>
+                    <div className="text-center space-y-2">
+                      <p className="font-medium text-red-600">Location Access Denied</p>
+                      <p className="text-sm text-gray-500">Showing default Jeju Island direction</p>
+                      <button
+                        onClick={getUserLocation}
+                        className="text-islamic-green text-sm hover:underline"
+                      >
+                        Try Again
+                      </button>
                     </div>
                   )}
                   
                   {locationPermission === 'not-supported' && (
-                    <p className="text-sm text-gray-500 text-center">Location not supported by browser</p>
+                    <p className="text-center text-gray-500">Location not supported by browser</p>
                   )}
                 </div>
               </div>
