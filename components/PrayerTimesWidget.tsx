@@ -14,6 +14,9 @@ export default function PrayerTimesWidget() {
   const [deviceOrientation, setDeviceOrientation] = useState(0)
   const [compassSupported, setCompassSupported] = useState(false)
   const [isCalibrating, setIsCalibrating] = useState(false)
+  const [isAligned, setIsAligned] = useState(false)
+  const [lastVibration, setLastVibration] = useState(0)
+  const [compassAccuracy, setCompassAccuracy] = useState<number | null>(null)
   const [prayerNames, setPrayerNames] = useState([
     { name: 'Fajr', time: CURRENT_PRAYER_TIMES.fajr, arabic: 'الفجر' },
     { name: 'Sunrise', time: CURRENT_PRAYER_TIMES.sunrise, arabic: 'الشروق' },
@@ -125,6 +128,23 @@ export default function PrayerTimesWidget() {
       if (event.alpha !== null) {
         // Alpha is the compass heading in degrees (0-360)
         setDeviceOrientation(event.alpha);
+        
+        // Set compass accuracy if available
+        if ((event as any).webkitCompassAccuracy !== undefined) {
+          setCompassAccuracy((event as any).webkitCompassAccuracy);
+        }
+        
+        // Check if user is aligned with Qibla (within 5 degrees)
+        const relativeQibla = getRelativeQiblaDirection();
+        const isCurrentlyAligned = Math.abs(relativeQibla) <= 5 || Math.abs(relativeQibla - 360) <= 5;
+        
+        // Trigger haptic feedback when aligned
+        if (isCurrentlyAligned && !isAligned) {
+          triggerHapticFeedback();
+          setIsAligned(true);
+        } else if (!isCurrentlyAligned) {
+          setIsAligned(false);
+        }
       }
     };
 
@@ -134,6 +154,29 @@ export default function PrayerTimesWidget() {
     return () => {
       window.removeEventListener('deviceorientation', handleOrientation);
     };
+  };
+
+  // Trigger haptic feedback for mobile devices
+  const triggerHapticFeedback = () => {
+    const now = Date.now();
+    // Prevent too frequent vibrations
+    if (now - lastVibration > 1000) {
+      try {
+        // Modern Vibration API
+        if ('vibrate' in navigator) {
+          navigator.vibrate([100, 50, 100]); // Pattern: vibrate-pause-vibrate
+        }
+        
+        // iOS Haptic Feedback (if available)
+        if ('haptic' in navigator && 'notification' in (navigator as any).haptic) {
+          (navigator as any).haptic.notification({ type: 'success' });
+        }
+        
+        setLastVibration(now);
+      } catch (error) {
+        console.log('Haptic feedback not available:', error);
+      }
+    }
   };
 
   // Calculate the relative Qibla direction based on device orientation
@@ -148,6 +191,22 @@ export default function PrayerTimesWidget() {
     if (relativeDegrees >= 360) relativeDegrees -= 360;
     
     return relativeDegrees;
+  };
+
+  // Get alignment status text
+  const getAlignmentStatus = () => {
+    if (!compassSupported) return { text: 'Enable compass for live direction', color: 'text-gray-600' };
+    
+    const relativeQibla = getRelativeQiblaDirection();
+    const deviation = Math.min(relativeQibla, 360 - relativeQibla);
+    
+    if (deviation <= 5) return { text: 'Perfect! You are facing Qibla', color: 'text-islamic-green' };
+    if (deviation <= 15) return { text: 'Very close to Qibla direction', color: 'text-yellow-600' };
+    if (deviation <= 45) return { text: 'Turn towards the arrow', color: 'text-orange-600' };
+    
+    // Determine which direction to turn
+    const turnDirection = relativeQibla <= 180 ? 'right' : 'left';
+    return { text: `Turn ${turnDirection} to find Qibla`, color: 'text-red-600' };
   };
 
   useEffect(() => {
@@ -410,150 +469,271 @@ export default function PrayerTimesWidget() {
               <div className="text-center mb-4 lg:mb-6">
                 <div className="flex items-center justify-center space-x-2 mb-2 lg:mb-4">
                   <GlobeAltIcon className="h-6 w-6 text-islamic-green" />
-                  <h3 className="text-xl lg:text-2xl font-bold text-islamic-navy">Qibla Direction</h3>
+                  <h3 className="text-xl lg:text-2xl font-bold text-islamic-navy">Qibla Compass</h3>
                 </div>
-                <p className="text-sm lg:text-base text-gray-600 mb-2">Direction to Makkah Al-Mukarramah</p>
-                {compassSupported && (
-                  <div className="inline-flex items-center space-x-2 bg-islamic-green/10 rounded-full px-3 py-1">
-                    <div className="w-2 h-2 bg-islamic-green rounded-full animate-pulse"></div>
-                    <span className="text-xs font-medium text-islamic-green">Live Compass</span>
-                  </div>
-                )}
+                <p className="text-sm lg:text-base text-gray-600 mb-3">Point your device towards Makkah Al-Mukarramah</p>
+                
+                {/* Status Indicators */}
+                <div className="flex justify-center space-x-2 mb-3">
+                  {compassSupported && (
+                    <div className="inline-flex items-center space-x-2 bg-islamic-green/10 rounded-full px-3 py-1">
+                      <div className={`w-2 h-2 rounded-full ${isAligned ? 'bg-islamic-green animate-pulse' : 'bg-yellow-500'}`}></div>
+                      <span className="text-xs font-medium text-islamic-green">Live Compass</span>
+                    </div>
+                  )}
+                  {isAligned && (
+                    <div className="inline-flex items-center space-x-2 bg-green-100 rounded-full px-3 py-1">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+                      <span className="text-xs font-bold text-green-700">ALIGNED!</span>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Alignment Status */}
+                <div className="mb-4">
+                  <p className={`text-sm font-semibold ${getAlignmentStatus().color}`}>
+                    {getAlignmentStatus().text}
+                  </p>
+                  {compassSupported && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Device: {Math.round(deviceOrientation)}° | Relative: {Math.round(getRelativeQiblaDirection())}°
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Mobile-Optimized Compass Display */}
               <div className="flex justify-center mb-6">
                 <div className="relative">
                   {/* Main Compass Ring */}
-                  <div className="w-40 h-40 lg:w-48 lg:h-48 border-4 border-islamic-gold/30 rounded-full relative bg-gradient-to-br from-islamic-cream to-white shadow-2xl">
-                    {/* Compass Marks */}
+                  <div className={`w-56 h-56 lg:w-64 lg:h-64 border-4 rounded-full relative bg-gradient-to-br from-islamic-cream to-white shadow-2xl transition-all duration-300 ${
+                    isAligned ? 'border-islamic-green shadow-islamic-green/30' : 'border-islamic-gold/30'
+                  }`}>
+                    {/* Compass Rings */}
                     <div className="absolute inset-2 rounded-full border border-islamic-gold/20"></div>
                     <div className="absolute inset-4 rounded-full border border-islamic-gold/10"></div>
+                    <div className="absolute inset-8 rounded-full border border-islamic-gold/5"></div>
                     
                     {/* Cardinal Points */}
-                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">N</div>
-                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">S</div>
-                    <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">W</div>
-                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm">E</div>
+                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-islamic-gold/30">N</div>
+                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-islamic-gold/30">S</div>
+                    <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-islamic-gold/30">W</div>
+                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm font-bold text-islamic-navy bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-islamic-gold/30">E</div>
                     
-                    {/* Qibla Needle - Dynamic based on device orientation */}
-                    <div className="absolute inset-6 flex items-center justify-center">
+                    {/* Qibla Arrow with Kaaba Symbol */}
+                    <div className="absolute inset-8 flex items-center justify-center">
                       <div 
-                        className="w-20 h-2 bg-gradient-to-r from-transparent via-islamic-gold to-islamic-green rounded-full shadow-lg transition-transform duration-300 relative"
+                        className={`relative w-24 h-3 transition-transform duration-300 ${
+                          isAligned ? 'animate-pulse' : ''
+                        }`}
                         style={{ 
                           transform: `rotate(${compassSupported ? getRelativeQiblaDirection() : qiblaDirection.degrees - 180}deg)`,
                           transformOrigin: 'center'
                         }}
                       >
-                        {/* Arrow head */}
-                        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-l-4 border-l-islamic-green border-t-2 border-t-transparent border-b-2 border-b-transparent"></div>
+                        {/* Arrow Base */}
+                        <div className={`w-20 h-3 rounded-full shadow-lg transition-colors duration-300 ${
+                          isAligned 
+                            ? 'bg-gradient-to-r from-transparent via-islamic-green to-islamic-green' 
+                            : 'bg-gradient-to-r from-transparent via-islamic-gold to-islamic-gold'
+                        }`}></div>
+                        
+                        {/* Kaaba Symbol at arrow tip */}
+                        <div className={`absolute right-0 top-1/2 transform -translate-y-1/2 w-6 h-6 rounded-sm shadow-lg flex items-center justify-center transition-colors duration-300 ${
+                          isAligned ? 'bg-islamic-green' : 'bg-islamic-gold'
+                        }`}>
+                          {/* Kaaba representation */}
+                          <div className="w-3 h-3 bg-white rounded-sm border border-gray-200 relative">
+                            <div className="absolute inset-0.5 bg-gray-800 rounded-sm"></div>
+                            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-islamic-gold rounded-full"></div>
+                          </div>
+                        </div>
+                        
+                        {/* Arrow pointer */}
+                        <div className={`absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1 w-0 h-0 transition-colors duration-300 ${
+                          isAligned 
+                            ? 'border-l-4 border-l-islamic-green border-t-2 border-t-transparent border-b-2 border-b-transparent'
+                            : 'border-l-4 border-l-islamic-gold border-t-2 border-t-transparent border-b-2 border-b-transparent'
+                        }`}></div>
                       </div>
                     </div>
                     
-                    {/* Center Dot with Kaaba Icon */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-islamic-gold rounded-full shadow-lg border-4 border-white flex items-center justify-center">
-                      <div className="w-3 h-3 bg-white rounded-sm"></div>
+                    {/* Center Circle with Compass Rose */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-xl border-4 border-islamic-gold flex items-center justify-center">
+                      <div className="text-xs font-bold text-islamic-navy">قبلة</div>
                     </div>
                     
                     {/* Device Orientation Indicator (for mobile) */}
                     {compassSupported && (
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 border-2 border-blue-500 rounded-full -mt-12">
-                        <div className="w-1 h-3 bg-blue-500 mx-auto"></div>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-8 h-8 border-3 border-blue-500 rounded-full bg-blue-500/20 flex items-center justify-center">
+                          <div className="w-2 h-4 bg-blue-500 rounded-full"></div>
+                        </div>
+                        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 text-xs text-blue-600 font-medium">YOU</div>
                       </div>
+                    )}
+                    
+                    {/* Alignment Glow Effect */}
+                    {isAligned && (
+                      <div className="absolute inset-0 rounded-full bg-islamic-green/10 animate-pulse"></div>
                     )}
                   </div>
                   
                   {/* Animated Rings */}
-                  <div className="absolute inset-0 w-40 h-40 lg:w-48 lg:h-48 border-2 border-islamic-green/20 rounded-full animate-ping"></div>
-                  <div className="absolute inset-2 w-36 h-36 lg:w-44 lg:h-44 border border-islamic-gold/30 rounded-full animate-pulse"></div>
+                  <div className={`absolute inset-0 w-56 h-56 lg:w-64 lg:h-64 border-2 rounded-full animate-ping transition-colors duration-300 ${
+                    isAligned ? 'border-islamic-green/30' : 'border-islamic-gold/20'
+                  }`}></div>
+                  <div className={`absolute inset-4 w-48 h-48 lg:w-56 lg:h-56 border rounded-full animate-pulse transition-colors duration-300 ${
+                    isAligned ? 'border-islamic-green/20' : 'border-islamic-gold/30'
+                  }`}></div>
                 </div>
               </div>
 
               {/* Android-Style Direction Info */}
               <div className="space-y-4">
+                {/* Mobile Instructions */}
+                {compassSupported && (
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-200 lg:hidden">
+                    <div className="text-center space-y-2">
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                          <div className="w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                        <span className="font-semibold text-blue-800">How to use:</span>
+                      </div>
+                      <p className="text-sm text-blue-700">Hold your phone flat and rotate until the Kaaba symbol points towards you. When aligned, your device will vibrate!</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Primary Info Cards */}
                 <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-gradient-to-br from-islamic-gold/10 to-islamic-gold/5 rounded-2xl p-4 text-center border border-islamic-gold/20">
-                    <p className="text-2xl lg:text-3xl font-bold text-islamic-gold mb-1">{qiblaDirection.degrees}°</p>
-                    <p className="text-xs lg:text-sm text-gray-600 font-medium">Bearing</p>
+                  <div className={`rounded-2xl p-4 text-center border transition-all duration-300 ${
+                    isAligned 
+                      ? 'bg-gradient-to-br from-islamic-green/20 to-islamic-green/10 border-islamic-green/30 shadow-lg' 
+                      : 'bg-gradient-to-br from-islamic-gold/10 to-islamic-gold/5 border-islamic-gold/20'
+                  }`}>
+                    <p className={`text-2xl lg:text-3xl font-bold mb-1 transition-colors duration-300 ${
+                      isAligned ? 'text-islamic-green' : 'text-islamic-gold'
+                    }`}>{qiblaDirection.degrees}°</p>
+                    <p className="text-xs lg:text-sm text-gray-600 font-medium">Qibla Bearing</p>
                   </div>
-                  <div className="bg-gradient-to-br from-islamic-green/10 to-islamic-green/5 rounded-2xl p-4 text-center border border-islamic-green/20">
-                    <p className="text-2xl lg:text-3xl font-bold text-islamic-green mb-1">{qiblaDirection.direction}</p>
+                  <div className={`rounded-2xl p-4 text-center border transition-all duration-300 ${
+                    isAligned 
+                      ? 'bg-gradient-to-br from-islamic-green/20 to-islamic-green/10 border-islamic-green/30 shadow-lg' 
+                      : 'bg-gradient-to-br from-islamic-green/10 to-islamic-green/5 border-islamic-green/20'
+                  }`}>
+                    <p className={`text-2xl lg:text-3xl font-bold mb-1 transition-colors duration-300 ${
+                      isAligned ? 'text-islamic-green' : 'text-islamic-green'
+                    }`}>{qiblaDirection.direction}</p>
                     <p className="text-xs lg:text-sm text-gray-600 font-medium">Direction</p>
                   </div>
                   <div className="bg-gradient-to-br from-islamic-navy/10 to-islamic-navy/5 rounded-2xl p-4 text-center border border-islamic-navy/20">
                     <p className="text-lg lg:text-xl font-bold text-islamic-navy mb-1">{qiblaDirection.distance.toLocaleString()}</p>
-                    <p className="text-xs lg:text-sm text-gray-600 font-medium">km</p>
+                    <p className="text-xs lg:text-sm text-gray-600 font-medium">km away</p>
                   </div>
                 </div>
 
-                {/* Device Status */}
+                {/* Compass Status */}
                 {compassSupported && (
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-200">
+                  <div className={`rounded-2xl p-4 border transition-all duration-300 ${
+                    isAligned 
+                      ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200' 
+                      : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200'
+                  }`}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                          isAligned ? 'bg-green-500' : 'bg-blue-500'
+                        }`}>
                           <div className="w-4 h-4 bg-white rounded-full"></div>
                         </div>
                         <div>
-                          <p className="font-semibold text-blue-800">Device Compass Active</p>
-                          <p className="text-sm text-blue-600">Orientation: {Math.round(deviceOrientation)}°</p>
+                          <p className={`font-semibold transition-colors duration-300 ${
+                            isAligned ? 'text-green-800' : 'text-blue-800'
+                          }`}>
+                            {isAligned ? 'Perfect Alignment!' : 'Device Compass Active'}
+                          </p>
+                          <p className={`text-sm transition-colors duration-300 ${
+                            isAligned ? 'text-green-600' : 'text-blue-600'
+                          }`}>
+                            Device: {Math.round(deviceOrientation)}°
+                            {compassAccuracy && ` | Accuracy: ±${compassAccuracy}°`}
+                          </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-blue-600">Relative Qibla</p>
-                        <p className="text-lg font-bold text-blue-800">{Math.round(getRelativeQiblaDirection())}°</p>
+                        <p className={`text-sm transition-colors duration-300 ${
+                          isAligned ? 'text-green-600' : 'text-blue-600'
+                        }`}>
+                          {isAligned ? 'Facing Qibla' : 'Relative Qibla'}
+                        </p>
+                        <p className={`text-lg font-bold transition-colors duration-300 ${
+                          isAligned ? 'text-green-800' : 'text-blue-800'
+                        }`}>
+                          {Math.round(getRelativeQiblaDirection())}°
+                        </p>
                       </div>
                     </div>
+                    {isAligned && (
+                      <div className="mt-3 pt-3 border-t border-green-200">
+                        <p className="text-center text-sm text-green-700 font-medium">
+                          🕋 You are now facing the Holy Kaaba in Makkah
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
                 
-                {/* Location Status */}
+                {/* Location & Enable Buttons */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-gray-200">
                   {locationPermission === 'default' && (
                     <button
                       onClick={getUserLocation}
-                      className="w-full bg-gradient-to-r from-islamic-green to-islamic-green/90 text-white py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 font-semibold"
+                      className="w-full bg-gradient-to-r from-islamic-green to-islamic-green/90 text-white py-4 px-6 rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-3 font-semibold text-lg"
                     >
-                      <MapPinIcon className="h-5 w-5" />
+                      <MapPinIcon className="h-6 w-6" />
                       <span>Enable Location & Compass</span>
                     </button>
                   )}
                   
                   {locationPermission === 'requesting' && (
-                    <div className="flex items-center justify-center space-x-3 text-islamic-gold py-2">
-                      <div className="animate-spin h-5 w-5 border-2 border-islamic-gold border-t-transparent rounded-full"></div>
-                      <span className="font-medium">Getting your location...</span>
+                    <div className="flex items-center justify-center space-x-3 text-islamic-gold py-3">
+                      <div className="animate-spin h-6 w-6 border-3 border-islamic-gold border-t-transparent rounded-full"></div>
+                      <span className="font-medium text-lg">Getting your location...</span>
                     </div>
                   )}
                   
                   {locationPermission === 'granted' && userLocation && (
-                    <div className="text-center space-y-2">
+                    <div className="text-center space-y-3">
                       <div className="flex items-center justify-center space-x-2">
-                        <div className="w-3 h-3 bg-islamic-green rounded-full"></div>
-                        <p className="font-semibold text-islamic-green">Location & Compass Active</p>
+                        <div className="w-4 h-4 bg-islamic-green rounded-full animate-pulse"></div>
+                        <p className="font-semibold text-islamic-green text-lg">Location & Compass Active</p>
                       </div>
                       <p className="text-sm text-gray-600">
-                        {userLocation.lat.toFixed(4)}°, {userLocation.lng.toFixed(4)}°
+                        📍 {userLocation.lat.toFixed(4)}°, {userLocation.lng.toFixed(4)}°
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Distance to Makkah: {qiblaDirection.distance.toLocaleString()} km
                       </p>
                       {!compassSupported && (
                         <button
                           onClick={requestDeviceOrientation}
-                          className="bg-blue-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                          className="bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 transition-colors font-medium"
                         >
-                          Enable Compass
+                          Enable Live Compass
                         </button>
                       )}
                     </div>
                   )}
                   
                   {locationPermission === 'denied' && (
-                    <div className="text-center space-y-2">
-                      <p className="font-medium text-red-600">Location Access Denied</p>
-                      <p className="text-sm text-gray-500">Showing default Jeju Island direction</p>
+                    <div className="text-center space-y-3">
+                      <p className="font-medium text-red-600 text-lg">Location Access Denied</p>
+                      <p className="text-sm text-gray-500">Showing default Jeju Island direction to Qibla</p>
                       <button
                         onClick={getUserLocation}
-                        className="text-islamic-green text-sm hover:underline"
+                        className="text-islamic-green hover:underline font-medium"
                       >
                         Try Again
                       </button>
@@ -561,7 +741,10 @@ export default function PrayerTimesWidget() {
                   )}
                   
                   {locationPermission === 'not-supported' && (
-                    <p className="text-center text-gray-500">Location not supported by browser</p>
+                    <div className="text-center">
+                      <p className="text-gray-500">Location services not supported by your browser</p>
+                      <p className="text-sm text-gray-400 mt-1">Showing default direction for Jeju Island</p>
+                    </div>
                   )}
                 </div>
               </div>
