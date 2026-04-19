@@ -1,452 +1,422 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
-import ExpenseTracker from '../../components/ExpenseTracker'
+import PageHeader from '../../components/PageHeader'
 import MonthlyFinanceSummary from '../../components/MonthlyFinanceSummary'
 import {
-  HeartIcon,
   HomeIcon,
-  CurrencyDollarIcon,
-  CreditCardIcon,
+  HeartIcon,
   BanknotesIcon,
-  CheckCircleIcon,
   ShieldCheckIcon,
-  ChartBarIcon
+  ChevronRightIcon,
+  ClipboardDocumentIcon,
+  CheckIcon,
 } from '@heroicons/react/24/outline'
 
+const DESIGNATIONS = [
+  {
+    id: 'masjid',
+    label: 'Masjid Building',
+    desc: 'Permanent home fund',
+  },
+  {
+    id: 'sadaqah',
+    label: 'Sadaqah',
+    desc: 'Rent, utilities, day-to-day',
+  },
+  {
+    id: 'zakat',
+    label: 'Zakat',
+    desc: 'Distributed to those in need',
+  },
+]
+
+const PRESETS = [20000, 50000, 100000, 250000, 500000]
+
+const IMPACTS = [
+  { amount: '₩20,000', note: 'A week of prayer mats & Qur\u2019an care' },
+  { amount: '₩50,000', note: 'One day of rent contribution' },
+  { amount: '₩100,000', note: 'Library books in Korean / Urdu / English' },
+  { amount: '₩500,000', note: 'Fully sponsors a community iftar' },
+]
+
 export default function DonatePage() {
-  const [donationAmount, setDonationAmount] = useState('')
-  const [donationType, setDonationType] = useState('building')
-  const [paymentMethod, setPaymentMethod] = useState('card')
+  const [designation, setDesignation] = useState<string>('masjid')
+  const [amount, setAmount] = useState<string>('')
   const [isRecurring, setIsRecurring] = useState(false)
-  const [donorInfo, setDonorInfo] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: ''
-  })
+  const [copied, setCopied] = useState(false)
 
-  const presetAmounts = [50000, 100000, 250000, 500000, 1000000]
-  const progress = 35 // 35% towards goal
+  const progress = 35
+  const raised = '280,000,000'
+  const goal = '800,000,000'
 
-  const donationCategories = [
-    {
-      id: 'building',
-      icon: HomeIcon,
-      title: 'Permanent Mosque Building',
-      description: 'Help us acquire land and construct a dedicated mosque facility',
-      goal: '800,000,000 KRW',
-      raised: '280,000,000 KRW',
-      priority: 'Highest'
-    },
-    {
-      id: 'facilities', 
-      icon: CurrencyDollarIcon,
-      title: 'Prayer Facilities',
-      description: 'Separate prayer areas, ablution facilities, and prayer equipment',
-      goal: '100,000,000 KRW',
-      raised: '45,000,000 KRW',
-      priority: 'High'
-    },
-    {
-      id: 'community',
-      icon: HeartIcon,
-      title: 'Community Programs',
-      description: 'Educational programs, community events, and support services',
-      goal: '50,000,000 KRW',
-      raised: '32,000,000 KRW',
-      priority: 'Medium'
-    },
-    {
-      id: 'general',
-      icon: BanknotesIcon,
-      title: 'General Fund',
-      description: 'Operational costs, utilities, and day-to-day expenses as shown in our monthly transparency report below',
-      goal: '30,000,000 KRW',
-      raised: '18,000,000 KRW',
-      priority: 'Ongoing'
+  const displayAmount = amount ? parseInt(amount).toLocaleString() : '0'
+
+  const copyAccount = async () => {
+    try {
+      await navigator.clipboard.writeText('XXX-XXXX-XXXX-XX')
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1600)
+    } catch {
+      /* noop */
     }
-  ]
-
-  const paymentMethods = [
-    { id: 'card', title: 'Credit/Debit Card', icon: CreditCardIcon },
-    { id: 'bank', title: 'Bank Transfer', icon: BanknotesIcon },
-    { id: 'crypto', title: 'Cryptocurrency', icon: CurrencyDollarIcon }
-  ]
-
-  const handleDonationSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle donation processing here
-    console.log('Donation submitted:', {
-      amount: donationAmount,
-      type: donationType,
-      method: paymentMethod,
-      recurring: isRecurring,
-      donor: donorInfo
-    })
   }
 
   return (
-    <main>
+    <main className="min-h-screen bg-white">
       <Navbar />
-      
-      {/* Header Section */}
-      <section className="bg-islamic-green text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 islamic-pattern opacity-10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <HeartIcon className="h-12 w-12 text-islamic-gold" />
-            <h1 className="text-4xl lg:text-6xl font-bold">Support Our Mosque</h1>
-          </div>
-          <p className="text-xl text-islamic-cream mb-8 max-w-3xl mx-auto leading-relaxed">
-            Help us establish a permanent home for the Muslim community in Jeju Island. 
-            Your contribution, no matter the size, makes a difference.
-          </p>
-          
-          {/* Progress Indicator */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-4xl mx-auto">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold mb-2">Building Fund Progress</h3>
-              <p className="text-islamic-cream">280,000,000 KRW raised of 800,000,000 KRW goal</p>
+
+      <PageHeader
+        eyebrow="Support Our Masjid"
+        title="Help build a permanent home"
+        description="Jeju Central Masjid is a small, volunteer-run community mosque in a rented space. Every sadaqah brings us closer to a permanent masjid, insha'Allah."
+      />
+
+      {/* Progress + quick-donate split */}
+      <section className="py-12 sm:py-14 lg:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
+            {/* Progress card */}
+            <div className="lg:col-span-2">
+              <div className="h-full rounded-3xl border border-islamic-navy/8 bg-gradient-to-br from-islamic-cream-light to-white p-6 shadow-sm sm:p-8">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-islamic-green">
+                  Building Fund
+                </p>
+                <p className="mt-4 text-5xl font-extrabold leading-none text-islamic-navy sm:text-6xl">
+                  {progress}%
+                </p>
+                <p className="mt-2 text-sm text-islamic-navy/65">
+                  <span className="font-semibold text-islamic-navy">₩{raised}</span> raised of ₩{goal} goal
+                </p>
+                <div className="mt-5 h-2.5 w-full overflow-hidden rounded-full bg-islamic-navy/10">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-islamic-green to-islamic-green-light transition-all duration-700"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <dl className="mt-6 grid grid-cols-2 gap-3 border-t border-islamic-navy/8 pt-5 text-center">
+                  <div className="rounded-xl bg-white p-3 ring-1 ring-islamic-navy/5">
+                    <dt className="text-[10px] font-bold uppercase tracking-wider text-islamic-navy/55">
+                      Raised
+                    </dt>
+                    <dd className="mt-1 text-sm font-bold text-islamic-navy">₩280M</dd>
+                  </div>
+                  <div className="rounded-xl bg-white p-3 ring-1 ring-islamic-navy/5">
+                    <dt className="text-[10px] font-bold uppercase tracking-wider text-islamic-navy/55">
+                      Goal
+                    </dt>
+                    <dd className="mt-1 text-sm font-bold text-islamic-navy">₩800M</dd>
+                  </div>
+                </dl>
+              </div>
             </div>
-            <div className="bg-white/20 rounded-full h-4 mb-4">
-              <div 
-                className="bg-islamic-gold rounded-full h-4 transition-all duration-500"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-            <div className="flex justify-between text-sm text-islamic-cream">
-              <span>0 KRW</span>
-              <span className="font-bold text-islamic-gold">{progress}% Complete</span>
-              <span>800M KRW</span>
+
+            {/* Quick donate card */}
+            <div className="lg:col-span-3">
+              <div className="rounded-3xl border border-islamic-navy/8 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-islamic-green">
+                      Donate Online
+                    </p>
+                    <h2 className="mt-2 text-2xl font-bold text-islamic-navy sm:text-3xl">
+                      Give in seconds
+                    </h2>
+                  </div>
+                  <span className="hidden items-center gap-1 rounded-full bg-islamic-green/10 px-3 py-1 text-xs font-semibold text-islamic-green sm:inline-flex">
+                    <ShieldCheckIcon className="h-3.5 w-3.5" />
+                    Secure
+                  </span>
+                </div>
+
+                {/* Designation pills */}
+                <div className="mt-6">
+                  <label className="text-xs font-bold uppercase tracking-[0.14em] text-islamic-navy/60">
+                    Designation
+                  </label>
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    {DESIGNATIONS.map((d) => {
+                      const active = designation === d.id
+                      return (
+                        <button
+                          key={d.id}
+                          type="button"
+                          onClick={() => setDesignation(d.id)}
+                          className={`rounded-xl border px-3 py-3 text-left transition ${
+                            active
+                              ? 'border-islamic-green bg-islamic-green text-white shadow-md shadow-islamic-green/20'
+                              : 'border-islamic-navy/10 bg-white text-islamic-navy hover:border-islamic-green/40'
+                          }`}
+                        >
+                          <p className={`text-sm font-bold ${active ? 'text-white' : 'text-islamic-navy'}`}>
+                            {d.label}
+                          </p>
+                          <p className={`mt-0.5 text-[11px] leading-tight ${active ? 'text-white/85' : 'text-islamic-navy/55'}`}>
+                            {d.desc}
+                          </p>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Amount presets */}
+                <div className="mt-6">
+                  <label className="text-xs font-bold uppercase tracking-[0.14em] text-islamic-navy/60">
+                    Amount (KRW)
+                  </label>
+                  <div className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-5">
+                    {PRESETS.map((p) => {
+                      const active = amount === p.toString()
+                      return (
+                        <button
+                          key={p}
+                          type="button"
+                          onClick={() => setAmount(p.toString())}
+                          className={`rounded-xl border py-2.5 text-sm font-bold tabular-nums transition ${
+                            active
+                              ? 'border-islamic-green bg-islamic-green/10 text-islamic-green-dark'
+                              : 'border-islamic-navy/10 text-islamic-navy hover:border-islamic-green/40'
+                          }`}
+                        >
+                          ₩{p.toLocaleString()}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <div className="mt-3 flex items-center rounded-xl border border-islamic-navy/15 bg-white px-4 focus-within:border-islamic-green focus-within:ring-2 focus-within:ring-islamic-green/20">
+                    <span className="text-islamic-navy/40">₩</span>
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      placeholder="Other amount"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="w-full bg-transparent py-3 pl-2 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Recurring */}
+                <label className="mt-5 flex items-center gap-3 rounded-xl border border-islamic-navy/10 bg-islamic-cream-light p-4">
+                  <input
+                    type="checkbox"
+                    checked={isRecurring}
+                    onChange={(e) => setIsRecurring(e.target.checked)}
+                    className="h-4 w-4 rounded border-islamic-navy/30 text-islamic-green focus:ring-islamic-green"
+                  />
+                  <span className="text-sm text-islamic-navy">
+                    <span className="font-semibold">Make this monthly</span> — a small recurring
+                    sadaqah has lasting reward, insha&apos;Allah.
+                  </span>
+                </label>
+
+                <button
+                  type="button"
+                  className="mt-6 inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-md bg-islamic-gold px-6 py-3.5 text-sm font-bold uppercase tracking-[0.14em] text-islamic-navy shadow-[0_10px_30px_-10px_rgba(201,162,75,0.55)] transition hover:-translate-y-0.5 hover:bg-islamic-gold-light sm:text-base"
+                >
+                  Donate ₩{displayAmount} Now
+                  <ChevronRightIcon className="h-4 w-4" />
+                </button>
+
+                <p className="mt-3 text-center text-[11px] text-islamic-navy/50">
+                  Online payments will be processed securely by our provider. Prefer bank transfer?
+                  See details below.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Donation Categories */}
-      <section className="py-16 bg-islamic-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-islamic-navy text-center mb-12">Choose Your Impact</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {donationCategories.map((category) => (
-              <div 
-                key={category.id}
-                className={`border-2 rounded-2xl p-6 cursor-pointer transition-all duration-300 ${
-                  donationType === category.id 
-                    ? 'border-islamic-green bg-islamic-green/5' 
-                    : 'border-gray-200 hover:border-islamic-green/50'
-                }`}
-                onClick={() => setDonationType(category.id)}
-              >
-                <div className="flex items-start space-x-4">
-                  <div className="w-16 h-16 bg-islamic-green/10 rounded-full flex items-center justify-center">
-                    <category.icon className="h-8 w-8 text-islamic-green" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xl font-bold text-islamic-navy">{category.title}</h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        category.priority === 'Highest' ? 'bg-red-100 text-red-800' :
-                        category.priority === 'High' ? 'bg-orange-100 text-orange-800' :
-                        category.priority === 'Medium' ? 'bg-islamic-gold/10 text-islamic-gold' :
-                        'bg-islamic-green/10 text-islamic-green'
-                      }`}>
-                        {category.priority} Priority
-                      </span>
-                    </div>
-                    <p className="text-gray-600 mb-4">{category.description}</p>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Raised: {category.raised}</span>
-                        <span>Goal: {category.goal}</span>
-                      </div>
-                      <div className="bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-islamic-green rounded-full h-2 transition-all duration-300"
-                          style={{ width: `${(parseInt(category.raised.replace(/[^0-9]/g, '')) / parseInt(category.goal.replace(/[^0-9]/g, ''))) * 100}%` }}
-                        ></div>
-                      </div>
-                    </div>
+      {/* Bank transfer + causes */}
+      <section className="bg-islamic-cream py-14 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
+            {/* Korean bank transfer */}
+            <div className="lg:col-span-2">
+              <div className="sticky top-24 rounded-3xl border border-islamic-gold/30 bg-gradient-to-br from-islamic-cream-light to-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-gold/15 text-islamic-gold-dark">
+                    <BanknotesIcon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-islamic-gold-dark">
+                      Bank Transfer · KRW
+                    </p>
+                    <p className="text-sm font-semibold text-islamic-navy">Korean account</p>
                   </div>
                 </div>
+
+                <dl className="mt-5 space-y-3 text-sm">
+                  <div className="flex items-start justify-between gap-3 border-b border-islamic-navy/8 pb-3">
+                    <dt className="text-islamic-navy/60">Bank</dt>
+                    <dd className="text-right font-semibold text-islamic-navy">[Bank name]</dd>
+                  </div>
+                  <div className="flex items-start justify-between gap-3 border-b border-islamic-navy/8 pb-3">
+                    <dt className="text-islamic-navy/60">Account name</dt>
+                    <dd className="text-right font-semibold text-islamic-navy">Jeju Central Masjid</dd>
+                  </div>
+                  <div className="flex items-start justify-between gap-3">
+                    <dt className="text-islamic-navy/60">Account no.</dt>
+                    <dd className="text-right font-mono font-semibold text-islamic-navy">XXX-XXXX-XXXX-XX</dd>
+                  </div>
+                </dl>
+
+                <button
+                  type="button"
+                  onClick={copyAccount}
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-islamic-navy px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-islamic-navy-dark"
+                >
+                  {copied ? (
+                    <>
+                      <CheckIcon className="h-4 w-4" />
+                      Copied
+                    </>
+                  ) : (
+                    <>
+                      <ClipboardDocumentIcon className="h-4 w-4" />
+                      Copy account number
+                    </>
+                  )}
+                </button>
+
+                <p className="mt-4 rounded-xl bg-white p-3 text-xs leading-relaxed text-islamic-navy/65 ring-1 ring-islamic-navy/5">
+                  Please include <span className="font-semibold text-islamic-navy">&quot;Sadaqah&quot;</span>,{' '}
+                  <span className="font-semibold text-islamic-navy">&quot;Masjid&quot;</span> or{' '}
+                  <span className="font-semibold text-islamic-navy">&quot;Zakat&quot;</span> in the transfer memo. Email your confirmation to{' '}
+                  <a href="mailto:info@jejumasjid.org" className="font-semibold text-islamic-green hover:text-islamic-green-dark">
+                    info@jejumasjid.org
+                  </a>{' '}
+                  for a receipt.
+                </p>
+              </div>
+            </div>
+
+            {/* Causes */}
+            <div className="lg:col-span-3">
+              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
+                <span className="h-px w-8 bg-islamic-green" />
+                Where It Goes
+              </p>
+              <h2 className="mt-3 text-2xl font-bold leading-tight text-islamic-navy sm:text-3xl">
+                Three ways your gift helps
+              </h2>
+              <p className="mt-3 text-base text-islamic-navy/70 sm:text-lg">
+                You choose the designation when you donate. Every KRW is tracked and reported monthly.
+              </p>
+
+              <ul className="mt-6 space-y-3">
+                <li className="flex items-start gap-4 rounded-2xl border border-islamic-navy/8 bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+                  <span className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                    <HomeIcon className="h-5 w-5" />
+                  </span>
+                  <div className="flex-1">
+                    <h3 className="text-base font-bold text-islamic-navy sm:text-lg">Permanent Masjid Building</h3>
+                    <p className="mt-1 text-sm text-islamic-navy/65">
+                      A long-term fund to acquire and build a dedicated masjid with purpose-built prayer spaces.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4 rounded-2xl border border-islamic-navy/8 bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+                  <span className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                    <HeartIcon className="h-5 w-5" />
+                  </span>
+                  <div className="flex-1">
+                    <h3 className="text-base font-bold text-islamic-navy sm:text-lg">Sadaqah &amp; Day-to-Day</h3>
+                    <p className="mt-1 text-sm text-islamic-navy/65">
+                      Rent, utilities, library books, prayer mats, Qur&apos;an copies, and community iftars.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4 rounded-2xl border border-islamic-navy/8 bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+                  <span className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                    <BanknotesIcon className="h-5 w-5" />
+                  </span>
+                  <div className="flex-1">
+                    <h3 className="text-base font-bold text-islamic-navy sm:text-lg">Zakat</h3>
+                    <p className="mt-1 text-sm text-islamic-navy/65">
+                      Distributed to eligible recipients under qualified supervision, according to shari&apos;ah.
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Impact */}
+      <section className="py-14 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
+              <span className="h-px w-8 bg-islamic-green" />
+              Your Impact
+            </p>
+            <h2 className="mt-3 text-2xl font-bold leading-tight text-islamic-navy sm:text-3xl">
+              What a donation does
+            </h2>
+          </div>
+          <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
+            {IMPACTS.map((i) => (
+              <div
+                key={i.amount}
+                className="rounded-2xl border border-islamic-navy/8 bg-white p-5 text-center transition hover:-translate-y-0.5 hover:shadow-md sm:p-6"
+              >
+                <p className="text-2xl font-extrabold text-islamic-green sm:text-3xl">{i.amount}</p>
+                <p className="mt-2 text-sm leading-snug text-islamic-navy/70">{i.note}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Expenses Transparency Call-to-Action */}
-      <section className="bg-islamic-green/10 py-8 border-y border-islamic-green/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="mb-6 md:mb-0">
-              <h3 className="text-xl font-bold text-islamic-navy mb-2">Transparency Commitment</h3>
-              <p className="text-gray-700">
-                We believe in complete transparency. View our monthly financial summary and detailed expenses below to see exactly how your donations help maintain our mosque.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a 
-                href="#"
-                className="px-6 py-3 bg-islamic-green text-white rounded-lg font-medium hover:bg-islamic-green-dark transition-all flex items-center justify-center"
-                onClick={(e) => { e.preventDefault(); window.scrollTo({top: document.querySelector('.max-w-7xl')?.getBoundingClientRect().bottom || 0, behavior: 'smooth'}); }}
-              >
-                <CurrencyDollarIcon className="h-5 w-5 mr-2" />
-                Financial Summary
-              </a>
-              <a 
-                href="#monthly-expenses" 
-                className="px-6 py-3 bg-islamic-navy text-white rounded-lg font-medium hover:bg-opacity-90 transition-all flex items-center justify-center"
-              >
-                <ChartBarIcon className="h-5 w-5 mr-2" />
-                View Detailed Expenses
-              </a>
-            </div>
-          </div>
+      {/* Qur'an ayah band — softer than old navy block */}
+      <section className="bg-islamic-cream">
+        <div className="mx-auto max-w-4xl px-4 py-14 text-center sm:px-6 sm:py-16 lg:px-8">
+          <p className="font-arabic-display arabic-features-fancy text-2xl leading-loose text-islamic-navy sm:text-4xl">
+            وَمَا تُنفِقُوا مِنْ خَيْرٍ فَلِأَنفُسِكُمْ
+          </p>
+          <p className="mx-auto mt-4 max-w-md text-sm italic text-islamic-navy/70 sm:text-base">
+            &ldquo;And whatever good you spend is for yourselves.&rdquo;
+            <span className="ml-2 text-islamic-green">— Qur&apos;an 2:272</span>
+          </p>
         </div>
       </section>
 
-      {/* Donation Form */}
-      <section className="py-16 bg-islamic-cream">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg">
-            <div className="flex items-center space-x-3 mb-8">
-              <CurrencyDollarIcon className="h-8 w-8 text-islamic-green" />
-              <h2 className="text-3xl font-bold text-islamic-navy">Make Your Donation</h2>
+      {/* Transparency — keeps MonthlyFinanceSummary, framed consistently */}
+      <section id="transparency" className="bg-white py-14 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
+                <span className="h-px w-8 bg-islamic-green" />
+                Transparency
+              </p>
+              <h2 className="mt-3 text-2xl font-bold leading-tight text-islamic-navy sm:text-3xl">
+                Where every KRW goes
+              </h2>
+              <p className="mt-3 max-w-2xl text-base text-islamic-navy/70 sm:text-lg">
+                We publish our monthly income and expenses so donors can see exactly how their
+                sadaqah is being used.
+              </p>
             </div>
-
-            <form onSubmit={handleDonationSubmit} className="space-y-8">
-              {/* Donation Amount */}
-              <div>
-                <label className="block text-lg font-semibold text-islamic-navy mb-4">
-                  Donation Amount (KRW)
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
-                  {presetAmounts.map((amount) => (
-                    <button
-                      key={amount}
-                      type="button"
-                      onClick={() => setDonationAmount(amount.toString())}
-                      className={`p-3 rounded-lg border-2 font-semibold transition-all ${
-                        donationAmount === amount.toString()
-                          ? 'border-islamic-green bg-islamic-green text-white'
-                          : 'border-gray-300 hover:border-islamic-green'
-                      }`}
-                    >
-                      ₩{amount.toLocaleString()}
-                    </button>
-                  ))}
-                </div>
-                <input
-                  type="number"
-                  placeholder="Enter custom amount"
-                  value={donationAmount}
-                  onChange={(e) => setDonationAmount(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green"
-                />
-              </div>
-
-              {/* Recurring Donation */}
-              <div className="flex items-center space-x-3">
-                <input
-                  type="checkbox"
-                  id="recurring"
-                  checked={isRecurring}
-                  onChange={(e) => setIsRecurring(e.target.checked)}
-                  className="w-5 h-5 text-islamic-green border-gray-300 rounded focus:ring-islamic-green"
-                />
-                <label htmlFor="recurring" className="text-islamic-navy font-semibold">
-                  Make this a monthly recurring donation
-                </label>
-              </div>
-
-              {/* Payment Method */}
-              <div>
-                <label className="block text-lg font-semibold text-islamic-navy mb-4">
-                  Payment Method
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {paymentMethods.map((method) => (
-                    <div
-                      key={method.id}
-                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                        paymentMethod === method.id
-                          ? 'border-islamic-green bg-islamic-green/5'
-                          : 'border-gray-300 hover:border-islamic-green/50'
-                      }`}
-                      onClick={() => setPaymentMethod(method.id)}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <method.icon className="h-6 w-6 text-islamic-green" />
-                        <span className="font-semibold text-islamic-navy">{method.title}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Donor Information */}
-              <div>
-                <h3 className="text-lg font-semibold text-islamic-navy mb-4">Donor Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    value={donorInfo.name}
-                    onChange={(e) => setDonorInfo({...donorInfo, name: e.target.value})}
-                    className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green"
-                    required
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={donorInfo.email}
-                    onChange={(e) => setDonorInfo({...donorInfo, email: e.target.value})}
-                    className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green"
-                    required
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    value={donorInfo.phone}
-                    onChange={(e) => setDonorInfo({...donorInfo, phone: e.target.value})}
-                    className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Address (for receipt)"
-                    value={donorInfo.address}
-                    onChange={(e) => setDonorInfo({...donorInfo, address: e.target.value})}
-                    className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green"
-                  />
-                </div>
-              </div>
-
-              {/* Security & Trust Indicators */}
-              <div className="bg-islamic-cream rounded-lg p-6">
-                <div className="flex items-center space-x-3 mb-4">
-                  <ShieldCheckIcon className="h-6 w-6 text-islamic-green" />
-                  <h4 className="font-bold text-islamic-navy">Secure & Transparent</h4>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircleIcon className="h-4 w-4 text-islamic-green" />
-                    <span>SSL Encrypted</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircleIcon className="h-4 w-4 text-islamic-green" />
-                    <span>Tax Deductible</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircleIcon className="h-4 w-4 text-islamic-green" />
-                    <span>Zakat Eligible</span>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-islamic-green text-white py-4 rounded-lg text-xl font-bold hover:bg-islamic-green-dark transition-all duration-300 hover:shadow-lg"
-              >
-                Donate ₩{donationAmount ? parseInt(donationAmount).toLocaleString() : '0'} Now
-              </button>
-            </form>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1.5 self-start rounded-full border border-islamic-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-islamic-navy transition hover:border-islamic-green hover:text-islamic-green sm:self-auto"
+            >
+              Questions? Contact us
+              <ChevronRightIcon className="h-4 w-4" />
+            </Link>
           </div>
+          <MonthlyFinanceSummary />
         </div>
       </section>
 
-      {/* Alternative Donation Methods */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-islamic-navy text-center mb-12">Other Ways to Donate</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-islamic-cream rounded-2xl p-8 text-center">
-              <BanknotesIcon className="h-12 w-12 text-islamic-green mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-islamic-navy mb-4">Bank Transfer</h3>
-              <div className="space-y-2 text-gray-600">
-                <p><strong>Bank:</strong> KB Bank</p>
-                <p><strong>Account:</strong> 123-456-789-012</p>
-                <p><strong>Name:</strong> Central Jeju Mosque</p>
-              </div>
-            </div>
-            
-            <div className="bg-islamic-cream rounded-2xl p-8 text-center">
-              <HeartIcon className="h-12 w-12 text-islamic-green mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-islamic-navy mb-4">In-Person</h3>
-              <p className="text-gray-600 mb-4">
-                Visit our mosque during prayer times or community events to make a cash donation.
-              </p>
-              <button className="btn-primary">
-                Find Location
-              </button>
-            </div>
-            
-            <div className="bg-islamic-cream rounded-2xl p-8 text-center">
-              <ChartBarIcon className="h-12 w-12 text-islamic-green mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-islamic-navy mb-4">Corporate Sponsorship</h3>
-              <p className="text-gray-600 mb-4">
-                Partner with us through corporate sponsorship programs for larger contributions.
-              </p>
-              <button className="btn-secondary">
-                Contact Us
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Impact Statement */}
-      <section className="py-16 bg-islamic-navy text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-8">Your Impact</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <h3 className="text-2xl font-bold text-islamic-gold mb-4">₩50,000</h3>
-              <p className="text-islamic-cream">
-                Provides prayer mats and Quran copies for new community members
-              </p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <h3 className="text-2xl font-bold text-islamic-gold mb-4">₩250,000</h3>
-              <p className="text-islamic-cream">
-                Funds one month of Islamic education classes for children
-              </p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <h3 className="text-2xl font-bold text-islamic-gold mb-4">₩1,000,000</h3>
-              <p className="text-islamic-cream">
-                Contributes to ablution facility construction
-              </p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <h3 className="text-2xl font-bold text-islamic-gold mb-4">₩5,000,000</h3>
-              <p className="text-islamic-cream">
-                Major contribution toward permanent mosque building fund
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
-            <p className="text-xl text-islamic-cream font-arabic mb-4">
-              وَمَا تُنفِقُوا مِنْ خَيْرٍ فَلِأَنفُسِكُمْ
-            </p>
-            <p className="text-islamic-cream">
-              "And whatever good you spend is for yourselves" - Quran 2:272
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Monthly Financial Summary Section */}
-      <MonthlyFinanceSummary />
-      
-     
       <Footer />
     </main>
   )

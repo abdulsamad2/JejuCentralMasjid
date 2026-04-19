@@ -1,20 +1,24 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import PrayerTimesBar from '../components/PrayerTimesBar'
 import Hero from '../components/Hero'
-import AboutSection from '../components/AboutSection'
+import NewsSection from '../components/NewsSection'
+import EventsSection from '../components/EventsSection'
 import ServicesSection from '../components/ServicesSection'
-import PrayerTimesWidget from '../components/PrayerTimesWidget'
-import DonationSection from '../components/DonationSection'
+import MediaSection from '../components/MediaSection'
+import WeeklyCirclesPromo from '../components/WeeklyCirclesPromo'
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       <Navbar />
+      <PrayerTimesBar />
       <Hero />
-      <PrayerTimesWidget />
-      <AboutSection />
+      <NewsSection />
+      <EventsSection />
       <ServicesSection />
-      <DonationSection />
+      <MediaSection />
+      <WeeklyCirclesPromo />
       <Footer />
     </main>
   )

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import PageHeader from '../../components/PageHeader'
 import {
   CalendarDaysIcon,
   ClockIcon,
@@ -157,37 +158,12 @@ export default function EventsPage() {
     <main>
       <Navbar />
       
-      {/* Header Section */}
-      <section className="bg-islamic-green text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <CalendarDaysIcon className="h-12 w-12 text-islamic-gold" />
-            <h1 className="text-4xl lg:text-6xl font-bold">Community Events</h1>
-          </div>
-          <p className="text-xl text-islamic-cream mb-8 max-w-3xl mx-auto">
-            Join us for regular religious services, educational programs, and community activities 
-            that strengthen our bonds as a Muslim community in Jeju Island
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <UserGroupIcon className="h-8 w-8 text-islamic-gold mx-auto mb-2" />
-              <p className="font-semibold">Weekly Programs</p>
-              <p className="text-islamic-cream text-sm">Regular Friday prayers and classes</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <CakeIcon className="h-8 w-8 text-islamic-gold mx-auto mb-2" />
-              <p className="font-semibold">Special Events</p>
-              <p className="text-islamic-cream text-sm">Eid celebrations and community gatherings</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <AcademicCapIcon className="h-8 w-8 text-islamic-gold mx-auto mb-2" />
-              <p className="font-semibold">Educational Programs</p>
-              <p className="text-islamic-cream text-sm">Islamic studies and language classes</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Upcoming Events"
+        title="Community Events"
+        description="Join us for prayers, educational programs, and community gatherings that strengthen our ummah in Jeju Island."
+        action={{ label: 'Subscribe to calendar', href: '#calendar' }}
+      />
 
       {/* Event Categories Filter */}
       <section className="py-8 bg-islamic-cream">

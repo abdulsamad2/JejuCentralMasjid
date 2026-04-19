@@ -1,16 +1,31 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import PageHeader from '../../components/PageHeader'
 import {
   MapPinIcon,
   PhoneIcon,
   EnvelopeIcon,
-  ClockIcon,
-  UserIcon,
-  ChatBubbleLeftIcon
+  ArrowTopRightOnSquareIcon,
+  BookOpenIcon,
+  UserGroupIcon,
+  HomeIcon,
+  BanknotesIcon,
 } from '@heroicons/react/24/outline'
+
+const INQUIRIES = [
+  'General',
+  'New Muslim',
+  'Ask the Imam',
+  'Nikah',
+  'Halal Guidance',
+  'Library',
+  'Mosque Tour',
+  'Volunteering',
+]
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -19,142 +34,182 @@ export default function ContactPage() {
     phone: '',
     subject: '',
     message: '',
-    contactReason: 'general'
+    inquiry: 'General',
   })
-
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false)
       setSubmitted(true)
-    }, 2000)
+    }, 1200)
   }
 
-  const contactInfo = [
-    {
-      icon: PhoneIcon,
-      title: 'Phone',
-      details: ['+82-64-123-4567', 'Available 9 AM - 8 PM'],
-      action: 'tel:+82641234567'
-    },
-    {
-      icon: EnvelopeIcon, 
-      title: 'Email',
-      details: ['info@jejumasjid.org', 'imam@jejumasjid.org'],
-      action: 'mailto:info@jejumasjid.org'
-    },
-    {
-      icon: MapPinIcon,
-      title: 'Location',
-      details: ['Jeju-do, Jeju-si, 특별자치도,', 'Sancheondandong 2-gil, 15 2층'],
-      action: '#location'
-    },
-    {
-      icon: ClockIcon,
-      title: 'Office Hours',
-      details: ['Mon-Fri: 9 AM - 8 PM', 'Sat-Sun: 10 AM - 6 PM'],
-      action: null
-    }
-  ]
-
-  const services = [
-    {
-      title: 'Religious Services',
-      description: 'Prayer guidance, Islamic education, Quran classes',
-      contact: 'imam@jejumasjid.org'
-    },
-    {
-      title: 'Community Support',
-      description: 'Housing assistance, translation services, counseling',
-      contact: 'support@jejumasjid.org'
-    },
-    {
-      title: 'Event Planning',
-      description: 'Wedding ceremonies, community events, celebrations',
-      contact: 'events@jejumasjid.org'
-    },
-    {
-      title: 'Donations',
-      description: 'Building fund, general donations, zakat distribution',
-      contact: 'donations@jejumasjid.org'
-    }
-  ]
-
   return (
-    <main>
+    <main className="min-h-screen bg-white">
       <Navbar />
-      
-      {/* Header Section */}
-      <section className="bg-islamic-green text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6">Contact Us</h1>
-          <p className="text-xl text-islamic-cream mb-8 max-w-3xl mx-auto">
-            Get in touch with Central Jeju Mosque for any questions, support, or to join our community
-          </p>
-        </div>
-      </section>
 
-      {/* Contact Information */}
-      <section className="py-16 bg-islamic-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {contactInfo.map((info, index) => (
-              <div key={index} className="text-center group">
-                <div className="bg-islamic-cream p-6 rounded-2xl hover:bg-islamic-green/10 transition-all duration-300 group-hover:shadow-lg">
-                  <div className="w-16 h-16 bg-islamic-green/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-islamic-green/20">
-                    <info.icon className="h-8 w-8 text-islamic-green" />
-                  </div>
-                  <h3 className="text-xl font-bold text-islamic-navy mb-3">{info.title}</h3>
-                  <div className="space-y-1">
-                    {info.details.map((detail, idx) => (
-                      <p key={idx} className="text-gray-600">{detail}</p>
-                    ))}
-                  </div>
-                  {info.action && (
-                    <a
-                      href={info.action}
-                      className="inline-block mt-4 text-islamic-green font-semibold hover:text-islamic-green-dark transition-colors"
-                    >
-                      Contact Now
-                    </a>
-                  )}
-                </div>
+      <PageHeader
+        eyebrow="Get in Touch"
+        title="Contact Jeju Central Masjid"
+        description="A small, welcoming community mosque on Jeju Island. Reach out with questions, visit us for prayer, or explore our library."
+        action={{
+          label: 'Open in Maps',
+          href: 'https://maps.google.com/?q=33.4996,126.5312',
+        }}
+      />
+
+      {/* Primary contact cards */}
+      <section className="py-12 sm:py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+            <div className="rounded-2xl border border-islamic-navy/8 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                <MapPinIcon className="h-5 w-5" />
               </div>
-            ))}
+              <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-islamic-navy/55">
+                Address
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-islamic-navy">
+                Sancheondandong 2-gil 15, 2F
+                <br />
+                Jeju-si, Jeju-do
+                <br />
+                South Korea
+              </p>
+              <a
+                href="https://maps.google.com/?q=33.4996,126.5312"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green hover:text-islamic-green-dark"
+              >
+                Open in Maps
+                <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+              </a>
+            </div>
+
+            <div className="rounded-2xl border border-islamic-navy/8 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                <PhoneIcon className="h-5 w-5" />
+              </div>
+              <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-islamic-navy/55">
+                Phone
+              </p>
+              <a
+                href="tel:+821000000000"
+                className="mt-2 block text-base font-semibold text-islamic-navy hover:text-islamic-green"
+              >
+                +82 10 XXXX XXXX
+              </a>
+              <p className="mt-1 text-sm text-islamic-navy/60">
+                Best reached after prayers. For urgent matters, please use email.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-islamic-navy/8 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                <EnvelopeIcon className="h-5 w-5" />
+              </div>
+              <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-islamic-navy/55">
+                Email
+              </p>
+              <a
+                href="mailto:info@jejumasjid.org"
+                className="mt-2 block text-base font-semibold text-islamic-navy hover:text-islamic-green"
+              >
+                info@jejumasjid.org
+              </a>
+              <p className="mt-1 text-sm text-islamic-navy/60">
+                We reply within 1–2 days, insha&apos;Allah.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Form and Map */}
-      <section className="py-16 bg-islamic-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="flex items-center space-x-3 mb-6">
-                <ChatBubbleLeftIcon className="h-8 w-8 text-islamic-green" />
-                <h2 className="text-3xl font-bold text-islamic-navy">Send us a Message</h2>
+      {/* What's inside */}
+      <section className="bg-islamic-cream py-14 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
+              <span className="h-px w-8 bg-islamic-green" />
+              Visit Us
+            </p>
+            <h2 className="mt-3 text-2xl font-bold leading-tight text-islamic-navy sm:text-3xl">
+              What you&apos;ll find inside
+            </h2>
+            <p className="mt-3 text-base text-islamic-navy/70 sm:text-lg">
+              Jeju Central Masjid is a small community mosque currently operating from a rented space on the 2nd floor.
+              Everyone is welcome — Muslims and non-Muslims alike.
+            </p>
+          </div>
+
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            <div className="rounded-2xl border border-islamic-navy/8 bg-white p-6">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                <UserGroupIcon className="h-5 w-5" />
               </div>
-              
+              <h3 className="mt-4 text-lg font-bold text-islamic-navy">Separate Prayer Areas</h3>
+              <p className="mt-2 text-sm leading-relaxed text-islamic-navy/70">
+                Dedicated prayer spaces for brothers and sisters, with respectful partitioning and separate entry where possible.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-islamic-navy/8 bg-white p-6">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                <BookOpenIcon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-islamic-navy">Small Library</h3>
+              <p className="mt-2 text-sm leading-relaxed text-islamic-navy/70">
+                A modest collection of Islamic books in <span className="font-semibold text-islamic-navy">Korean, Urdu, and English</span> — free to read on-site or borrow.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-islamic-navy/8 bg-white p-6">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                <HomeIcon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-islamic-navy">A Rented Home, for Now</h3>
+              <p className="mt-2 text-sm leading-relaxed text-islamic-navy/70">
+                We currently rent our building. Please support our fundraising to secure a permanent masjid — every contribution helps, insha&apos;Allah.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Form + side panel */}
+      <section className="py-14 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-5 lg:gap-12">
+            {/* Form */}
+            <div className="lg:col-span-3">
+              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
+                <span className="h-px w-8 bg-islamic-green" />
+                Send a Message
+              </p>
+              <h2 className="mt-3 text-2xl font-bold leading-tight text-islamic-navy sm:text-3xl">
+                Get in touch
+              </h2>
+              <p className="mt-3 text-base text-islamic-navy/70">
+                Tell us what you need and we&apos;ll reply as soon as we can.
+              </p>
+
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-semibold text-islamic-navy mb-2">
-                        Full Name *
+                      <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-islamic-navy">
+                        Full name *
                       </label>
                       <input
                         type="text"
@@ -163,13 +218,13 @@ export default function ContactPage() {
                         required
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green focus:border-transparent"
-                        placeholder="Your full name"
+                        className="w-full rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
+                        placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-semibold text-islamic-navy mb-2">
-                        Email Address *
+                      <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-islamic-navy">
+                        Email *
                       </label>
                       <input
                         type="email"
@@ -178,16 +233,16 @@ export default function ContactPage() {
                         required
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green focus:border-transparent"
+                        className="w-full rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
                         placeholder="your@email.com"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-semibold text-islamic-navy mb-2">
-                        Phone Number
+                      <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold text-islamic-navy">
+                        Phone <span className="font-normal text-islamic-navy/50">(optional)</span>
                       </label>
                       <input
                         type="tel"
@@ -195,33 +250,32 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green focus:border-transparent"
-                        placeholder="+82-10-XXXX-XXXX"
+                        className="w-full rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
+                        placeholder="+82 10 XXXX XXXX"
                       />
                     </div>
                     <div>
-                      <label htmlFor="contactReason" className="block text-sm font-semibold text-islamic-navy mb-2">
-                        Contact Reason
+                      <label htmlFor="inquiry" className="mb-1.5 block text-sm font-semibold text-islamic-navy">
+                        Inquiry
                       </label>
                       <select
-                        id="contactReason"
-                        name="contactReason"
-                        value={formData.contactReason}
+                        id="inquiry"
+                        name="inquiry"
+                        value={formData.inquiry}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green focus:border-transparent"
+                        className="w-full rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
                       >
-                        <option value="general">General Inquiry</option>
-                        <option value="religious">Religious Services</option>
-                        <option value="community">Community Support</option>
-                        <option value="events">Event Planning</option>
-                        <option value="donation">Donations</option>
-                        <option value="volunteer">Volunteering</option>
+                        {INQUIRIES.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-semibold text-islamic-navy mb-2">
+                    <label htmlFor="subject" className="mb-1.5 block text-sm font-semibold text-islamic-navy">
                       Subject *
                     </label>
                     <input
@@ -231,13 +285,13 @@ export default function ContactPage() {
                       required
                       value={formData.subject}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green focus:border-transparent"
-                      placeholder="Brief subject of your message"
+                      className="w-full rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
+                      placeholder="Brief subject"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-islamic-navy mb-2">
+                    <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-islamic-navy">
                       Message *
                     </label>
                     <textarea
@@ -247,120 +301,114 @@ export default function ContactPage() {
                       rows={6}
                       value={formData.message}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-islamic-green focus:border-transparent resize-none"
-                      placeholder="Please describe your inquiry or request..."
+                      className="w-full resize-none rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
+                      placeholder="Let us know how we can help..."
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full py-4 rounded-lg font-semibold text-lg transition-all duration-300 ${
-                      isSubmitting 
-                        ? 'bg-gray-400 cursor-not-allowed' 
-                        : 'bg-islamic-green hover:bg-islamic-green-dark text-white hover:shadow-lg'
-                    }`}
+                    className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-islamic-green px-6 py-3 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-md shadow-islamic-green/25 transition hover:-translate-y-0.5 hover:bg-islamic-green-dark disabled:cursor-not-allowed disabled:bg-islamic-navy/30 disabled:hover:translate-y-0 sm:w-auto sm:text-base"
                   >
-                    {isSubmitting ? 'Sending Message...' : 'Send Message'}
+                    {isSubmitting ? 'Sending…' : 'Send Message'}
                   </button>
                 </form>
               ) : (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-islamic-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-islamic-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mt-8 rounded-2xl border border-islamic-green/20 bg-islamic-green/5 p-8 text-center">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-islamic-green/15 text-islamic-green">
+                    <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-islamic-navy mb-2">Message Sent!</h3>
-                  <p className="text-gray-600 mb-6">
-                    Thank you for contacting us. We'll get back to you within 24 hours.
+                  <h3 className="mt-4 text-2xl font-bold text-islamic-navy">Jazak&apos;Allah khair!</h3>
+                  <p className="mt-2 text-islamic-navy/70">
+                    Your message has been received. We&apos;ll get back to you soon, insha&apos;Allah.
                   </p>
                   <button
-                    onClick={() => {setSubmitted(false); setFormData({name: '', email: '', phone: '', subject: '', message: '', contactReason: 'general'})}}
-                    className="btn-primary"
+                    onClick={() => {
+                      setSubmitted(false)
+                      setFormData({ name: '', email: '', phone: '', subject: '', message: '', inquiry: 'General' })
+                    }}
+                    className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-islamic-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-islamic-navy transition hover:border-islamic-green hover:text-islamic-green"
                   >
-                    Send Another Message
+                    Send another message
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Map and Location Info */}
-            <div className="space-y-8">
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold text-islamic-navy mb-6">Visit Our Mosque</h3>
-                <div className="bg-islamic-navy rounded-lg h-64 flex items-center justify-center text-white">
-                  <div className="text-center">
-                    <MapPinIcon className="h-12 w-12 text-islamic-gold mx-auto mb-4" />
-                    <h4 className="text-xl font-bold mb-2">Mosque Location</h4>
-                    <p className="text-islamic-cream">Jeju-do, Jeju-si, 특별자치도</p>
-                    <p className="text-islamic-cream">Sancheondandong 2-gil, 15 2층</p>
-                    <p className="text-sm text-islamic-cream/80 mt-2">
-                      Jeju Island, South Korea
+            {/* Side panel */}
+            <aside className="lg:col-span-2">
+              <div className="sticky top-24 space-y-5">
+                <div className="overflow-hidden rounded-2xl border border-islamic-navy/8 bg-white shadow-sm">
+                  <div className="aspect-[4/3] w-full bg-islamic-navy">
+                    <iframe
+                      src="https://www.google.com/maps?q=33.4996,126.5312&z=15&output=embed"
+                      className="h-full w-full border-0"
+                      loading="lazy"
+                      title="Jeju Central Masjid on Google Maps"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-islamic-navy/55">
+                      Find Us
                     </p>
+                    <p className="mt-2 text-sm text-islamic-navy/80">
+                      Sancheondandong 2-gil 15, 2F · Jeju-si, Jeju-do
+                    </p>
+                    <a
+                      href="https://maps.google.com/?q=33.4996,126.5312"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green hover:text-islamic-green-dark"
+                    >
+                      Directions
+                      <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+                    </a>
                   </div>
                 </div>
-                <div className="mt-6 space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <ClockIcon className="h-5 w-5 text-islamic-green mt-1" />
-                    <div>
-                      <p className="font-semibold text-islamic-navy">Prayer Times</p>
-                      <p className="text-gray-600 text-sm">5 daily prayers • Friday Jumu'ah at 12:30 PM</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <UserIcon className="h-5 w-5 text-islamic-green mt-1" />
-                    <div>
-                      <p className="font-semibold text-islamic-navy">Visitors Welcome</p>
-                      <p className="text-gray-600 text-sm">All Muslims and interested individuals welcome</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Services Contact */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold text-islamic-navy mb-6">Direct Service Contacts</h3>
-                <div className="space-y-4">
-                  {services.map((service, index) => (
-                    <div key={index} className="border-l-4 border-islamic-green pl-4">
-                      <h4 className="font-bold text-islamic-navy">{service.title}</h4>
-                      <p className="text-gray-600 text-sm mb-2">{service.description}</p>
-                      <a 
-                        href={`mailto:${service.contact}`}
-                        className="text-islamic-green text-sm font-semibold hover:text-islamic-green-dark"
-                      >
-                        {service.contact}
-                      </a>
+                {/* Bank transfer card */}
+                <div className="rounded-2xl border border-islamic-gold/30 bg-gradient-to-br from-islamic-cream-light to-white p-5 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-islamic-gold/15 text-islamic-gold-dark">
+                      <BanknotesIcon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-islamic-gold-dark">
+                        Donate via Bank Transfer
+                      </p>
+                      <p className="text-sm font-semibold text-islamic-navy">Korean Won (KRW)</p>
                     </div>
-                  ))}
+                  </div>
+                  <dl className="mt-4 space-y-2.5 text-sm">
+                    <div className="flex items-start justify-between gap-3 border-b border-islamic-navy/8 pb-2.5">
+                      <dt className="text-islamic-navy/60">Bank</dt>
+                      <dd className="text-right font-semibold text-islamic-navy">[Bank name]</dd>
+                    </div>
+                    <div className="flex items-start justify-between gap-3 border-b border-islamic-navy/8 pb-2.5">
+                      <dt className="text-islamic-navy/60">Account name</dt>
+                      <dd className="text-right font-semibold text-islamic-navy">Jeju Central Masjid</dd>
+                    </div>
+                    <div className="flex items-start justify-between gap-3">
+                      <dt className="text-islamic-navy/60">Account number</dt>
+                      <dd className="text-right font-mono font-semibold text-islamic-navy">XXX-XXXX-XXXX-XX</dd>
+                    </div>
+                  </dl>
+                  <p className="mt-3 text-xs leading-relaxed text-islamic-navy/60">
+                    Please include &quot;Sadaqah&quot; or &quot;Building Fund&quot; in the transfer memo. For a receipt, email us the confirmation.
+                  </p>
+                  <Link
+                    href="/donate"
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green hover:text-islamic-green-dark"
+                  >
+                    More ways to donate
+                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+                  </Link>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Emergency Contact */}
-      <section className="py-16 bg-islamic-navy text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-8">Emergency Support</h2>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
-            <p className="text-xl text-islamic-cream mb-6">
-              Need immediate assistance or facing an emergency situation?
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-bold text-islamic-gold mb-2">24/7 Emergency Contact</h3>
-                <p className="text-2xl font-bold">+82-10-XXXX-XXXX</p>
-                <p className="text-islamic-cream text-sm">For urgent religious or community matters</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-islamic-gold mb-2">Korean Emergency Services</h3>
-                <p className="text-2xl font-bold">119 (Fire/Medical) • 112 (Police)</p>
-                <p className="text-islamic-cream text-sm">National emergency numbers</p>
-              </div>
-            </div>
+            </aside>
           </div>
         </div>
       </section>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import PageHeader from '../../components/PageHeader'
 import {
   MapPinIcon,
   PhoneIcon,
@@ -117,36 +118,34 @@ export default function HalalFoodPage() {
     <main>
       <Navbar />
       
-      {/* Header Section */}
-      <section className="bg-islamic-green text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6">Halal Food Guide</h1>
-          <p className="text-xl text-islamic-cream mb-8 max-w-3xl mx-auto">
-            Discover halal dining options, grocery stores, and food guidance for the Muslim community in Jeju Island
-          </p>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="relative flex-1">
-                <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search restaurants, cuisine type..."
-                  className="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-islamic-gold"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <select
-                className="px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-islamic-gold"
-                value={selectedArea}
-                onChange={(e) => setSelectedArea(e.target.value)}
-              >
-                <option>All Areas</option>
-                <option>Jeju City</option>
-                <option>Seogwipo</option>
-              </select>
+      <PageHeader
+        eyebrow="Halal Food Guide"
+        title="Where to eat halal in Jeju"
+        description="Discover halal dining options, grocery stores, and food guidance for the Muslim community in Jeju Island."
+      />
+
+      <section className="border-b border-islamic-navy/8 bg-white py-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="relative flex-1">
+              <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-islamic-navy/40" />
+              <input
+                type="text"
+                placeholder="Search restaurants, cuisine type..."
+                className="w-full rounded-full border border-islamic-navy/15 bg-white py-3 pl-10 pr-4 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
+            <select
+              className="rounded-full border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
+              value={selectedArea}
+              onChange={(e) => setSelectedArea(e.target.value)}
+            >
+              <option>All Areas</option>
+              <option>Jeju City</option>
+              <option>Seogwipo</option>
+            </select>
           </div>
         </div>
       </section>

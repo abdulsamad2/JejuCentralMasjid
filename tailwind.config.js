@@ -21,22 +21,32 @@ module.exports = {
           900: '#0c4a6e',
         },
         islamic: {
-          green: '#00A859',
-          'green-light': '#4CAF50',
-          'green-dark': '#388E3C',
-          'green-hover': '#2E7D32',
-          gold: '#D4AF37',
-          'gold-light': '#FFC107',
-          'gold-muted': '#FFA500',
-          navy: '#1B365D',
-          'navy-light': '#1E3A8A',
+          // Greens — drawn from the logo's flowing waves
+          green: '#0B8F4A',        // deeper, more readable on white
+          'green-light': '#34C77A',
+          'green-dark': '#065F32',
+          'green-hover': '#054D28',
+          // Accent — bronzed champagne (was yellow-gold). Reads as warm metal
+          // against cool blue/green rather than fighting them.
+          gold: '#C9A24B',
+          'gold-light': '#DDB970',
+          'gold-muted': '#8F6E2A',
+          // Blues — deep logo-blue + bright minaret blue.
+          // navy-dark is a desaturated charcoal-navy — gentle over large areas
+          navy: '#0E3A5F',
+          'navy-light': '#1E6FA8',
+          'navy-dark': '#15263D',
+          // Subtle teal — bridges green <> blue, useful for info states
+          teal: '#0F766E',
+          'teal-light': '#14B8A6',
           cream: '#F7F3E9',
-          'cream-light': '#F5F5F5',
+          'cream-light': '#FBF8F0',
+          'cream-dark': '#EDE5CF',
           white: '#FFFFFF',
         },
         alert: {
-          orange: '#FFA500',
-          yellow: '#FFC107',
+          orange: '#E76F51',
+          yellow: '#DDB970',
         }
       },
       fontFamily: {

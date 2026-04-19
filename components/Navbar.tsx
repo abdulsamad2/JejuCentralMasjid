@@ -1,119 +1,165 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Community Services', href: '/services' },
+  { name: 'About', href: '/about' },
+  { name: 'Services', href: '/services' },
   { name: 'Events', href: '/events' },
   { name: 'Gallery', href: '/gallery' },
   { name: 'Halal Food', href: '/halal-food' },
   { name: 'Contact', href: '/contact' },
-  { name: 'Donate', href: '/donate', special: true },
 ]
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-50">
-      <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-        aria-label="Global"
-      >
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 flex items-center space-x-3">
-            <Image
-              className="h-12 w-auto sm:h-16 lg:h-20"
-              src="/assets/jeju-masjid-logo.png"
-              alt="Jeju Central Masjid"
-              width={100}
-              height={100}
-            />
-           
-          </Link>
-        </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-8 w-8" aria-hidden="true" />
-          </button>
-        </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`text-sm font-semibold leading-6 ${
-                item.special
-                  ? "bg-islamic-green text-white px-4 py-2 rounded-lg hover:bg-islamic-green-dark"
-                  : "text-islamic-navy hover:text-islamic-green"
-              } transition-colors duration-200`}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      <div
-        className={`lg:hidden ${
-          mobileMenuOpen ? "fixed inset-0 z-50" : "hidden"
+    <>
+      <div aria-hidden="true" className="h-[80px] lg:h-[96px]" />
+      <header
+        className={`fixed inset-x-0 top-0 z-50 bg-white transition-shadow duration-200 ${
+          scrolled ? 'shadow-sm ring-1 ring-islamic-navy/5' : ''
         }`}
       >
-        <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5 flex items-center space-x-2">
-              <Image
-                className="h-8 w-auto"
-                src="/assets/jeju-masjid-logo.png"
-                alt="Jeju Central Masjid"
-                width={32}
-                height={32}
-              />
-              <span className="font-bold text-islamic-navy text-sm">
+        <nav
+          className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8 lg:py-4"
+          aria-label="Global"
+        >
+          <Link href="/" className="group flex items-center gap-3">
+            <Image
+              src="/assets/jeju-masjid-logo-icon.png"
+              alt="Jeju Central Masjid"
+              width={311}
+              height={227}
+              className="h-14 w-auto object-contain lg:h-16"
+              priority
+            />
+            <span className="hidden flex-col leading-tight sm:flex">
+              <span className="text-base font-bold tracking-tight text-islamic-navy lg:text-lg">
                 Jeju Central Masjid
               </span>
-            </Link>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
+              <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-islamic-green">
+                제주 이슬람 사원
+              </span>
+            </span>
+          </Link>
+
+          <div className="hidden items-center gap-1 lg:flex">
+            {navigation.map((item) => {
+              const active = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`relative rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                    active
+                      ? 'text-islamic-green'
+                      : 'text-islamic-navy hover:text-islamic-green'
+                  }`}
+                >
+                  {item.name}
+                  {active && (
+                    <span className="absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-islamic-green" />
+                  )}
+                </Link>
+              )
+            })}
+            <Link
+              href="/donate"
+              className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-islamic-green px-5 py-2 text-sm font-semibold text-white shadow-md shadow-islamic-green/25 transition hover:-translate-y-0.5 hover:bg-islamic-green-dark hover:shadow-lg"
             >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-8 w-8" aria-hidden="true" />
-            </button>
+              Donate
+            </Link>
           </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                {navigation.map((item) => (
+
+          <button
+            type="button"
+            aria-label="Open main menu"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-islamic-navy transition hover:bg-islamic-cream lg:hidden"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <Bars3Icon className="h-7 w-7" />
+          </button>
+        </nav>
+
+        <div
+          className={`lg:hidden ${mobileMenuOpen ? 'fixed inset-0 z-50' : 'hidden'}`}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="absolute inset-0 bg-islamic-navy-dark/60 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="absolute inset-y-0 right-0 w-full max-w-sm overflow-y-auto bg-white px-6 py-6 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <Link
+                href="/"
+                className="flex items-center gap-2.5"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Image
+                  src="/assets/jeju-masjid-logo-icon.png"
+                  alt="Jeju Central Masjid"
+                  width={311}
+                  height={227}
+                  className="h-11 w-auto object-contain"
+                />
+                <span className="text-sm font-bold text-islamic-navy">Jeju Central Masjid</span>
+              </Link>
+              <button
+                type="button"
+                aria-label="Close menu"
+                className="rounded-lg p-2 text-islamic-navy hover:bg-islamic-cream"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <XMarkIcon className="h-7 w-7" />
+              </button>
+            </div>
+            <nav className="mt-8 flex flex-col gap-1">
+              {navigation.map((item) => {
+                const active = pathname === item.href
+                return (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${
-                      item.special
-                        ? "bg-islamic-green text-white hover:bg-islamic-green-dark"
-                        : "text-islamic-navy hover:bg-gray-50"
-                    } transition-colors duration-200`}
                     onClick={() => setMobileMenuOpen(false)}
+                    className={`rounded-xl px-4 py-3 text-base font-semibold transition ${
+                      active
+                        ? 'bg-islamic-cream text-islamic-green'
+                        : 'text-islamic-navy hover:bg-islamic-cream'
+                    }`}
                   >
                     {item.name}
                   </Link>
-                ))}
-              </div>
-            </div>
+                )
+              })}
+              <Link
+                href="/donate"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-4 inline-flex items-center justify-center rounded-xl bg-islamic-green px-4 py-3 text-base font-semibold text-white shadow-md shadow-islamic-green/25 hover:bg-islamic-green-dark"
+              >
+                Donate
+              </Link>
+            </nav>
           </div>
         </div>
-      </div>
-    </header>
-  );
+      </header>
+    </>
+  )
 }
