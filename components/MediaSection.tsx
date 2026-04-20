@@ -105,7 +105,7 @@ export default function MediaSection() {
           <div>
             <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
               <span className="h-px w-8 bg-islamic-green" />
-              Media
+              Watch &amp; Listen
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-islamic-navy sm:text-4xl lg:text-5xl">
               Videos &amp; reels from the masjid

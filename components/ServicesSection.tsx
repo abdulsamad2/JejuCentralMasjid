@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import {
   UserGroupIcon,
-  BookOpenIcon,
-  HeartIcon,
-  SparklesIcon,
+  AcademicCapIcon,
+  ChatBubbleLeftRightIcon,
+  GlobeAltIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
@@ -17,27 +17,27 @@ type Service = {
 const services: Service[] = [
   {
     icon: UserGroupIcon,
-    title: 'Prayers & Jummah',
-    description: 'Five daily prayers in separate areas for brothers and sisters, plus Jummah every Friday.',
-    href: '/about',
-  },
-  {
-    icon: SparklesIcon,
-    title: 'Weekly Halaqas',
-    description: "A'mal (Thu), Gashat (Sat), and Community Gathering (Sun) — open to all.",
+    title: 'Prayers & Halaqas',
+    description: 'Five daily prayers, Jummah, and weekly halaqas (A\u2019mal, Gashat, Community Gathering).',
     href: '/services',
   },
   {
-    icon: HeartIcon,
-    title: 'Nikah & Family',
-    description: 'Islamic marriage ceremonies and family guidance when an imam is available.',
+    icon: AcademicCapIcon,
+    title: "Children's Classes",
+    description: 'Weekend Qur\u2019an and Islamic studies for kids, led by volunteer teachers.',
     href: '/services',
   },
   {
-    icon: BookOpenIcon,
-    title: 'Multilingual Library',
-    description: 'A small collection of Islamic books in Korean, Urdu, and English — free to read or borrow.',
-    href: '/about',
+    icon: ChatBubbleLeftRightIcon,
+    title: 'Mashwara',
+    description: 'Islamic consultation and advisory sessions for personal and community matters.',
+    href: '/services',
+  },
+  {
+    icon: GlobeAltIcon,
+    title: 'Dawah & Visitors',
+    description: 'Mosque tours, introductions to Islam, and support for Korean visitors and new Muslims.',
+    href: '/services',
   },
 ]
 
@@ -49,20 +49,21 @@ export default function ServicesSection() {
           <div>
             <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
               <span className="h-px w-8 bg-islamic-green" />
-              What We Do
+              Khidmat · Our Services
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-islamic-navy sm:text-4xl lg:text-5xl">
-              Services
+              Serving the ummah
             </h2>
             <p className="mt-3 max-w-2xl text-base text-islamic-navy/70 sm:text-lg">
-              A small community mosque offering the essentials for prayer, learning, and connection.
+              Programs for prayer, learning, family, and community — insha&apos;Allah serving
+              everyone who walks through our doors.
             </p>
           </div>
           <Link
             href="/services"
             className="inline-flex items-center gap-1.5 self-start rounded-full border border-islamic-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-islamic-navy transition hover:border-islamic-green hover:text-islamic-green sm:self-auto"
           >
-            Learn more
+            All services
             <ChevronRightIcon className="h-4 w-4" />
           </Link>
         </div>

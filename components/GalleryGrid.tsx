@@ -12,51 +12,63 @@ type GalleryItem = {
   category: string
 }
 
-// Sample gallery data (you'll replace this with your actual images)
 const galleryItems: GalleryItem[] = [
   {
     id: 1,
     title: 'Masjid Exterior',
-    description: 'Front view of Central Jeju Masjid',
-    imageSrc: '/assets/bg.jpg',
+    description: 'Central Jeju Masjid building',
+    imageSrc: '/assets/mosque-1.jpg',
     category: 'building',
   },
   {
     id: 2,
     title: 'Prayer Hall',
-    description: 'Main prayer hall during Jumu\'ah',
-    imageSrc: '/assets/jeju-masjid-logo.png',
+    description: 'Inside the main prayer area',
+    imageSrc: '/assets/mosque-2.jpg',
     category: 'prayer',
   },
   {
     id: 3,
-    title: 'Community Iftar',
-    description: 'Breaking fast together during Ramadan',
-    imageSrc: 'https://placehold.co/600x400/e8f4ea/1a3d5c?text=Community+Iftar',
+    title: 'Eid Prayer',
+    description: 'Eid prayer with the community',
+    imageSrc: '/assets/eid-prayer.jpg',
     category: 'event',
   },
   {
     id: 4,
-    title: 'Qur\'an Study',
-    description: 'Weekly Qur\'an study circle',
-    imageSrc: 'https://placehold.co/600x400/e8f4ea/1a3d5c?text=Quran+Study',
+    title: 'Qur\u2019an Class',
+    description: 'Ustadh teaching Qur\u2019an to students',
+    imageSrc: '/assets/qari-teaching.jpg',
     category: 'education',
   },
   {
     id: 5,
-    title: 'Eid Celebration',
-    description: 'Eid al-Fitr celebration with the community',
-    imageSrc: 'https://placehold.co/600x400/e8f4ea/1a3d5c?text=Eid+Celebration',
-    category: 'event',
+    title: 'Children\u2019s Classes',
+    description: 'Young students learning Qur\u2019an',
+    imageSrc: '/assets/children-quran.jpg',
+    category: 'education',
   },
   {
     id: 6,
     title: 'Islamic Library',
-    description: 'Our collection of Islamic books and resources',
-    imageSrc: 'https://placehold.co/600x400/e8f4ea/1a3d5c?text=Islamic+Library',
+    description: 'Multilingual collection of Islamic books',
+    imageSrc: '/assets/library-books.jpg',
     category: 'education',
-  }
-  // Add more gallery items here as you get more images
+  },
+  {
+    id: 7,
+    title: 'Welcoming Visitors',
+    description: 'Dawah conversations with Korean visitors',
+    imageSrc: '/assets/dawah-korean-visitors.jpg',
+    category: 'community',
+  },
+  {
+    id: 8,
+    title: 'Grounds & Surroundings',
+    description: 'A view around the masjid',
+    imageSrc: '/assets/mosque-3.jpg',
+    category: 'building',
+  },
 ]
 
 // Category filters

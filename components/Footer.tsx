@@ -233,6 +233,13 @@ export default function Footer() {
             ))}
           </ul>
         </div>
+        <div className="border-t border-islamic-navy/5">
+          <p className="mx-auto max-w-7xl px-4 py-3 text-center text-[11px] text-islamic-navy/50 sm:px-6 lg:px-8">
+            Built &amp; developed by{' '}
+            <span className="font-semibold text-islamic-navy/70">Abdul Samad</span>{' '}
+            · Please remember him and his family in your du&rsquo;as
+          </p>
+        </div>
       </div>
     </footer>
   )

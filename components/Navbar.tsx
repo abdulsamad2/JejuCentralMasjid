@@ -40,20 +40,20 @@ export default function Navbar() {
           className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8 lg:py-4"
           aria-label="Global"
         >
-          <Link href="/" className="group flex items-center gap-3">
+          <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
             <Image
               src="/assets/jeju-masjid-logo-icon.png"
               alt="Jeju Central Masjid"
               width={311}
               height={227}
-              className="h-14 w-auto object-contain lg:h-16"
+              className="h-12 w-auto flex-shrink-0 object-contain sm:h-14 lg:h-16"
               priority
             />
-            <span className="hidden flex-col leading-tight sm:flex">
-              <span className="text-base font-bold tracking-tight text-islamic-navy lg:text-lg">
+            <span className="flex min-w-0 flex-col leading-tight">
+              <span className="truncate text-sm font-bold tracking-tight text-islamic-navy sm:text-base lg:text-lg">
                 Jeju Central Masjid
               </span>
-              <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-islamic-green">
+              <span className="truncate text-[10px] font-medium uppercase tracking-[0.14em] text-islamic-green sm:text-[11px] sm:tracking-[0.16em]">
                 제주 이슬람 사원
               </span>
             </span>

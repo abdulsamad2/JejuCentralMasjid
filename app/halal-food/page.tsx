@@ -1,349 +1,282 @@
-'use client'
-
-import { useState } from 'react'
+import Link from 'next/link'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import PageHeader from '../../components/PageHeader'
 import {
-  MapPinIcon,
-  PhoneIcon,
-  ClockIcon,
-  StarIcon,
   CheckBadgeIcon,
+  ExclamationTriangleIcon,
   MagnifyingGlassIcon,
-  TagIcon
+  ShoppingBagIcon,
+  TruckIcon,
+  PhoneIcon,
+  ChevronRightIcon,
+  ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline'
 
-const restaurants = [
+export const metadata = {
+  title: 'Halal Food Guide | Jeju Central Masjid',
+  description:
+    'A general guide to eating halal in Jeju — what to check for on labels, ingredients to avoid, useful Korean phrases, and how to contact the masjid if you\u2019re unsure.',
+}
+
+const GUIDES = [
   {
-    id: 1,
-    name: 'Halal Kitchen Jeju',
-    type: 'Middle Eastern & Korean',
-    area: 'Jeju City',
-    address: '123 Halal Street, Jeju City',
-    phone: '+82-64-123-4567',
-    hours: '11:00 AM - 10:00 PM',
-    rating: 4.5,
-    certification: 'KMF Certified',
-    specialties: ['Kebab', 'Korean BBQ', 'Biryani'],
-    description: 'Authentic halal Korean and Middle Eastern cuisine with proper certification.',
-    image: '/api/placeholder/300/200'
+    icon: CheckBadgeIcon,
+    title: 'Look for certification',
+    points: [
+      'KMF (Korea Muslim Federation) mark',
+      'International marks: JAKIM, MUI, HFCE',
+      'When in doubt, check the brand online',
+    ],
   },
   {
-    id: 2,
-    name: 'Muslim Restaurant Seogwipo',
-    type: 'Asian Fusion',
-    area: 'Seogwipo',
-    address: '456 Harbor Road, Seogwipo',
-    phone: '+82-64-234-5678',
-    hours: '12:00 PM - 9:00 PM',
-    rating: 4.3,
-    certification: 'Owner Verified',
-    specialties: ['Seafood', 'Noodles', 'Curry'],
-    description: 'Family-owned restaurant serving fresh halal seafood and Asian dishes.',
-    image: '/api/placeholder/300/200'
+    icon: ExclamationTriangleIcon,
+    title: 'Avoid these ingredients',
+    points: [
+      'Pork, lard, bacon, ham (\uB3FC\uC9C0, \uBCA0\uC774\uCEE8)',
+      'Alcohol, wine, mirin, rum extract',
+      'Gelatin & rennet (unless halal-certified)',
+    ],
   },
   {
-    id: 3,
-    name: 'Jeju Halal Mart & Café',
-    type: 'Groceries & Light Meals',
-    area: 'Jeju City',
-    address: '789 Central Avenue, Jeju City',
-    phone: '+82-64-345-6789',
-    hours: '8:00 AM - 8:00 PM',
-    rating: 4.7,
-    certification: 'KMF Certified',
-    specialties: ['Halal Groceries', 'Fresh Meat', 'Sandwiches'],
-    description: 'One-stop shop for halal groceries and quick halal meals.',
-    image: '/api/placeholder/300/200'
-  }
+    icon: MagnifyingGlassIcon,
+    title: 'Read labels carefully',
+    points: [
+      'Sauces & broths often contain pork stock',
+      '\u201CNatural flavor\u201D can hide non-halal sources',
+      'Processed meat is usually not halal',
+    ],
+  },
+  {
+    icon: ShoppingBagIcon,
+    title: 'Safer choices locally',
+    points: [
+      'Fresh fish, seafood, eggs, dairy',
+      'Fruits, vegetables, rice, grains',
+      'Clearly labelled vegetarian products',
+    ],
+  },
 ]
 
-const halalTips = [
-  {
-    title: 'Look for Certification',
-    description: 'Check for KMF (Korea Muslim Federation) certification or ask about halal sources.',
-    icon: CheckBadgeIcon
-  },
-  {
-    title: 'Seafood Options', 
-    description: 'Most seafood in Jeju is naturally halal, but verify cooking methods and ingredients.',
-    icon: TagIcon
-  },
-  {
-    title: 'Vegetarian Alternatives',
-    description: 'When in doubt, vegetarian and vegan options are generally safer choices.',
-    icon: TagIcon
-  },
-  {
-    title: 'Ask About Ingredients',
-    description: 'Learn key Korean phrases to ask about pork, alcohol, and other non-halal ingredients.',
-    icon: TagIcon
-  }
+const ONLINE_TIPS = [
+  'Most brothers and sisters in Jeju order halal meat online from the mainland (Seoul/Busan-based halal butchers).',
+  'Frozen halal chicken, beef, and lamb can be shipped to Jeju via standard delivery services.',
+  'Plan ahead — delivery to Jeju may take 1\u20133 extra days compared to the mainland.',
+  'Pool orders with other families at the masjid to save on shipping costs.',
 ]
 
-const groceryStores = [
-  {
-    name: 'Jeju Halal Market',
-    address: 'Jeju City Center',
-    specialties: ['Halal meat', 'Middle Eastern spices', 'Frozen foods'],
-    contact: '+82-64-111-2222'
-  },
-  {
-    name: 'Muslim Grocery Store',
-    address: 'Near University area',
-    specialties: ['South Asian products', 'Halal snacks', 'Prayer items'],
-    contact: '+82-64-333-4444'
-  },
-  {
-    name: 'International Food Store',
-    address: 'Seogwipo district',
-    specialties: ['Halal certification verification', 'Import foods', 'Ramadan supplies'],
-    contact: '+82-64-555-6666'
-  }
+const PHRASES_INGREDIENTS = [
+  { ko: '\uB3FC\uC9C0\uACE0\uAE30\uAC00 \uB4E4\uC5B4\uC788\uB098\uC694?', en: 'Does this contain pork?', ar: '\u0647\u0644 \u064A\u062D\u062A\u0648\u064A \u0639\u0644\u0649 \u0644\u062D\u0645 \u0627\u0644\u062E\u0646\u0632\u064A\u0631\u061F' },
+  { ko: '\uC220\uC774 \uB4E4\uC5B4\uC788\uB098\uC694?', en: 'Does this contain alcohol?', ar: '\u0647\u0644 \u064A\u062D\u062A\u0648\u064A \u0639\u0644\u0649 \u0643\u062D\u0648\u0644\u061F' },
+  { ko: '\uD560\uB784 \uC74C\uC2DD\uC774 \uC788\uB098\uC694?', en: 'Do you have halal food?', ar: '\u0647\u0644 \u0644\u062F\u064A\u0643\u0645 \u0637\u0639\u0627\u0645 \u062D\u0644\u0627\u0644\u061F' },
+]
+
+const PHRASES_DIET = [
+  { ko: '\uC800\uB294 \uBB34\uC2AC\uB9BC\uC774\uC5D0\uC694', en: 'I am Muslim', ar: '\u0623\u0646\u0627 \u0645\u0633\u0644\u0645' },
+  { ko: '\uCC44\uC2DD\uC8FC\uC758 \uC74C\uC2DD \uC8FC\uC138\uC694', en: 'Please give me vegetarian food', ar: '\u0645\u0646 \u0641\u0636\u0644\u0643 \u0623\u0639\u0637\u0646\u064A \u0637\u0639\u0627\u0645\u0627\u064B \u0646\u0628\u0627\u062A\u064A\u0627\u064B' },
+  { ko: '\uD574\uC0B0\uBB3C\uC740 \uAD1C\uCC2E\uC544\uC694', en: 'Seafood is okay', ar: '\u0627\u0644\u0645\u0623\u0643\u0648\u0644\u0627\u062A \u0627\u0644\u0628\u062D\u0631\u064A\u0629 \u0645\u0642\u0628\u0648\u0644\u0629' },
 ]
 
 export default function HalalFoodPage() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedArea, setSelectedArea] = useState('All Areas')
-
-  const filteredRestaurants = restaurants.filter(restaurant => {
-    const matchesSearch = restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         restaurant.type.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesArea = selectedArea === 'All Areas' || restaurant.area === selectedArea
-    return matchesSearch && matchesArea
-  })
-
   return (
-    <main>
+    <main className="min-h-screen bg-white">
       <Navbar />
-      
+
       <PageHeader
         eyebrow="Halal Food Guide"
-        title="Where to eat halal in Jeju"
-        description="Discover halal dining options, grocery stores, and food guidance for the Muslim community in Jeju Island."
+        title="Eating halal in Jeju"
+        description="A practical guide for brothers and sisters living in or visiting Jeju. A few halal-friendly restaurants operate on the island, but there is no dedicated halal grocery store yet — so the tips below are what our community relies on, insha'Allah."
+        action={{ label: 'Contact us', href: '/contact' }}
       />
 
-      <section className="border-b border-islamic-navy/8 bg-white py-6">
+      {/* Heads-up banner */}
+      <section className="bg-white pt-10 sm:pt-14">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-start gap-4 rounded-2xl border border-islamic-gold/25 bg-islamic-gold/5 p-5 sm:p-6">
+            <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-gold/20 text-islamic-gold-dark">
+              <ExclamationTriangleIcon className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-sm font-bold text-islamic-navy sm:text-base">
+                A few halal restaurants · no halal grocery store yet
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-islamic-navy/70 sm:text-base">
+                There are a small number of halal-friendly restaurants scattered around
+                the island, but no dedicated halal grocery store. Most of our community
+                orders halal meat online from the mainland and shops carefully at
+                regular supermarkets using the checks below. For up-to-date
+                recommendations, please ask at the masjid.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* General guides */}
+      <section className="py-14 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <div className="relative flex-1">
-              <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-islamic-navy/40" />
-              <input
-                type="text"
-                placeholder="Search restaurants, cuisine type..."
-                className="w-full rounded-full border border-islamic-navy/15 bg-white py-3 pl-10 pr-4 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <select
-              className="rounded-full border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
-              value={selectedArea}
-              onChange={(e) => setSelectedArea(e.target.value)}
-            >
-              <option>All Areas</option>
-              <option>Jeju City</option>
-              <option>Seogwipo</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      {/* Halal Restaurants */}
-      <section className="py-16 bg-islamic-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-islamic-navy text-center mb-12">Halal Restaurants</h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-            {filteredRestaurants.map((restaurant) => (
-              <div key={restaurant.id} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="h-48 bg-gradient-to-br from-islamic-cream to-islamic-green/20"></div>
-                
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-xl font-bold text-islamic-navy">{restaurant.name}</h3>
-                    <div className="flex items-center space-x-1">
-                      <StarIcon className="h-4 w-4 text-islamic-gold fill-current" />
-                      <span className="text-sm font-semibold">{restaurant.rating}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2 mb-3">
-                    <span className="bg-islamic-green/10 text-islamic-green px-3 py-1 rounded-full text-sm font-semibold">
-                      {restaurant.type}
-                    </span>
-                    <span className="bg-islamic-gold/10 text-islamic-gold px-3 py-1 rounded-full text-sm font-semibold">
-                      {restaurant.certification}
-                    </span>
-                  </div>
-                  
-                  <p className="text-gray-600 mb-4 leading-relaxed">{restaurant.description}</p>
-                  
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <MapPinIcon className="h-4 w-4" />
-                      <span>{restaurant.address}</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <PhoneIcon className="h-4 w-4" />
-                      <span>{restaurant.phone}</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <ClockIcon className="h-4 w-4" />
-                      <span>{restaurant.hours}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="border-t pt-4">
-                    <p className="text-sm font-semibold text-islamic-navy mb-2">Specialties:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {restaurant.specialties.map((specialty, index) => (
-                        <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
-                          {specialty}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {filteredRestaurants.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No restaurants found matching your criteria.</p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Grocery Stores */}
-      <section className="py-16 bg-islamic-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-islamic-navy text-center mb-12">Halal Grocery Stores</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {groceryStores.map((store, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg">
-                <h3 className="text-xl font-bold text-islamic-navy mb-3">{store.name}</h3>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center space-x-2 text-gray-600">
-                    <MapPinIcon className="h-4 w-4" />
-                    <span>{store.address}</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-gray-600">
-                    <PhoneIcon className="h-4 w-4" />
-                    <span>{store.contact}</span>
-                  </div>
-                </div>
-                <div>
-                  <p className="font-semibold text-islamic-navy mb-2">Available Products:</p>
-                  <ul className="space-y-1">
-                    {store.specialties.map((item, idx) => (
-                      <li key={idx} className="text-sm text-gray-600 flex items-center space-x-2">
-                        <CheckBadgeIcon className="h-4 w-4 text-islamic-green" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Halal Guidelines */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-islamic-navy text-center mb-12">Halal Dining Tips in Jeju</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {halalTips.map((tip, index) => (
-              <div key={index} className="flex items-start space-x-4 p-6 bg-islamic-cream rounded-2xl">
-                <div className="w-12 h-12 bg-islamic-green/10 rounded-full flex items-center justify-center">
-                  <tip.icon className="h-6 w-6 text-islamic-green" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-islamic-navy mb-2">{tip.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{tip.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Korean Phrases for Halal Inquiries */}
-      <section className="py-16 bg-islamic-navy text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Useful Korean Phrases</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <h3 className="text-xl font-bold text-islamic-gold mb-4">Asking About Ingredients</h3>
-              <div className="space-y-3">
-                <div>
-                  <p className="font-semibold">돼지고기가 들어있나요?</p>
-                  <p className="text-islamic-cream text-sm">Does this contain pork?</p>
-                  <p className="text-islamic-cream text-xs font-arabic-modern arabic-features">هل يحتوي على لحم الخنزير؟</p>
-                </div>
-                <div>
-                  <p className="font-semibold">술이 들어있나요?</p>
-                  <p className="text-islamic-cream text-sm">Does this contain alcohol?</p>
-                  <p className="text-islamic-cream text-xs font-arabic-modern arabic-features">هل يحتوي على كحول؟</p>
-                </div>
-                <div>
-                  <p className="font-semibold">할랄 음식이 있나요?</p>
-                  <p className="text-islamic-cream text-sm">Do you have halal food?</p>
-                  <p className="text-islamic-cream text-xs font-arabic-modern arabic-features">هل لديكم طعام حلال؟</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-              <h3 className="text-xl font-bold text-islamic-gold mb-4">Dietary Restrictions</h3>
-              <div className="space-y-3">
-                <div>
-                  <p className="font-semibold">저는 무슬림이에요</p>
-                  <p className="text-islamic-cream text-sm">I am Muslim</p>
-                  <p className="text-islamic-cream text-xs font-arabic-modern arabic-features">أنا مسلم</p>
-                </div>
-                <div>
-                  <p className="font-semibold">채식주의 음식 주세요</p>
-                  <p className="text-islamic-cream text-sm">Please give me vegetarian food</p>
-                  <p className="text-islamic-cream text-xs font-arabic-modern arabic-features">من فضلك أعطني طعام نباتي</p>
-                </div>
-                <div>
-                  <p className="font-semibold">해산물은 괜찮아요</p>
-                  <p className="text-islamic-cream text-sm">Seafood is okay</p>
-                  <p className="text-islamic-cream text-xs font-arabic-modern arabic-features">المأكولات البحرية مقبولة</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Community Recommendations */}
-      <section className="py-16 bg-islamic-green text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-8">Share Your Recommendations</h2>
-          <p className="text-xl text-islamic-cream mb-8">
-            Help fellow Muslims by sharing your halal food discoveries in Jeju Island
-          </p>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
-            <p className="text-islamic-cream mb-6">
-              Found a new halal restaurant or grocery store? Let us know so we can add it to our directory!
+          <div className="mb-8 max-w-2xl sm:mb-10">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
+              <span className="h-px w-8 bg-islamic-green" />
+              General Guides
             </p>
-            <a 
-              href="/contact" 
-              className="inline-block bg-islamic-gold text-islamic-navy px-8 py-3 rounded-lg font-semibold hover:bg-islamic-gold-dark transition-colors"
-            >
-              Submit Recommendation
-            </a>
+            <h2 className="mt-3 text-2xl font-bold leading-tight text-islamic-navy sm:text-3xl">
+              What to check for
+            </h2>
           </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+            {GUIDES.map((g) => (
+              <article
+                key={g.title}
+                className="flex flex-col rounded-2xl border border-islamic-navy/8 bg-white p-6 transition hover:-translate-y-0.5 hover:border-islamic-green/30 hover:shadow-md"
+              >
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
+                  <g.icon className="h-5 w-5" />
+                </span>
+                <h3 className="mt-4 text-base font-bold text-islamic-navy sm:text-lg">
+                  {g.title}
+                </h3>
+                <ul className="mt-3 space-y-2 text-sm text-islamic-navy/70">
+                  {g.points.map((p) => (
+                    <li key={p} className="flex gap-2">
+                      <span className="mt-1.5 inline-block h-1 w-1 flex-shrink-0 rounded-full bg-islamic-green" />
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ordering halal online */}
+      <section className="bg-islamic-cream py-14 sm:py-16">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-start gap-4">
+            <span className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-green/15 text-islamic-green">
+              <TruckIcon className="h-5 w-5" />
+            </span>
+            <div>
+              <h2 className="text-2xl font-bold text-islamic-navy sm:text-3xl">
+                Ordering halal meat online
+              </h2>
+              <ul className="mt-4 space-y-3 text-sm leading-relaxed text-islamic-navy/75 sm:text-base">
+                {ONLINE_TIPS.map((tip) => (
+                  <li key={tip} className="flex gap-3">
+                    <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-islamic-green" />
+                    <span>{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Korean phrases */}
+      <section className="bg-islamic-navy py-14 text-white sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center sm:mb-10">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-gold">
+              <span className="h-px w-8 bg-islamic-gold" />
+              Useful Korean phrases
+              <span className="h-px w-8 bg-islamic-gold" />
+            </p>
+            <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
+              Ask before you order
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur-sm">
+              <h3 className="mb-4 text-lg font-bold text-islamic-gold">
+                Asking about ingredients
+              </h3>
+              <ul className="space-y-4">
+                {PHRASES_INGREDIENTS.map((p) => (
+                  <li key={p.en}>
+                    <p className="font-semibold">{p.ko}</p>
+                    <p className="text-sm text-islamic-cream/85">{p.en}</p>
+                    <p className="font-arabic-modern arabic-features text-sm text-islamic-cream/70">
+                      {p.ar}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur-sm">
+              <h3 className="mb-4 text-lg font-bold text-islamic-gold">
+                Dietary restrictions
+              </h3>
+              <ul className="space-y-4">
+                {PHRASES_DIET.map((p) => (
+                  <li key={p.en}>
+                    <p className="font-semibold">{p.ko}</p>
+                    <p className="text-sm text-islamic-cream/85">{p.en}</p>
+                    <p className="font-arabic-modern arabic-features text-sm text-islamic-cream/70">
+                      {p.ar}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Not sure? Contact us */}
+      <section className="bg-white py-14 sm:py-16">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-start gap-5 rounded-2xl bg-islamic-cream-light p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div className="flex items-start gap-4">
+              <span className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-green text-white">
+                <PhoneIcon className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-base font-bold text-islamic-navy sm:text-lg">
+                  Not sure about a product?
+                </p>
+                <p className="mt-1 text-sm text-islamic-navy/70 sm:text-base">
+                  Send us a photo of the label or ingredient list — we&apos;ll do our best
+                  to help, insha&apos;Allah.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/contact"
+              className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-islamic-green px-6 py-3 text-sm font-semibold text-white shadow-md shadow-islamic-green/25 transition hover:-translate-y-0.5 hover:bg-islamic-green-dark sm:text-base"
+            >
+              Contact us
+              <ChevronRightIcon className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Share recommendations */}
+      <section className="bg-islamic-green py-14 text-white sm:py-16">
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/15 text-white">
+            <ChatBubbleLeftRightIcon className="h-6 w-6" />
+          </span>
+          <h2 className="mt-5 text-2xl font-bold sm:text-3xl">
+            Found something halal-friendly?
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-islamic-cream/90 sm:text-lg">
+            If you discover a certified product, a reliable restaurant with vegetarian
+            or seafood options, or a trustworthy online halal supplier — share it with
+            the community so we can all benefit.
+          </p>
+          <Link
+            href="/contact"
+            className="mt-7 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-islamic-gold px-6 py-3 text-sm font-bold text-islamic-navy transition hover:-translate-y-0.5 hover:bg-islamic-gold-dark sm:text-base"
+          >
+            Share a recommendation
+            <ChevronRightIcon className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 

@@ -18,28 +18,28 @@ const SLIDES: FeatureSlide[] = [
   {
     src: '/assets/mosque-2.jpg',
     alt: 'Jeju Central Masjid community',
-    title: 'Jeju Central Masjid',
+    title: 'A Welcoming Home',
     description:
-      "Jeju Island's home for Muslims — daily prayers, halal guidance, Islamic education, and community care for students, families, and visitors.",
+      'Jeju Central Masjid is a welcoming home for Muslims and the wider community — offering the five daily prayers, Islamic guidance, educational support, and a peaceful space for worship, reflection, and connection.',
     ctaLabel: 'View All Services',
     ctaHref: '/services',
   },
   {
     src: '/assets/mosque-3.jpg',
-    alt: 'Daily prayers at Jeju Central Masjid',
-    title: 'Prayer & Jummah',
+    alt: 'In the heart of Jeju',
+    title: 'In the Heart of Jeju',
     description:
-      'Five daily prayers and Jummah every Friday. Join a welcoming congregation at the heart of the Muslim community in Jeju.',
+      'Located in the heart of Jeju, we serve students, workers, families, new Muslims, and visitors — providing opportunities to learn about Islam, ask questions, and take meaningful steps in faith.',
     ctaLabel: 'Learn More',
     ctaHref: '/about',
   },
   {
     src: '/assets/mosque-1.jpg',
-    alt: 'Help build a permanent home for Jeju Central Masjid',
-    title: 'A Permanent Home',
+    alt: 'Service, unity, and compassion',
+    title: 'Service, Unity & Compassion',
     description:
-      'We are raising funds for a dedicated masjid with prayer spaces for brothers and sisters. Every donation is a sadaqah jariyah.',
-    ctaLabel: 'Donate Now',
+      'Committed to service, unity, and compassion — the masjid strengthens both spiritual life and community well-being through outreach, care, and positive engagement with society.',
+    ctaLabel: 'Support Us',
     ctaHref: '/donate',
   },
 ]

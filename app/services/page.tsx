@@ -5,10 +5,12 @@ import PageHeader from '../../components/PageHeader'
 import {
   UserGroupIcon,
   BookOpenIcon,
-  HeartIcon,
   SparklesIcon,
-  UserPlusIcon,
+  AcademicCapIcon,
   CakeIcon,
+  ChatBubbleLeftRightIcon,
+  GlobeAltIcon,
+  CalendarDaysIcon,
   ChevronRightIcon,
   CheckIcon,
 } from '@heroicons/react/24/outline'
@@ -16,7 +18,7 @@ import {
 export const metadata = {
   title: 'Services | Jeju Central Masjid',
   description:
-    'Services at Jeju Central Masjid — daily prayers, weekly halaqas, Nikah, multilingual library, new Muslim support, and community iftars.',
+    'Services at Jeju Central Masjid — daily prayers, weekly halaqas, Children\u2019s classes, Monthly Gathering, Mashwara (consultation), Korean visitor outreach, library, and Ramadan programs.',
 }
 
 type Service = {
@@ -40,7 +42,7 @@ const SERVICES: Service[] = [
   {
     icon: SparklesIcon,
     title: 'Weekly Halaqas',
-    summary: "Regular learning circles — open to all, no registration needed.",
+    summary: 'Regular learning circles — open to all, no registration needed.',
     bullets: [
       "A'mal · Thursdays after Maghrib",
       'Gashat · Saturdays after Maghrib',
@@ -48,13 +50,43 @@ const SERVICES: Service[] = [
     ],
   },
   {
-    icon: HeartIcon,
-    title: 'Nikah & Family',
-    summary: 'Islamic marriage ceremonies and family guidance when an imam is available.',
+    icon: AcademicCapIcon,
+    title: "Children's Classes",
+    summary: 'Qur\u2019an and Islamic studies for children, taught by volunteer teachers.',
     bullets: [
-      'Nikah ceremonies by appointment',
-      'Pre-marriage guidance',
-      'Family counselling — please contact us',
+      'Weekend classes for kids',
+      'Qur\u2019an recitation & basics of Islam',
+      'Age-appropriate Islamic stories',
+    ],
+  },
+  {
+    icon: CalendarDaysIcon,
+    title: 'Monthly Gathering',
+    summary: 'A larger community gathering held once a month — food, talks, and fellowship.',
+    bullets: [
+      'Held on a scheduled weekend each month',
+      'Guest speakers and reminders',
+      'Shared meal and community time',
+    ],
+  },
+  {
+    icon: ChatBubbleLeftRightIcon,
+    title: 'Mashwara · Consultation',
+    summary: 'Islamic consultation and advisory sessions for personal and community matters.',
+    bullets: [
+      'Speak with knowledgeable volunteers',
+      'Life, family, and religious questions',
+      'Confidential and no appointment fee',
+    ],
+  },
+  {
+    icon: GlobeAltIcon,
+    title: 'Dawah & Korean Visitors',
+    summary: 'Warm welcome and introductory conversations for Korean visitors and new Muslims.',
+    bullets: [
+      'Mosque tours for curious visitors',
+      'Introductory materials about Islam',
+      'Support for those taking their shahada',
     ],
   },
   {
@@ -63,18 +95,8 @@ const SERVICES: Service[] = [
     summary: 'A modest on-site collection of Islamic books — free to read or borrow.',
     bullets: [
       'Books in Korean, Urdu, and English',
-      'Quran, tafsir, hadith, and beginner guides',
+      'Qur\u2019an, tafsir, hadith, and beginner guides',
       'Ask any volunteer to borrow a book',
-    ],
-  },
-  {
-    icon: UserPlusIcon,
-    title: 'New Muslim Support',
-    summary: 'A warm welcome and practical guidance for anyone new to Islam.',
-    bullets: [
-      'Introductory conversations with a volunteer',
-      'Shahada ceremony in the masjid',
-      'Starter Qur\u2019an and beginner books',
     ],
   },
   {
@@ -95,9 +117,9 @@ export default function ServicesPage() {
       <Navbar />
 
       <PageHeader
-        eyebrow="What We Do"
-        title="Services"
-        description="Jeju Central Masjid is a small, volunteer-run community mosque. The services below are what we consistently offer, insha'Allah."
+        eyebrow="Khidmat · Our Services"
+        title="Serving the ummah"
+        description="Jeju Central Masjid is a small, volunteer-run community mosque. The programs below are what we consistently offer, insha'Allah."
         action={{ label: 'Contact us', href: '/contact' }}
       />
 
@@ -130,7 +152,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Simple CTA band */}
       <section className="bg-islamic-cream py-12 sm:py-14">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-islamic-navy sm:text-3xl">

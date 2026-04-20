@@ -59,10 +59,10 @@ export default function NewsSection() {
           <div>
             <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
               <span className="h-px w-8 bg-islamic-green" />
-              Latest News
+              Announcements
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-islamic-navy sm:text-4xl lg:text-5xl">
-              Announcements &amp; updates
+              From the masjid
             </h2>
             <p className="mt-3 max-w-2xl text-base text-islamic-navy/70 sm:text-lg">
               Stay up to date with what's happening at Jeju Central Masjid.
