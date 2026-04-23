@@ -4,6 +4,7 @@ import Footer from '../../components/Footer'
 import PageHeader from '../../components/PageHeader'
 import {
   UserGroupIcon,
+  UserPlusIcon,
   BookOpenIcon,
   SparklesIcon,
   AcademicCapIcon,
@@ -34,27 +35,28 @@ const SERVICES: Service[] = [
     title: 'Prayers & Jummah',
     summary: 'Five daily prayers and Friday Jummah in a welcoming community setting.',
     bullets: [
-      'Separate prayer areas for brothers and sisters',
+      'Separate section for sisters — dedicated prayer area',
       'Jummah every Friday · Iqama 13:30',
       'Open before and after each salah',
     ],
   },
   {
     icon: SparklesIcon,
-    title: 'Weekly Halaqas',
-    summary: 'Regular learning circles — open to all, no registration needed.',
+    title: 'Halaqas & Hadith',
+    summary: 'Regular learning circles and a nightly hadith session — open to all, no registration needed.',
     bullets: [
-      "A'mal · Thursdays after Maghrib",
-      'Gashat · Saturdays after Maghrib',
+      "A'mal (Islamic Activity) · Thursdays after Maghrib",
+      'Gasht (Dawat o Tableegh) · Saturdays after Maghrib',
       'Community Gathering · Sundays after Asr',
+      'Daily Hadith session · every day after Isha',
     ],
   },
   {
     icon: AcademicCapIcon,
     title: "Children's Classes",
-    summary: 'Qur\u2019an and Islamic studies for children, taught by volunteer teachers.',
+    summary: 'Qur\u2019an and Islamic studies for children, every day after Maghrib.',
     bullets: [
-      'Weekend classes for kids',
+      'Every day after Maghrib',
       'Qur\u2019an recitation & basics of Islam',
       'Age-appropriate Islamic stories',
     ],
@@ -81,12 +83,22 @@ const SERVICES: Service[] = [
   },
   {
     icon: GlobeAltIcon,
-    title: 'Dawah & Korean Visitors',
-    summary: 'Warm welcome and introductory conversations for Korean visitors and new Muslims.',
+    title: 'Dawah & Visitors',
+    summary: 'Warm welcome and simple guidance for anyone who walks through our doors.',
     bullets: [
-      'Mosque tours for curious visitors',
+      'Short guidelines for first-time visitors',
       'Introductory materials about Islam',
       'Support for those taking their shahada',
+    ],
+  },
+  {
+    icon: UserPlusIcon,
+    title: 'Orientation & Welcome',
+    summary: 'Helping new students and community members settle into masjid life.',
+    bullets: [
+      'Introduction to prayer times and weekly programs',
+      'Connecting new arrivals with the community',
+      'Practical tips for living in Jeju',
     ],
   },
   {

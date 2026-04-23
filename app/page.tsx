@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import PrayerTimesBar from '../components/PrayerTimesBar'
 import Hero from '../components/Hero'
+import MawaqitWidget from '../components/MawaqitWidget'
 import ServicesSection from '../components/ServicesSection'
 import UnlockQuranSection from '../components/UnlockQuranSection'
 import WeeklyCirclesPromo from '../components/WeeklyCirclesPromo'
@@ -26,11 +26,11 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
 
-      {/* 1. Utility */}
-      <PrayerTimesBar />
-
-      {/* 2. Identity */}
+      {/* 1. Identity */}
       <Hero />
+
+      {/* 2. Authoritative prayer times (Mawaqit) */}
+      <MawaqitWidget />
 
       {/* 3. Programs */}
       <ServicesSection />

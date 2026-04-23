@@ -50,13 +50,13 @@ const facilities = [
 
 const services = [
   'Five daily prayers & Jummah',
-  'Weekly halaqas (A’mal, Gashat, Community Gathering)',
-  'Nikah (Islamic marriage) & family guidance',
-  'New Muslim support',
-  'Halal food guidance across Jeju',
-  'Community iftars during Ramadan',
-  'Student & visitor welcome',
-  'Library lending & reading',
+  'Weekly halaqas + daily Hadith after Isha',
+  'Children’s classes — daily after Maghrib',
+  'On-site halal food facility',
+  'Community iftars & Taraweeh (Ramadan)',
+  'Dawah, new Muslim & tourist welcome',
+  'Sisters’ daily hall access (2–4:30 PM)',
+  'Multilingual library & student support',
 ]
 
 const timings = [
@@ -104,13 +104,20 @@ export default function AboutPage() {
                   who made Jeju Island their home.
                 </p>
                 <p>
-                  We currently operate from a modest <span className="font-semibold text-islamic-navy">rented second-floor space</span>{' '}
-                  that hosts the five daily prayers, Jummah, weekly halaqas, and a small library —
-                  all run by the community, for the community.
+                  Around <span className="font-semibold text-islamic-navy">3.5 years ago</span> we began in a small
+                  two-room rented space. As the community grew, we moved into the current larger
+                  second-floor hall — formerly a restaurant — and brothers and sisters renovated it
+                  together: floors, kitchen, paint, partitions, carpets, and curtains.
                 </p>
                 <p>
-                  Our doors are open to Muslims and non-Muslims alike. Whether you&apos;re here to pray,
-                  learn about Islam, borrow a book, or simply introduce yourself — you are welcome.
+                  Every won that built this masjid was raised locally and through donations from
+                  Muslim communities across Korea and abroad — including Qatar, Australia, and
+                  Indonesia. Alhamdulillah.
+                </p>
+                <p>
+                  Whether you&apos;re here to pray, learn about Islam, borrow a book, or simply say
+                  salam — you are welcome, regardless of nationality, background, or how you arrived
+                  at faith.
                 </p>
               </div>
 
@@ -147,15 +154,15 @@ export default function AboutPage() {
 
               <div className="mt-5 grid grid-cols-3 gap-3">
                 <div className="rounded-2xl border border-islamic-navy/8 bg-white p-4 text-center">
-                  <p className="text-2xl font-extrabold text-islamic-green">5×</p>
+                  <p className="text-2xl font-extrabold text-islamic-green">3.5+</p>
                   <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-islamic-navy/60">
-                    Daily Salah
+                    Years Serving
                   </p>
                 </div>
                 <div className="rounded-2xl border border-islamic-navy/8 bg-white p-4 text-center">
-                  <p className="text-2xl font-extrabold text-islamic-green">3</p>
+                  <p className="text-2xl font-extrabold text-islamic-green">5×</p>
                   <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-islamic-navy/60">
-                    Languages
+                    Daily Salah
                   </p>
                 </div>
                 <div className="rounded-2xl border border-islamic-navy/8 bg-white p-4 text-center">
@@ -213,9 +220,10 @@ export default function AboutPage() {
               </span>
               <h3 className="mt-5 text-2xl font-bold text-islamic-navy">Our Mission</h3>
               <p className="mt-3 text-base leading-relaxed text-islamic-navy/75">
-                To provide a welcoming place of worship, learning, and community for Muslims on
-                Jeju Island — grounded in the Quran and Sunnah, open to all, and free from sectarian
-                divides.
+                Beyond the five daily prayers, we want Jeju Central Masjid to be a place where our
+                community can find answers, support, and companionship — grounded in the Quran and
+                Sunnah, owned by every brother and sister who walks through its doors, and open to
+                all nationalities without sectarian divides.
               </p>
             </div>
             <div className="rounded-3xl border border-islamic-gold/30 bg-gradient-to-br from-islamic-cream-light to-white p-8 shadow-sm sm:p-10">
@@ -224,9 +232,9 @@ export default function AboutPage() {
               </span>
               <h3 className="mt-5 text-2xl font-bold text-islamic-navy">Our Vision</h3>
               <p className="mt-3 text-base leading-relaxed text-islamic-navy/75">
-                To insha&apos;Allah establish a permanent masjid on Jeju Island — with purpose-built
-                prayer spaces for brothers and sisters, expanded Islamic education, and a cultural
-                bridge to our Korean neighbours.
+                Insha&apos;Allah, a permanent masjid and Islamic centre on Jeju Island — with
+                purpose-built halls for brothers and sisters, a dedicated Dawah centre, Islamic
+                education for our children, and a lasting bridge to our Korean neighbours.
               </p>
             </div>
           </div>

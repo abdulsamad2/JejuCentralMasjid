@@ -4,6 +4,7 @@ import {
   SparklesIcon,
   BookOpenIcon,
   UserGroupIcon,
+  UsersIcon,
   AcademicCapIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
@@ -11,23 +12,28 @@ import {
 const circles = [
   {
     icon: SparklesIcon,
-    title: "A'mal",
+    title: "A'mal (Islamic Activity)",
     schedule: 'Thursdays · After Maghrib',
   },
   {
-    icon: BookOpenIcon,
-    title: 'Gashat',
+    icon: UserGroupIcon,
+    title: 'Gasht (Dawat o Tableegh)',
     schedule: 'Saturdays · After Maghrib',
   },
   {
-    icon: UserGroupIcon,
+    icon: BookOpenIcon,
+    title: 'Daily Hadith Session',
+    schedule: 'Every day · After Isha',
+  },
+  {
+    icon: UsersIcon,
     title: 'Community Gathering',
     schedule: 'Sundays · After Asr',
   },
   {
     icon: AcademicCapIcon,
-    title: "Children's Classes",
-    schedule: 'Weekends · Quran & Islamic studies',
+    title: "Children's Class",
+    schedule: 'Every day · After Maghrib',
   },
 ]
 

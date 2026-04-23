@@ -33,14 +33,15 @@ export default function SupportAppeal() {
                 Every week, Jeju Central Masjid hosts the{' '}
                 <span className="font-semibold text-islamic-navy">five daily prayers</span>,{' '}
                 <span className="font-semibold text-islamic-navy">Jummah</span>, and learning
-                circles — A&rsquo;mal on Thursdays, Gashat on Saturdays, and Community Gathering on
-                Sundays.
+                circles — A&rsquo;mal on Thursdays, Gasht on Saturdays, a daily Hadith session
+                after Isha, and Community Gathering on Sundays.
               </p>
               <p>
                 We run{' '}
-                <span className="font-semibold text-islamic-navy">Children&rsquo;s classes</span> on
-                weekends, a <span className="font-semibold text-islamic-navy">Monthly Gathering</span>,
-                and <span className="font-semibold text-islamic-navy">Mashwara</span> sessions for
+                <span className="font-semibold text-islamic-navy">Children&rsquo;s classes</span>{' '}
+                every day after Maghrib, a{' '}
+                <span className="font-semibold text-islamic-navy">Monthly Gathering</span>, and{' '}
+                <span className="font-semibold text-islamic-navy">Mashwara</span> sessions for
                 consultation and advice. We also welcome{' '}
                 <span className="font-semibold text-islamic-navy">Korean visitors</span> and anyone
                 curious about Islam.

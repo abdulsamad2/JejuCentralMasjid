@@ -20,7 +20,7 @@ const SLIDES: FeatureSlide[] = [
     alt: 'Jeju Central Masjid community',
     title: 'A Welcoming Home',
     description:
-      'Jeju Central Masjid is a welcoming home for Muslims and the wider community — offering the five daily prayers, Islamic guidance, educational support, and a peaceful space for worship, reflection, and connection.',
+      'Jeju Central Masjid is a welcoming home for Muslims and the wider community, offering the five daily prayers, Islamic guidance, educational support, and a peaceful space for worship, reflection, and connection.',
     ctaLabel: 'View All Services',
     ctaHref: '/services',
   },
@@ -29,7 +29,7 @@ const SLIDES: FeatureSlide[] = [
     alt: 'In the heart of Jeju',
     title: 'In the Heart of Jeju',
     description:
-      'Located in the heart of Jeju, we serve students, workers, families, new Muslims, and visitors — providing opportunities to learn about Islam, ask questions, and take meaningful steps in faith.',
+      'Located in the heart of Jeju, it serves students, workers, families, new Muslims, and visitors by providing opportunities to learn about Islam, ask questions, and take meaningful steps in faith.',
     ctaLabel: 'Learn More',
     ctaHref: '/about',
   },
@@ -38,7 +38,7 @@ const SLIDES: FeatureSlide[] = [
     alt: 'Service, unity, and compassion',
     title: 'Service, Unity & Compassion',
     description:
-      'Committed to service, unity, and compassion — the masjid strengthens both spiritual life and community well-being through outreach, care, and positive engagement with society.',
+      'Committed to service, unity, and compassion, the masjid aims to strengthen both spiritual life and community well-being through outreach, care, and positive engagement with society.',
     ctaLabel: 'Support Us',
     ctaHref: '/donate',
   },

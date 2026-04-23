@@ -18,13 +18,13 @@ const services: Service[] = [
   {
     icon: UserGroupIcon,
     title: 'Prayers & Halaqas',
-    description: 'Five daily prayers, Jummah, and weekly halaqas (A\u2019mal, Gashat, Community Gathering).',
+    description: 'Five daily prayers, Jummah, and weekly halaqas (A’mal, Gasht, Community Gathering), and a daily hadith session after Isha.',
     href: '/services',
   },
   {
     icon: AcademicCapIcon,
     title: "Children's Classes",
-    description: 'Weekend Qur\u2019an and Islamic studies for kids, led by volunteer teachers.',
+    description: 'Daily Qur’an and Islamic studies for kids, every day after Maghrib.',
     href: '/services',
   },
   {
@@ -43,31 +43,8 @@ const services: Service[] = [
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="bg-white py-16 sm:py-20 lg:py-24">
+    <section id="services" className="bg-white pb-16 sm:pb-20 lg:pb-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-10 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
-              <span className="h-px w-8 bg-islamic-green" />
-              Khidmat · Our Services
-            </p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight text-islamic-navy sm:text-4xl lg:text-5xl">
-              Serving the ummah
-            </h2>
-            <p className="mt-3 max-w-2xl text-base text-islamic-navy/70 sm:text-lg">
-              Programs for prayer, learning, family, and community — insha&apos;Allah serving
-              everyone who walks through our doors.
-            </p>
-          </div>
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-1.5 self-start rounded-full border border-islamic-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-islamic-navy transition hover:border-islamic-green hover:text-islamic-green sm:self-auto"
-          >
-            All services
-            <ChevronRightIcon className="h-4 w-4" />
-          </Link>
-        </div>
-
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {services.map((s) => (
             <Link
