@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -12,9 +12,11 @@ const navigation = [
   { name: 'Services', href: '/services' },
   { name: 'Events', href: '/events' },
   { name: 'Gallery', href: '/gallery' },
-  { name: 'Halal Food', href: '/halal-food' },
   { name: 'Contact', href: '/contact' },
 ]
+
+const PERMANENT_MASJID_HREF = '/permanent-masjid'
+const PERMANENT_MASJID_LABEL = 'Permanent Masjid'
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -53,7 +55,7 @@ export default function Navbar() {
               <span className="truncate text-sm font-bold tracking-tight text-islamic-navy sm:text-base lg:text-lg">
                 Jeju Central Masjid
               </span>
-              <span className="truncate text-[10px] font-medium uppercase tracking-[0.14em] text-islamic-green sm:text-[11px] sm:tracking-[0.16em]">
+              <span className="truncate text-base font-semibold tracking-[0.06em] text-islamic-green sm:text-lg sm:tracking-[0.08em] lg:text-xl">
                 제주 이슬람 사원
               </span>
             </span>
@@ -79,6 +81,19 @@ export default function Navbar() {
                 </Link>
               )
             })}
+
+            {/* Featured campaign — sits between plain nav and the Donate CTA so it
+                catches the eye but doesn't compete with the primary action. */}
+            <Link
+              href={PERMANENT_MASJID_HREF}
+              className={`ml-2 inline-flex items-center gap-1.5 rounded-full border-2 border-islamic-gold/70 bg-islamic-gold/10 px-4 py-1.5 text-sm font-bold text-islamic-gold-dark transition hover:-translate-y-0.5 hover:border-islamic-gold hover:bg-islamic-gold/20 hover:shadow-md ${
+                pathname === PERMANENT_MASJID_HREF ? 'bg-islamic-gold/25 shadow-sm' : ''
+              }`}
+            >
+              <BuildingLibraryIcon className="h-4 w-4" />
+              {PERMANENT_MASJID_LABEL}
+            </Link>
+
             <Link
               href="/donate"
               className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-islamic-green px-5 py-2 text-sm font-semibold text-white shadow-md shadow-islamic-green/25 transition hover:-translate-y-0.5 hover:bg-islamic-green-dark hover:shadow-lg"
@@ -149,10 +164,19 @@ export default function Navbar() {
                   </Link>
                 )
               })}
+
+              <Link
+                href={PERMANENT_MASJID_HREF}
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-islamic-gold/70 bg-islamic-gold/10 px-4 py-3 text-base font-bold text-islamic-gold-dark transition hover:bg-islamic-gold/20"
+              >
+                <BuildingLibraryIcon className="h-5 w-5" />
+                {PERMANENT_MASJID_LABEL}
+              </Link>
               <Link
                 href="/donate"
                 onClick={() => setMobileMenuOpen(false)}
-                className="mt-4 inline-flex items-center justify-center rounded-xl bg-islamic-green px-4 py-3 text-base font-semibold text-white shadow-md shadow-islamic-green/25 hover:bg-islamic-green-dark"
+                className="mt-2 inline-flex items-center justify-center rounded-xl bg-islamic-green px-4 py-3 text-base font-semibold text-white shadow-md shadow-islamic-green/25 hover:bg-islamic-green-dark"
               >
                 Donate
               </Link>

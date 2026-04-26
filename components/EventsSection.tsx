@@ -1,27 +1,6 @@
 import Link from 'next/link'
 import { ClockIcon, MapPinIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
-
-type EventItem = {
-  title: string
-  startDate: string // ISO YYYY-MM-DD
-  startTime?: string // HH:MM
-  location?: string
-}
-
-const EVENTS: EventItem[] = [
-  {
-    title: 'Jummah Prayer',
-    startDate: '2026-04-24',
-    startTime: '13:15',
-    location: 'Jeju Central Masjid',
-  },
-  {
-    title: 'Community Iftar',
-    startDate: '2026-05-03',
-    startTime: '18:10',
-    location: 'Jeju Central Masjid',
-  },
-]
+import { EVENTS } from '../lib/data/events'
 
 function parts(iso: string) {
   const d = new Date(iso + 'T00:00:00')

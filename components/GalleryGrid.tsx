@@ -69,6 +69,89 @@ const galleryItems: GalleryItem[] = [
     imageSrc: '/assets/mosque-3.jpg',
     category: 'building',
   },
+
+  // Eid al-Adha 2024
+  {
+    id: 9,
+    title: 'Eid al-Adha 2024',
+    description: 'Eid al-Adha gathering at Jeju Central Masjid',
+    imageSrc: '/assets/Eid Al Adha/IMG-20240618-WA0042.jpg',
+    category: 'eid',
+  },
+  {
+    id: 10,
+    title: 'Eid al-Adha 2024',
+    description: 'Brothers after Eid al-Adha salah',
+    imageSrc: '/assets/Eid Al Adha/IMG-20240618-WA0050.jpg',
+    category: 'eid',
+  },
+  {
+    id: 11,
+    title: 'Eid al-Adha 2024',
+    description: 'Community moments on Eid al-Adha',
+    imageSrc: '/assets/Eid Al Adha/IMG-20240618-WA0060.jpg',
+    category: 'eid',
+  },
+  {
+    id: 12,
+    title: 'Eid al-Adha 2024',
+    description: 'Families celebrating Eid al-Adha together',
+    imageSrc: '/assets/Eid Al Adha/IMG-20240618-WA0070.jpg',
+    category: 'eid',
+  },
+
+  // Eid al-Fitr 2024
+  {
+    id: 13,
+    title: 'Eid al-Fitr 2024',
+    description: 'Eid al-Fitr celebrations',
+    imageSrc: '/assets/eid/IMG_20240410_221609_131.jpg',
+    category: 'eid',
+  },
+  {
+    id: 14,
+    title: 'Eid al-Fitr 2024',
+    description: 'Eid morning at the masjid',
+    imageSrc: '/assets/eid/IMG_20240411_140339_928.jpg',
+    category: 'eid',
+  },
+  {
+    id: 15,
+    title: 'Eid al-Fitr 2024',
+    description: 'Together for Eid al-Fitr',
+    imageSrc: '/assets/eid/IMG_20240411_164549_223.jpg',
+    category: 'eid',
+  },
+
+  // Community gatherings 2024
+  {
+    id: 16,
+    title: 'Community Gathering · May 2024',
+    description: 'Brothers gathered at the masjid',
+    imageSrc: '/assets/5 5 24/IMG-20240505-WA0001.jpg',
+    category: 'community',
+  },
+  {
+    id: 17,
+    title: 'Community Gathering · May 2024',
+    description: 'A community meal together',
+    imageSrc: '/assets/5 5 24/IMG-20240505-WA0007.jpg',
+    category: 'community',
+  },
+  {
+    id: 18,
+    title: 'Community Gathering · May 2024',
+    description: 'Sharing food and reminders',
+    imageSrc: '/assets/5 5 24/IMG-20240505-WA0010.jpg',
+    category: 'community',
+  },
+  {
+    id: 19,
+    title: 'Community Event · April 2024',
+    description: 'A gathering at Jeju Central Masjid',
+    imageSrc: '/assets/04 22 24/IMG-20240422-WA0031.jpg',
+    category: 'community',
+  },
 ]
 
 // Category filters

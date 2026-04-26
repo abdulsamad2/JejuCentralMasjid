@@ -24,8 +24,8 @@ export default function MawaqitWidget() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-          {/* Left — welcome / serving the ummah */}
-          <div className="lg:col-span-5">
+          {/* Welcome / serving the ummah — left on desktop, second on mobile */}
+          <div className="order-2 lg:order-1 lg:col-span-5">
             <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
               <span className="h-px w-8 bg-islamic-green" />
               Khidmat · Our Services
@@ -57,19 +57,19 @@ export default function MawaqitWidget() {
             </div>
           </div>
 
-          {/* Right — prayer times widget */}
-          <div className="lg:col-span-7">
+          {/* Prayer times widget — right on desktop, FIRST on mobile (so prayer-time visitors see it immediately) */}
+          <div className="order-1 lg:order-2 lg:col-span-7">
             <p className="mb-3 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-islamic-green lg:text-left">
               Today&rsquo;s Salah Times
             </p>
-            <div className="overflow-hidden rounded-2xl bg-islamic-navy shadow-sm ring-1 ring-islamic-navy/10">
-              {/* Mobile / below lg */}
-              <div className="block h-[420px] overflow-hidden sm:h-[460px] lg:hidden">
+            <div className="overflow-hidden rounded-2xl bg-islamic-navy shadow-md ring-1 ring-islamic-navy/15 lg:shadow-sm">
+              {/* Mobile / below lg — taller card so the iframe content breathes */}
+              <div className="block h-[500px] overflow-hidden sm:h-[520px] lg:hidden">
                 <iframe
                   src={MOBILE_SRC}
                   title="Jeju Central Masjid prayer times — mobile view"
                   loading="lazy"
-                  className="h-[500px] w-full border-0"
+                  className="h-[540px] w-full border-0"
                 />
               </div>
               {/* Desktop / lg+ */}

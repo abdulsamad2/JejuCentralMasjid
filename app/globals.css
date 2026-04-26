@@ -405,3 +405,25 @@ body {
     animation: none !important;
   }
 }
+
+/* News ticker — scrolls items right-to-left in a continuous loop */
+@keyframes newsTicker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.news-ticker-track {
+  animation: newsTicker 60s linear infinite;
+  will-change: transform;
+}
+
+.news-ticker-pauseable:hover .news-ticker-track,
+.news-ticker-pauseable:focus-within .news-ticker-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-ticker-track {
+    animation: none !important;
+  }
+}

@@ -7,29 +7,27 @@ import {
   ArrowTopRightOnSquareIcon,
   HeartIcon,
 } from '@heroicons/react/24/outline'
+import {
+  MASJID_ADDRESS_EN_LINES,
+  MASJID_ADDRESS_KO,
+  MASJID_MAPS,
+  MASJID_PHONES,
+} from '../lib/constants/masjidLocation'
 
 const visit = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
+  { href: '/committee', label: 'Committee' },
   { href: '/events', label: 'Events' },
+  { href: '/news', label: 'News' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/halal-food', label: 'Halal Food' },
   { href: '/contact', label: 'Contact' },
 ]
 
 const community = [
   { href: '/services', label: 'Services' },
-  { href: '/services#education', label: 'Quran & Madrasah' },
-  { href: '/services#marriage', label: 'Nikah & Family' },
-  { href: '/services#counseling', label: 'Community Care' },
-  { href: '/services#students', label: 'Student Support' },
+  { href: '/permanent-masjid', label: 'Permanent Masjid' },
   { href: '/donate', label: 'Donate' },
-]
-
-const policies = [
-  { href: '/privacy', label: 'Privacy' },
-  { href: '/terms', label: 'Terms' },
-  { href: '/cookies', label: 'Cookies' },
 ]
 
 const socials: {
@@ -98,8 +96,8 @@ export default function Footer() {
               />
               <span className="flex flex-col leading-tight">
                 <span className="text-base font-bold text-islamic-navy">Jeju Central Masjid</span>
-                <span className="font-arabic-display arabic-features text-sm text-islamic-green">
-                  مسجد جيجو المركزي
+                <span className="text-base font-semibold tracking-[0.06em] text-islamic-green">
+                  제주 이슬람 사원
                 </span>
               </span>
             </Link>
@@ -181,31 +179,57 @@ export default function Footer() {
                   <MapPinIcon className="h-4 w-4" />
                 </span>
                 <span className="leading-relaxed">
-                  Sancheondandong 2-gil 15, 2F
+                  {MASJID_ADDRESS_EN_LINES[0]}
                   <br />
-                  Jeju-si, Jeju-do
+                  {MASJID_ADDRESS_EN_LINES[1]}, {MASJID_ADDRESS_EN_LINES[2]}
                   <br />
-                  South Korea
+                  <span className="text-islamic-navy/60">{MASJID_ADDRESS_KO}</span>
                 </span>
               </li>
-              <li>
+              <li className="ml-11 flex flex-wrap gap-2">
                 <a
-                  href="https://maps.google.com/?q=33.4996,126.5312"
+                  href={MASJID_MAPS.google}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="ml-11 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green hover:text-islamic-green-dark"
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
                 >
-                  Open in Maps
-                  <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+                  Google Maps
+                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                </a>
+                <a
+                  href={MASJID_MAPS.kakao}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                >
+                  Kakao
+                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                </a>
+                <a
+                  href={MASJID_MAPS.naver}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                >
+                  Naver
+                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-islamic-green/10 text-islamic-green">
+              <li className="flex items-start gap-3">
+                <span className="mt-0.5 inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-islamic-green/10 text-islamic-green">
                   <PhoneIcon className="h-4 w-4" />
                 </span>
-                <a href="tel:+821000000000" className="transition hover:text-islamic-green">
-                  +82 10 XXXX XXXX
-                </a>
+                <span className="flex flex-col">
+                  {MASJID_PHONES.map((p) => (
+                    <a
+                      key={p.tel}
+                      href={`tel:${p.tel}`}
+                      className="transition hover:text-islamic-green"
+                    >
+                      {p.display}
+                    </a>
+                  ))}
+                </span>
               </li>
               <li className="flex items-center gap-3">
                 <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-islamic-green/10 text-islamic-green">
@@ -223,15 +247,12 @@ export default function Footer() {
       <div className="border-t border-islamic-navy/10 bg-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-xs text-islamic-navy/55 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} Jeju Central Masjid · All rights reserved</p>
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            {policies.map((p) => (
-              <li key={p.href}>
-                <Link href={p.href} className="transition hover:text-islamic-green">
-                  {p.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <Link
+            href="/contact"
+            className="font-semibold text-islamic-navy/70 transition hover:text-islamic-green"
+          >
+            Contact us
+          </Link>
         </div>
         <div className="border-t border-islamic-navy/5">
           <p className="mx-auto max-w-7xl px-4 py-3 text-center text-[11px] text-islamic-navy/50 sm:px-6 lg:px-8">

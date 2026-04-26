@@ -14,6 +14,7 @@ import {
   CalendarDaysIcon,
   ChevronRightIcon,
   CheckIcon,
+  HeartIcon,
 } from '@heroicons/react/24/outline'
 
 export const metadata = {
@@ -37,7 +38,7 @@ const SERVICES: Service[] = [
     bullets: [
       'Separate section for sisters — dedicated prayer area',
       'Jummah every Friday · Iqama 13:30',
-      'Open before and after each salah',
+      'Open 24/7 — doors are always open',
     ],
   },
   {
@@ -99,6 +100,16 @@ const SERVICES: Service[] = [
       'Introduction to prayer times and weekly programs',
       'Connecting new arrivals with the community',
       'Practical tips for living in Jeju',
+    ],
+  },
+  {
+    icon: HeartIcon,
+    title: 'Nikah',
+    summary: 'Islamic marriage ceremonies and basic family guidance — by appointment.',
+    bullets: [
+      'Nikah ceremonies arranged by appointment',
+      'Witness & paperwork support',
+      'Pre-marriage counsel where possible',
     ],
   },
   {

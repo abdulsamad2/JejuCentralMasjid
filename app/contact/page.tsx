@@ -15,6 +15,12 @@ import {
   HomeIcon,
   BanknotesIcon,
 } from '@heroicons/react/24/outline'
+import {
+  MASJID_ADDRESS_EN_LINES,
+  MASJID_ADDRESS_KO,
+  MASJID_MAPS,
+  MASJID_PHONES,
+} from '../../lib/constants/masjidLocation'
 
 const INQUIRIES = [
   'General',
@@ -64,7 +70,7 @@ export default function ContactPage() {
         description="A small, welcoming community mosque on Jeju Island. Reach out with questions, visit us for prayer, or explore our library."
         action={{
           label: 'Open in Maps',
-          href: 'https://maps.google.com/?q=33.4996,126.5312',
+          href: MASJID_MAPS.google,
         }}
       />
 
@@ -80,21 +86,40 @@ export default function ContactPage() {
                 Address
               </p>
               <p className="mt-2 text-sm leading-relaxed text-islamic-navy">
-                Sancheondandong 2-gil 15, 2F
+                {MASJID_ADDRESS_EN_LINES[0]}
                 <br />
-                Jeju-si, Jeju-do
-                <br />
-                South Korea
+                {MASJID_ADDRESS_EN_LINES[1]}, {MASJID_ADDRESS_EN_LINES[2]}
               </p>
-              <a
-                href="https://maps.google.com/?q=33.4996,126.5312"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green hover:text-islamic-green-dark"
-              >
-                Open in Maps
-                <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
-              </a>
+              <p className="mt-1 text-sm text-islamic-navy/65">{MASJID_ADDRESS_KO}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a
+                  href={MASJID_MAPS.google}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                >
+                  Google Maps
+                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                </a>
+                <a
+                  href={MASJID_MAPS.kakao}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                >
+                  Kakao Map
+                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                </a>
+                <a
+                  href={MASJID_MAPS.naver}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                >
+                  Naver Map
+                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                </a>
+              </div>
             </div>
 
             <div className="rounded-2xl border border-islamic-navy/8 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
@@ -104,13 +129,18 @@ export default function ContactPage() {
               <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-islamic-navy/55">
                 Phone
               </p>
-              <a
-                href="tel:+821000000000"
-                className="mt-2 block text-base font-semibold text-islamic-navy hover:text-islamic-green"
-              >
-                +82 10 XXXX XXXX
-              </a>
-              <p className="mt-1 text-sm text-islamic-navy/60">
+              <div className="mt-2 flex flex-col gap-1">
+                {MASJID_PHONES.map((p) => (
+                  <a
+                    key={p.tel}
+                    href={`tel:${p.tel}`}
+                    className="block text-base font-semibold text-islamic-navy hover:text-islamic-green"
+                  >
+                    {p.display}
+                  </a>
+                ))}
+              </div>
+              <p className="mt-2 text-sm text-islamic-navy/60">
                 Best reached after prayers. For urgent matters, please use email.
               </p>
             </div>
@@ -251,7 +281,7 @@ export default function ContactPage() {
                         value={formData.phone}
                         onChange={handleInputChange}
                         className="w-full rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20"
-                        placeholder="+82 10 XXXX XXXX"
+                        placeholder="+82 10 1234 5678"
                       />
                     </div>
                     <div>
@@ -344,28 +374,50 @@ export default function ContactPage() {
                 <div className="overflow-hidden rounded-2xl border border-islamic-navy/8 bg-white shadow-sm">
                   <div className="aspect-[4/3] w-full bg-islamic-navy">
                     <iframe
-                      src="https://www.google.com/maps?q=33.4996,126.5312&z=15&output=embed"
+                      src={`https://www.google.com/maps?q=${encodeURIComponent(MASJID_ADDRESS_KO)}&z=17&output=embed`}
                       className="h-full w-full border-0"
                       loading="lazy"
-                      title="Jeju Central Masjid on Google Maps"
+                      title={`Jeju Central Masjid · ${MASJID_ADDRESS_KO}`}
                     />
                   </div>
+                  {/* Kakao Map CTA pinned right under the map */}
+                  <a
+                    href={MASJID_MAPS.kakao}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 bg-[#FEE500] px-4 py-3 text-sm font-bold text-[#3C1E1E] transition hover:bg-[#FFD700]"
+                  >
+                    Open in Kakao Map
+                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+                  </a>
                   <div className="p-5">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-islamic-navy/55">
                       Find Us
                     </p>
                     <p className="mt-2 text-sm text-islamic-navy/80">
-                      Sancheondandong 2-gil 15, 2F · Jeju-si, Jeju-do
+                      {MASJID_ADDRESS_EN_LINES[0]} · {MASJID_ADDRESS_EN_LINES[1]}
                     </p>
-                    <a
-                      href="https://maps.google.com/?q=33.4996,126.5312"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green hover:text-islamic-green-dark"
-                    >
-                      Directions
-                      <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
-                    </a>
+                    <p className="mt-1 text-xs text-islamic-navy/60">{MASJID_ADDRESS_KO}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <a
+                        href={MASJID_MAPS.google}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                      >
+                        Google
+                        <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                      </a>
+                      <a
+                        href={MASJID_MAPS.naver}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                      >
+                        Naver
+                        <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                      </a>
+                    </div>
                   </div>
                 </div>
 

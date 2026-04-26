@@ -1,55 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
-
-type NewsItem = {
-  title: string
-  excerpt: string
-  date: string // ISO YYYY-MM-DD
-  tag?: string
-  image?: string
-  href?: string
-}
-
-const NEWS: NewsItem[] = [
-  {
-    title: 'Eid Al-Fitr 2026 Announcement',
-    excerpt: 'Eid Salah timings, the khutbah, and community breakfast — details for the blessed day inshaAllah.',
-    date: '2026-03-20',
-    tag: 'Announcement',
-    image: '/assets/mosque-2.jpg',
-    href: '#',
-  },
-  {
-    title: 'Ramadan 2026 Prayer & Iftar Schedule',
-    excerpt: 'Iftar, taraweeh, and daily i\u2019tikaaf schedule — alhamdulillah, please join us this holy month.',
-    date: '2026-02-12',
-    tag: 'Timetable',
-    image: '/assets/mosque-3.jpg',
-    href: '#',
-  },
-  {
-    title: 'Community Iftar — Open to All',
-    excerpt: 'Every Friday during Ramadan we host an open iftar for students, families, and visitors.',
-    date: '2026-02-20',
-    tag: 'Event',
-    image: '/assets/mosque-1.jpg',
-    href: '#',
-  },
-  {
-    title: 'Appeal: A Permanent Home for Our Masjid',
-    excerpt: 'Alhamdulillah the community has grown — your sadaqah brings us closer to a permanent masjid.',
-    date: '2026-01-10',
-    tag: 'Appeal',
-    image: '/assets/mosque-2.jpg',
-    href: '/donate',
-  },
-]
-
-function formatDate(iso: string) {
-  const d = new Date(iso + 'T00:00:00')
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-}
+import { NEWS, formatNewsDate } from '../lib/data/news'
 
 export default function NewsSection() {
   return (
@@ -65,11 +17,11 @@ export default function NewsSection() {
               From the masjid
             </h2>
             <p className="mt-3 max-w-2xl text-base text-islamic-navy/70 sm:text-lg">
-              Stay up to date with what's happening at Jeju Central Masjid.
+              Stay up to date with what&apos;s happening at Jeju Central Masjid.
             </p>
           </div>
           <Link
-            href="#"
+            href="/news"
             className="inline-flex items-center gap-1.5 self-start rounded-full border border-islamic-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-islamic-navy transition hover:border-islamic-green hover:text-islamic-green sm:self-auto"
           >
             All news
@@ -78,10 +30,10 @@ export default function NewsSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          {NEWS.map((item, i) => (
+          {NEWS.map((item) => (
             <Link
-              key={i}
-              href={item.href ?? '#'}
+              key={item.slug}
+              href={`/news/${item.slug}`}
               className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-islamic-navy/5 transition hover:-translate-y-1 hover:shadow-xl hover:ring-islamic-green/20"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-islamic-navy">
@@ -102,7 +54,7 @@ export default function NewsSection() {
               </div>
               <div className="flex flex-1 flex-col p-5">
                 <p className="text-xs font-semibold uppercase tracking-wider text-islamic-navy/50">
-                  {formatDate(item.date)}
+                  {formatNewsDate(item.date)}
                 </p>
                 <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug text-islamic-navy transition group-hover:text-islamic-green sm:text-lg">
                   {item.title}

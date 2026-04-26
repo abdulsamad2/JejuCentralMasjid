@@ -1,12 +1,12 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import NewsTicker from '../components/NewsTicker'
 import Hero from '../components/Hero'
 import MawaqitWidget from '../components/MawaqitWidget'
 import ServicesSection from '../components/ServicesSection'
 import UnlockQuranSection from '../components/UnlockQuranSection'
 import WeeklyCirclesPromo from '../components/WeeklyCirclesPromo'
 import CommunityMoments from '../components/CommunityMoments'
-import HalalFoodSection from '../components/HalalFoodSection'
 import EventsSection from '../components/EventsSection'
 import NewsSection from '../components/NewsSection'
 import SupportAppeal from '../components/SupportAppeal'
@@ -26,6 +26,9 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
 
+      {/* News ticker — scrolls right-to-left above the hero */}
+      <NewsTicker />
+
       {/* 1. Identity */}
       <Hero />
 
@@ -43,14 +46,11 @@ export default function Home() {
       {/* 5. Action (primary) — ride the momentum from community proof */}
       <SupportAppeal />
 
-      {/* 6. Practical living guide */}
-      <HalalFoodSection />
-
-      {/* 7. Timely */}
+      {/* 6. Timely */}
       <EventsSection />
       <NewsSection />
 
-      {/* 8. Visit */}
+      {/* 7. Visit */}
       <VisitUsSection />
 
       <Footer />

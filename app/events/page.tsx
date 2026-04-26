@@ -11,41 +11,13 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
+import { EVENTS as UPCOMING } from '../../lib/data/events'
+
 export const metadata = {
   title: 'Events | Jeju Central Masjid',
   description:
     'Upcoming events and gatherings at Jeju Central Masjid. To RSVP, please contact us — no online form required.',
 }
-
-type EventItem = {
-  title: string
-  description?: string
-  startDate: string // ISO YYYY-MM-DD
-  startTime?: string // HH:MM
-  endTime?: string
-  location?: string
-  recurring?: string
-}
-
-const UPCOMING: EventItem[] = [
-  {
-    title: 'Jummah Prayer',
-    description: 'Weekly congregational prayer and khutbah — open to all.',
-    startDate: '2026-04-24',
-    startTime: '13:15',
-    endTime: '14:00',
-    location: 'Jeju Central Masjid',
-    recurring: 'Every Friday',
-  },
-  {
-    title: 'Community Iftar',
-    description: 'Open iftar gathering bringing brothers, sisters, and families together.',
-    startDate: '2026-05-03',
-    startTime: '18:10',
-    endTime: '20:00',
-    location: 'Jeju Central Masjid',
-  },
-]
 
 function fmt(iso: string) {
   const d = new Date(iso + 'T00:00:00')

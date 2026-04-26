@@ -60,10 +60,10 @@ const services = [
 ]
 
 const timings = [
+  { label: 'Open 24/7', detail: 'Doors are always open — come anytime, day or night' },
   { label: 'Daily Prayers', detail: 'Five prayers — Fajr through Isha' },
   { label: 'Jummah', detail: 'Every Friday · Iqama 13:30 (Khutbah from 13:15)' },
-  { label: 'Weekly Circles', detail: 'Thu (A’mal), Sat (Gashat), Sun (Community)' },
-  { label: 'Library', detail: 'Open around prayer times — ask any volunteer' },
+  { label: 'Weekly Circles', detail: 'Thu (A’mal), Sat (Gasht), Sun (Community)' },
 ]
 
 const guidelines = [
@@ -254,8 +254,9 @@ export default function AboutPage() {
                 The masjid is most alive around prayer times
               </h2>
               <p className="mt-4 text-base leading-relaxed text-islamic-navy/70 sm:text-lg">
-                We don&apos;t keep formal office hours — the building is open before and after each
-                prayer. For a private visit or tour, please contact us in advance.
+                The masjid is open 24/7 — our doors are never closed. Come anytime to pray,
+                rest, or sit. For a private tour or to meet a volunteer, please contact us in
+                advance.
               </p>
               <Link
                 href="/contact"
@@ -376,13 +377,21 @@ export default function AboutPage() {
             Every contribution — however small — is a sadaqah jariyah that helps us move from a
             rented floor to a masjid of our own.
           </p>
-          <Link
-            href="/donate"
-            className="mt-8 inline-flex min-h-[52px] items-center gap-2 rounded-md bg-islamic-gold px-8 py-3.5 text-sm font-bold uppercase tracking-[0.14em] text-islamic-navy shadow-lg transition hover:-translate-y-0.5 hover:bg-islamic-gold-light sm:text-base"
-          >
-            Donate Now
-            <ChevronRightIcon className="h-4 w-4" />
-          </Link>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/permanent-masjid"
+              className="inline-flex min-h-[52px] items-center gap-2 rounded-md bg-islamic-gold px-8 py-3.5 text-sm font-bold uppercase tracking-[0.14em] text-islamic-navy shadow-lg transition hover:-translate-y-0.5 hover:bg-islamic-gold-light sm:text-base"
+            >
+              Read the vision
+              <ChevronRightIcon className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/donate"
+              className="inline-flex min-h-[52px] items-center gap-2 rounded-full border border-islamic-cream/40 bg-transparent px-7 py-3 text-sm font-semibold text-white transition hover:bg-white/10 sm:text-base"
+            >
+              Donate now
+            </Link>
+          </div>
         </div>
       </section>
 

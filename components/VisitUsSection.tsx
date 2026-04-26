@@ -7,6 +7,12 @@ import {
   ChevronRightIcon,
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline'
+import {
+  MASJID_ADDRESS_EN_LINES,
+  MASJID_ADDRESS_KO,
+  MASJID_MAPS,
+  MASJID_PHONES,
+} from '../lib/constants/masjidLocation'
 
 export default function VisitUsSection() {
   return (
@@ -21,11 +27,33 @@ export default function VisitUsSection() {
             <div className="overflow-hidden rounded-3xl border border-islamic-navy/8 bg-white shadow-sm">
               <div className="relative aspect-[4/3] w-full bg-islamic-navy sm:aspect-[16/10]">
                 <iframe
-                  src="https://www.google.com/maps?q=33.4996,126.5312&z=15&output=embed"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(
+                    MASJID_ADDRESS_KO,
+                  )}&z=17&output=embed`}
                   className="absolute inset-0 h-full w-full border-0"
                   loading="lazy"
-                  title="Jeju Central Masjid on Google Maps"
+                  title={`Jeju Central Masjid · ${MASJID_ADDRESS_KO}`}
                 />
+              </div>
+              {/* Address bar with prominent Kakao Map CTA */}
+              <div className="flex flex-col gap-3 border-t border-islamic-navy/8 bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+                <div className="min-w-0">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-islamic-navy/55">
+                    Address
+                  </p>
+                  <p className="mt-0.5 truncate text-sm font-semibold text-islamic-navy sm:text-base">
+                    {MASJID_ADDRESS_KO}
+                  </p>
+                </div>
+                <a
+                  href={MASJID_MAPS.kakao}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex flex-shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#FEE500] px-4 py-2 text-sm font-bold text-[#3C1E1E] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  Open in Kakao Map
+                  <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+                </a>
               </div>
             </div>
           </div>
@@ -44,7 +72,7 @@ export default function VisitUsSection() {
             </h2>
             <p className="mt-3 text-base leading-relaxed text-islamic-navy/75 sm:text-lg">
               Everyone is welcome — Muslims and non-Muslims, residents and visitors. Our doors open
-              before and after every prayer, with separate spaces for brothers and sisters.
+              24/7 — our doors are always open, with separate spaces for brothers and sisters.
             </p>
 
             <ul className="mt-7 space-y-4">
@@ -57,19 +85,40 @@ export default function VisitUsSection() {
                     Address
                   </p>
                   <p className="mt-1 text-sm text-islamic-navy sm:text-base">
-                    Sancheondandong 2-gil 15, 2F
+                    {MASJID_ADDRESS_EN_LINES[0]}
                     <br />
-                    Jeju-si, Jeju-do, South Korea
+                    {MASJID_ADDRESS_EN_LINES[1]}, {MASJID_ADDRESS_EN_LINES[2]}
                   </p>
-                  <a
-                    href="https://maps.google.com/?q=33.4996,126.5312"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green hover:text-islamic-green-dark"
-                  >
-                    Get directions
-                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
-                  </a>
+                  <p className="mt-1 text-sm text-islamic-navy/65">{MASJID_ADDRESS_KO}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <a
+                      href={MASJID_MAPS.google}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                    >
+                      Google Maps
+                      <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                    </a>
+                    <a
+                      href={MASJID_MAPS.kakao}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                    >
+                      Kakao Map
+                      <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                    </a>
+                    <a
+                      href={MASJID_MAPS.naver}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                    >
+                      Naver Map
+                      <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                    </a>
+                  </div>
                 </div>
               </li>
 
@@ -81,8 +130,11 @@ export default function VisitUsSection() {
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-islamic-navy/55">
                     When we&rsquo;re open
                   </p>
-                  <p className="mt-1 text-sm text-islamic-navy sm:text-base">
-                    Before &amp; after every prayer · Jummah Fri 13:30
+                  <p className="mt-1 text-sm font-semibold text-islamic-green sm:text-base">
+                    24/7 · Always open
+                  </p>
+                  <p className="text-xs text-islamic-navy/65 sm:text-sm">
+                    Jummah Fri 13:30
                   </p>
                 </div>
               </li>
@@ -95,12 +147,17 @@ export default function VisitUsSection() {
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-islamic-navy/55">
                     Get in touch
                   </p>
-                  <a
-                    href="tel:+821000000000"
-                    className="mt-1 block text-sm font-medium text-islamic-navy hover:text-islamic-green sm:text-base"
-                  >
-                    +82 10 XXXX XXXX
-                  </a>
+                  <span className="mt-1 flex flex-col">
+                    {MASJID_PHONES.map((p) => (
+                      <a
+                        key={p.tel}
+                        href={`tel:${p.tel}`}
+                        className="text-sm font-medium text-islamic-navy hover:text-islamic-green sm:text-base"
+                      >
+                        {p.display}
+                      </a>
+                    ))}
+                  </span>
                   <a
                     href="mailto:info@jejumasjid.org"
                     className="mt-0.5 inline-flex items-center gap-1 text-sm text-islamic-navy/70 hover:text-islamic-green"

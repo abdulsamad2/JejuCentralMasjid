@@ -5,6 +5,7 @@ import {
   ChatBubbleLeftRightIcon,
   GlobeAltIcon,
   ChevronRightIcon,
+  HeartIcon,
 } from '@heroicons/react/24/outline'
 
 type Service = {
@@ -39,13 +40,19 @@ const services: Service[] = [
     description: 'Mosque tours, introductions to Islam, and support for Korean visitors and new Muslims.',
     href: '/services',
   },
+  {
+    icon: HeartIcon,
+    title: 'Nikah',
+    description: 'Islamic marriage ceremonies and basic family guidance — by appointment.',
+    href: '/services',
+  },
 ]
 
 export default function ServicesSection() {
   return (
     <section id="services" className="bg-white pb-16 sm:pb-20 lg:pb-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5">
           {services.map((s) => (
             <Link
               key={s.title}

@@ -84,7 +84,7 @@ export default function UnlockQuranSection() {
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-islamic-green/10 px-4 py-2 text-sm font-semibold text-islamic-green-dark">
                 <ClockIcon className="h-4 w-4" />
-                Class: After Fajr prayer
+                Class: After Maghrib prayer
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-islamic-navy/5 px-4 py-2 text-sm font-semibold text-islamic-navy">
                 <MapPinIcon className="h-4 w-4 text-islamic-green" />
