@@ -12,6 +12,7 @@ import {
   MASJID_ADDRESS_KO,
   MASJID_MAPS,
   MASJID_PHONES,
+  MASJID_WHATSAPP,
 } from '../lib/constants/masjidLocation'
 
 const visit = [
@@ -63,7 +64,7 @@ const socials: {
     ),
   },
   {
-    href: 'https://wa.me/',
+    href: MASJID_WHATSAPP,
     label: 'WhatsApp',
     icon: ({ className }) => (
       <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">

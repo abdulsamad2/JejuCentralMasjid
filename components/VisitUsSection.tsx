@@ -90,33 +90,33 @@ export default function VisitUsSection() {
                     {MASJID_ADDRESS_EN_LINES[1]}, {MASJID_ADDRESS_EN_LINES[2]}
                   </p>
                   <p className="mt-1 text-sm text-islamic-navy/65">{MASJID_ADDRESS_KO}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap gap-2.5">
                     <a
                       href={MASJID_MAPS.google}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl bg-[#4285F4] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                       Google Maps
-                      <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                      <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                     </a>
                     <a
                       href={MASJID_MAPS.kakao}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl bg-[#FEE500] px-4 py-2.5 text-sm font-bold text-[#3C1E1E] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                       Kakao Map
-                      <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                      <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                     </a>
                     <a
                       href={MASJID_MAPS.naver}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl bg-[#03C75A] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                       Naver Map
-                      <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                      <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                     </a>
                   </div>
                 </div>

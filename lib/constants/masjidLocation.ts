@@ -28,3 +28,11 @@ export const MASJID_PHONES = [
   { display: '+82 10 4246 9202', tel: '+821042469202' },
   { display: '+82 10 2924 4670', tel: '+821029244670' },
 ] as const
+
+/** Instant-chat number — reachable on both KakaoTalk and WhatsApp. */
+export const MASJID_CHAT_PHONE = { display: '+82 10 4346 9202', tel: '+821043469202' } as const
+
+/** KakaoTalk ID to search & add for instant chat. */
+export const MASJID_KAKAO_ID = 'asifsgr97'
+
+export const MASJID_WHATSAPP = `https://wa.me/${MASJID_CHAT_PHONE.tel.replace('+', '')}`

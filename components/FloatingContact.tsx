@@ -2,7 +2,12 @@
 
 import { useState } from 'react'
 import { ChatBubbleOvalLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { MASJID_PHONES } from '../lib/constants/masjidLocation'
+import {
+  MASJID_CHAT_PHONE,
+  MASJID_KAKAO_ID,
+  MASJID_PHONES,
+  MASJID_WHATSAPP,
+} from '../lib/constants/masjidLocation'
 
 /**
  * Floating contact widget — bottom-right corner on every page.
@@ -12,12 +17,27 @@ import { MASJID_PHONES } from '../lib/constants/masjidLocation'
  * page without being in the way, brand colors for instant recognition.
  */
 
-const KAKAO_HREF = 'https://pf.kakao.com/_jejumasjid' // Update with the masjid's Kakao Channel handle
-const WHATSAPP_HREF = `https://wa.me/${MASJID_PHONES[0].tel.replace('+', '')}` // First number → WhatsApp
 const PHONE_HREF = `tel:${MASJID_PHONES[0].tel}`
 
 export default function FloatingContact() {
   const [open, setOpen] = useState(false)
+  const [kakaoCopied, setKakaoCopied] = useState(false)
+
+  // Kakao offers no link/SDK to open a 1:1 chat with a personal ID
+  // (only Kakao Channels support that), so: copy the ID, then launch
+  // the KakaoTalk app on mobile where the visitor pastes it in search.
+  const openKakao = async () => {
+    try {
+      await navigator.clipboard.writeText(MASJID_KAKAO_ID)
+    } catch {
+      /* noop */
+    }
+    setKakaoCopied(true)
+    setTimeout(() => setKakaoCopied(false), 2400)
+    if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+      window.location.href = 'kakaotalk://'
+    }
+  }
 
   return (
     <div
@@ -33,15 +53,14 @@ export default function FloatingContact() {
         }`}
       >
         {/* Kakao Talk */}
-        <a
-          href={KAKAO_HREF}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={openKakao}
           className="group flex items-center gap-3"
-          aria-label="Chat on Kakao Talk"
+          aria-label={`Chat on KakaoTalk — ID ${MASJID_KAKAO_ID}`}
         >
           <span className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-islamic-navy shadow-lg ring-1 ring-black/5">
-            Kakao Talk
+            {kakaoCopied ? `ID copied! Search ${MASJID_KAKAO_ID}` : `KakaoTalk · ${MASJID_KAKAO_ID}`}
           </span>
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FEE500] shadow-lg ring-1 ring-black/5 transition group-hover:scale-110">
             {/* Kakao Talk speech-bubble glyph */}
@@ -54,18 +73,18 @@ export default function FloatingContact() {
               <path d="M12 3C6.48 3 2 6.55 2 10.92c0 2.78 1.86 5.22 4.65 6.6-.2.74-.74 2.69-.85 3.11-.13.52.19.51.4.37.16-.11 2.6-1.77 3.65-2.49.7.1 1.42.16 2.15.16 5.52 0 10-3.55 10-7.92S17.52 3 12 3z" />
             </svg>
           </span>
-        </a>
+        </button>
 
         {/* WhatsApp */}
         <a
-          href={WHATSAPP_HREF}
+          href={MASJID_WHATSAPP}
           target="_blank"
           rel="noopener noreferrer"
           className="group flex items-center gap-3"
-          aria-label="Chat on WhatsApp"
+          aria-label={`Chat on WhatsApp ${MASJID_CHAT_PHONE.display}`}
         >
           <span className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-islamic-navy shadow-lg ring-1 ring-black/5">
-            WhatsApp
+            {`WhatsApp · ${MASJID_CHAT_PHONE.display}`}
           </span>
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] shadow-lg ring-1 ring-black/5 transition group-hover:scale-110">
             <svg

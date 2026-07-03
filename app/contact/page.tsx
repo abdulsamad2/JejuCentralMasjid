@@ -91,33 +91,33 @@ export default function ContactPage() {
                 {MASJID_ADDRESS_EN_LINES[1]}, {MASJID_ADDRESS_EN_LINES[2]}
               </p>
               <p className="mt-1 text-sm text-islamic-navy/65">{MASJID_ADDRESS_KO}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 <a
                   href={MASJID_MAPS.google}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-[#4285F4] px-3.5 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
                   Google Maps
-                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                  <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                 </a>
                 <a
                   href={MASJID_MAPS.kakao}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-[#FEE500] px-3.5 py-2 text-sm font-bold text-[#3C1E1E] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
                   Kakao Map
-                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                  <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                 </a>
                 <a
                   href={MASJID_MAPS.naver}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-[#03C75A] px-3.5 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
                   Naver Map
-                  <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                  <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                 </a>
               </div>
             </div>
@@ -398,24 +398,24 @@ export default function ContactPage() {
                       {MASJID_ADDRESS_EN_LINES[0]} · {MASJID_ADDRESS_EN_LINES[1]}
                     </p>
                     <p className="mt-1 text-xs text-islamic-navy/60">{MASJID_ADDRESS_KO}</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    <div className="mt-4 grid grid-cols-2 gap-2">
                       <a
                         href={MASJID_MAPS.google}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                        className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl bg-[#4285F4] px-3 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                       >
-                        Google
-                        <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                        Google Maps
+                        <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                       </a>
                       <a
                         href={MASJID_MAPS.naver}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-islamic-navy ring-1 ring-islamic-navy/15 transition hover:text-islamic-green hover:ring-islamic-green"
+                        className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl bg-[#03C75A] px-3 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                       >
-                        Naver
-                        <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+                        Naver Map
+                        <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
                       </a>
                     </div>
                   </div>
@@ -437,15 +437,19 @@ export default function ContactPage() {
                   <dl className="mt-4 space-y-2.5 text-sm">
                     <div className="flex items-start justify-between gap-3 border-b border-islamic-navy/8 pb-2.5">
                       <dt className="text-islamic-navy/60">Bank</dt>
-                      <dd className="text-right font-semibold text-islamic-navy">[Bank name]</dd>
+                      <dd className="text-right font-semibold text-islamic-navy">
+                        NH NongHyup Bank <span className="text-islamic-navy/60">(농협은행)</span>
+                      </dd>
                     </div>
                     <div className="flex items-start justify-between gap-3 border-b border-islamic-navy/8 pb-2.5">
                       <dt className="text-islamic-navy/60">Account name</dt>
-                      <dd className="text-right font-semibold text-islamic-navy">Jeju Central Masjid</dd>
+                      <dd className="text-right font-semibold text-islamic-navy">
+                        제주중앙마스지드 <span className="text-islamic-navy/60">(Jeju Central Masjid)</span>
+                      </dd>
                     </div>
                     <div className="flex items-start justify-between gap-3">
                       <dt className="text-islamic-navy/60">Account number</dt>
-                      <dd className="text-right font-mono font-semibold text-islamic-navy">XXX-XXXX-XXXX-XX</dd>
+                      <dd className="text-right font-mono font-semibold text-islamic-navy">317-0031-1483-91</dd>
                     </div>
                   </dl>
                   <p className="mt-3 text-xs leading-relaxed text-islamic-navy/60">

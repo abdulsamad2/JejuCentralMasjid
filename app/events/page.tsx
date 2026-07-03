@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { EVENTS as UPCOMING } from '../../lib/data/events'
+import { MASJID_CHAT_PHONE, MASJID_WHATSAPP } from '../../lib/constants/masjidLocation'
 
 export const metadata = {
   title: 'Events | Jeju Central Masjid',
@@ -166,7 +167,7 @@ export default function EventsPage() {
 
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <a
-              href="https://wa.me/"
+              href={MASJID_WHATSAPP}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-start gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-islamic-navy/5 transition hover:-translate-y-0.5 hover:ring-islamic-green/30"
@@ -175,7 +176,9 @@ export default function EventsPage() {
                 <ChatBubbleLeftRightIcon className="h-5 w-5" />
               </span>
               <div>
-                <p className="text-base font-bold text-islamic-navy">WhatsApp</p>
+                <p className="text-base font-bold text-islamic-navy">
+                  WhatsApp <span className="font-semibold text-islamic-navy/60">{MASJID_CHAT_PHONE.display}</span>
+                </p>
                 <p className="mt-0.5 text-sm text-islamic-navy/65">
                   Fastest way — send us a short message with the event name.
                 </p>
