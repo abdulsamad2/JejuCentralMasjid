@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -22,6 +23,7 @@ const visit = [
   { href: '/events', label: 'Events' },
   { href: '/news', label: 'News' },
   { href: '/gallery', label: 'Gallery' },
+  { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -46,20 +48,11 @@ const socials: {
     ),
   },
   {
-    href: 'https://www.instagram.com/',
+    href: 'https://www.instagram.com/jejucentralmasjid/',
     label: 'Instagram',
     icon: ({ className }) => (
       <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
         <path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.3.5.6.2 1 .5 1.5 1 .5.5.8.9 1 1.5.2.5.4 1.1.5 2.3.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.8-.5 2.3-.2.6-.5 1-1 1.5-.5.5-.9.8-1.5 1-.5.2-1.1.4-2.3.5-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.3-.5-.6-.2-1-.5-1.5-1-.5-.5-.8-.9-1-1.5-.2-.5-.4-1.1-.5-2.3C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.3-1.8.5-2.3.2-.6.5-1 1-1.5.5-.5.9-.8 1.5-1 .5-.2 1.1-.4 2.3-.5C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.2 0-3.5 0-4.7.1-1.1 0-1.7.2-2.1.4-.5.2-.9.5-1.3.9-.4.4-.6.8-.9 1.3-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.5-.1 4.7s0 3.5.1 4.7c0 1.1.2 1.7.4 2.1.2.5.5.9.9 1.3.4.4.8.6 1.3.9.4.2 1 .3 2.1.4 1.2.1 1.5.1 4.7.1s3.5 0 4.7-.1c1.1 0 1.7-.2 2.1-.4.5-.2.9-.5 1.3-.9.4-.4.6-.8.9-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.5.1-4.7s0-3.5-.1-4.7c0-1.1-.2-1.7-.4-2.1-.2-.5-.5-.9-.9-1.3-.4-.4-.8-.6-1.3-.9-.4-.2-1-.3-2.1-.4-1.2-.1-1.5-.1-4.7-.1zm0 3.2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6zm0 7.9a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2zm6.1-8.1a1.1 1.1 0 1 1-2.3 0 1.1 1.1 0 0 1 2.3 0z" />
-      </svg>
-    ),
-  },
-  {
-    href: 'https://www.youtube.com/',
-    label: 'YouTube',
-    icon: ({ className }) => (
-      <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-        <path d="M23 7.3c-.3-1.1-1.1-2-2.2-2.3C18.8 4.5 12 4.5 12 4.5s-6.8 0-8.8.5c-1.1.3-2 1.2-2.2 2.3C.5 9.3.5 12 .5 12s0 2.7.5 4.7c.3 1.1 1.1 2 2.2 2.3 2 .5 8.8.5 8.8.5s6.8 0 8.8-.5c1.1-.3 2-1.2 2.2-2.3.5-2 .5-4.7.5-4.7s0-2.7-.5-4.7zM9.8 15.5V8.5l5.8 3.5-5.8 3.5z" />
       </svg>
     ),
   },
@@ -236,8 +229,8 @@ export default function Footer() {
                 <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-islamic-green/10 text-islamic-green">
                   <EnvelopeIcon className="h-4 w-4" />
                 </span>
-                <a href="mailto:info@jejumasjid.org" className="transition hover:text-islamic-green">
-                  info@jejumasjid.org
+                <a href="mailto:info@jejumasjid.kr" className="transition hover:text-islamic-green">
+                  info@jejumasjid.kr
                 </a>
               </li>
             </ul>

@@ -26,6 +26,7 @@ yarn-error.log*
 
 # Local env files
 .env*.local
+.env
 .env.local
 
 # Vercel
@@ -37,3 +38,12 @@ yarn-error.log*
 # IDE
 .vscode/
 .idea/
+
+# Payload CMS
+
+# Env
+.env
+.env.local
+.env*.local
+/media
+node_modules.root-owned.bak/

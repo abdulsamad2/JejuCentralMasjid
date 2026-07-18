@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { MegaphoneIcon } from '@heroicons/react/24/outline'
-import { NEWS } from '../lib/data/news'
+import { getAllNews } from '../lib/cms'
 
 /**
  * TV-style news ticker — sits above the Hero on the homepage.
@@ -13,9 +13,9 @@ import { NEWS } from '../lib/data/news'
  * Animation is disabled under prefers-reduced-motion.
  */
 
-export default function NewsTicker() {
-  if (NEWS.length === 0) return null
-  const items = [...NEWS].sort((a, b) => b.date.localeCompare(a.date))
+export default async function NewsTicker() {
+  const items = await getAllNews()
+  if (items.length === 0) return null
 
   return (
     <div className="news-ticker-pauseable relative isolate overflow-hidden bg-islamic-navy text-white">

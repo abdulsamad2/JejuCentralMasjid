@@ -1,9 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
-import { NEWS, formatNewsDate } from '../lib/data/news'
+import { formatNewsDate } from '../lib/data/news'
+import { getAllNews } from '../lib/cms'
 
-export default function NewsSection() {
+export default async function NewsSection() {
+  const news = (await getAllNews()).slice(0, 4)
+  if (news.length === 0) return null
   return (
     <section id="news" className="bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -30,7 +33,7 @@ export default function NewsSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          {NEWS.map((item) => (
+          {news.map((item) => (
             <Link
               key={item.slug}
               href={`/news/${item.slug}`}

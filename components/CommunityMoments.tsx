@@ -6,6 +6,8 @@ import {
   AcademicCapIcon,
   UserGroupIcon,
   SparklesIcon,
+  MegaphoneIcon,
+  CalendarDaysIcon,
 } from '@heroicons/react/24/outline'
 
 type Moment = {
@@ -59,6 +61,36 @@ const MOMENTS: Moment[] = [
     icon: AcademicCapIcon,
     href: '/services',
   },
+  {
+    src: '/assets/jummah-05.jpeg',
+    alt: 'Khutbah during Jummah prayer at Jeju Central Masjid',
+    tag: 'Jummah',
+    title: 'Friday, all together',
+    description:
+      'Every Friday the whole island community gathers for the khutbah and Jummah salah — students, workers, and travelers side by side.',
+    icon: MegaphoneIcon,
+    href: '/contact',
+  },
+  {
+    src: '/assets/gathering-04.jpg',
+    alt: 'Monthly community gathering sharing a meal at the masjid',
+    tag: 'Monthly Gathering',
+    title: 'A monthly family dinner',
+    description:
+      'Once a month we sit down together for food, reminders, and brotherhood — newcomers are always welcome.',
+    icon: CalendarDaysIcon,
+    href: '/events',
+  },
+]
+
+// Small snapshots strip — a taste of the full gallery
+const SNAPSHOTS = [
+  { src: '/assets/five-time-prayer-03.jpeg', alt: 'Daily congregational prayer' },
+  { src: '/assets/jeju-family-16.jpg', alt: 'Our Jeju Muslim family' },
+  { src: '/assets/volunteer-04.jpg', alt: 'Masjid volunteers at work' },
+  { src: '/assets/visitor-06.jpg', alt: 'Visitors welcomed at the masjid' },
+  { src: '/assets/eid-fitr-07.jpg', alt: 'Eid al-Fitr celebration' },
+  { src: '/assets/community-elders-04.jpg', alt: 'Elders of our community' },
 ]
 
 export default function CommunityMoments() {
@@ -68,24 +100,34 @@ export default function CommunityMoments() {
       className="bg-white py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-10 max-w-2xl sm:mb-12">
-          <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
-            <span className="h-px w-8 bg-islamic-green" />
-            Our Ummah
-          </p>
-          <h2
-            id="moments-heading"
-            className="mt-3 text-3xl font-bold leading-tight text-islamic-navy sm:text-4xl lg:text-5xl"
+        <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-green">
+              <span className="h-px w-8 bg-islamic-green" />
+              Our Ummah
+            </p>
+            <h2
+              id="moments-heading"
+              className="mt-3 text-3xl font-bold leading-tight text-islamic-navy sm:text-4xl lg:text-5xl"
+            >
+              Moments from the masjid
+            </h2>
+            <p className="mt-3 text-base text-islamic-navy/70 sm:text-lg">
+              Every photo here is a real moment from our community — praying, learning, eating, and
+              growing together on Jeju Island.
+            </p>
+          </div>
+          <Link
+            href="/gallery"
+            className="inline-flex items-center gap-1.5 self-start rounded-full border border-islamic-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-islamic-navy transition hover:border-islamic-green hover:text-islamic-green sm:self-auto"
           >
-            Moments from the masjid
-          </h2>
-          <p className="mt-3 text-base text-islamic-navy/70 sm:text-lg">
-            Real moments from our community — dawah, teaching, and learning on Jeju Island.
-          </p>
+            View gallery
+            <ChevronRightIcon className="h-4 w-4" />
+          </Link>
         </div>
 
-        {/* 2x2 grid on tablet+, single column on mobile */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:gap-6">
+        {/* Feature cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
           {MOMENTS.map((m, i) => {
             return (
               <article
@@ -125,6 +167,36 @@ export default function CommunityMoments() {
               </article>
             )
           })}
+        </div>
+
+        {/* Snapshot strip — a taste of the full gallery */}
+        <div className="mt-10 sm:mt-12">
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
+            {SNAPSHOTS.map((s) => (
+              <Link
+                key={s.src}
+                href="/gallery"
+                className="group relative block aspect-square overflow-hidden rounded-xl bg-islamic-navy ring-1 ring-islamic-navy/5"
+              >
+                <Image
+                  src={s.src}
+                  alt={s.alt}
+                  fill
+                  sizes="(max-width: 640px) 33vw, 16vw"
+                  className="object-cover transition duration-700 group-hover:scale-105"
+                />
+              </Link>
+            ))}
+          </div>
+          <p className="mt-4 text-center text-sm text-islamic-navy/60">
+            Alhamdulillah — one small masjid, many stories.{' '}
+            <Link
+              href="/gallery"
+              className="font-semibold text-islamic-green hover:text-islamic-green-dark"
+            >
+              Browse all photos
+            </Link>
+          </p>
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -50,14 +50,14 @@ module.exports = {
         }
       },
       fontFamily: {
-        // Traditional Arabic fonts for religious content
-        'arabic': ['Amiri', 'Noto Naskh Arabic', 'Scheherazade New', 'serif'],
-        'arabic-modern': ['Cairo', 'Noto Sans Arabic', 'Tajawal', 'sans-serif'],
-        'arabic-display': ['Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'serif'],
-        'arabic-body': ['Noto Sans Arabic', 'Tajawal', 'Cairo', 'sans-serif'],
-        'arabic-heading': ['Cairo', 'Amiri', 'Noto Sans Arabic', 'sans-serif'],
+        // Traditional Arabic fonts for religious content (self-hosted via next/font)
+        'arabic': ['var(--font-amiri)', 'var(--font-scheherazade)', 'serif'],
+        'arabic-modern': ['var(--font-noto-arabic)', 'sans-serif'],
+        'arabic-display': ['var(--font-scheherazade)', 'var(--font-amiri)', 'serif'],
+        'arabic-body': ['var(--font-noto-arabic)', 'sans-serif'],
+        'arabic-heading': ['var(--font-noto-arabic)', 'sans-serif'],
         // Mixed language support
-        'mixed': ['Inter', 'Noto Sans Arabic', 'Cairo', 'sans-serif'],
+        'mixed': ['var(--font-inter)', 'var(--font-noto-arabic)', 'sans-serif'],
       },
       fontSize: {
         // Arabic-optimized font sizes

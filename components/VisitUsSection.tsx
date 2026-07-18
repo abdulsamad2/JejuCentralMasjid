@@ -159,11 +159,11 @@ export default function VisitUsSection() {
                     ))}
                   </span>
                   <a
-                    href="mailto:info@jejumasjid.org"
+                    href="mailto:info@jejumasjid.kr"
                     className="mt-0.5 inline-flex items-center gap-1 text-sm text-islamic-navy/70 hover:text-islamic-green"
                   >
                     <EnvelopeIcon className="h-3.5 w-3.5" />
-                    info@jejumasjid.org
+                    info@jejumasjid.kr
                   </a>
                 </div>
               </li>

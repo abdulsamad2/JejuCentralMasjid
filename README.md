@@ -222,10 +222,43 @@ JejuCentralMasjid/
 ## 📧 Contact Information
 
 **Central Jeju Mosque**
-- Email: info@jejumasjid.org
+- Email: info@jejumasjid.kr
 - Phone: +82-64-123-4567
 - Location: Jeju Island, South Korea
 
 ---
 
 Built with ❤️ for the Muslim community in Jeju Island
+## 🛠 Admin CMS (Payload)
+
+The site has a built-in admin panel powered by [Payload CMS 3](https://payloadcms.com), embedded in the same Next.js app.
+
+- **Admin panel**: `/admin` — committee members log in here
+- **Content**: News posts and Events are edited in the admin (no code changes needed)
+- **Inbox**: messages from the website contact form appear under *Contact submissions*
+- **Images**: news images are static files in `public/assets/` — reference them by path (e.g. `/assets/mosque-2.jpg`)
+
+### Local development
+
+1. Copy `.env.example` to `.env.local`
+2. Set `PAYLOAD_SECRET` (any long random string) and `POSTGRES_URL` (from Vercel → Storage → Neon → Quickstart, or `vercel env pull .env.local`)
+3. `npm run dev` — on first run in dev, Payload creates the database schema automatically
+4. `npm run seed` — one-time import of the original hardcoded news/events content
+5. Open `http://localhost:3000/admin` and create the first admin user
+
+### Deploying (Vercel + Neon)
+
+1. The Neon integration (Storage → Neon) injects `POSTGRES_URL` automatically
+2. Add `PAYLOAD_SECRET` in Vercel → Project → Settings → Environment Variables
+3. `vercel.json` sets the build command to `npm run ci`, which runs database
+   migrations before building. After changing collections locally, run
+   `npm run payload migrate:create` and commit the generated `migrations/` folder.
+
+### Useful commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run seed` | Seed initial news/events (skips if content exists) |
+| `npm run payload migrate:create` | Generate DB migration after schema changes |
+| `npm run generate:types` | Regenerate `cms/payload-types.ts` |
+| `npm run generate:importmap` | Regenerate the admin import map |

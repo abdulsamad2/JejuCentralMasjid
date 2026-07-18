@@ -12,17 +12,20 @@ type FeatureSlide = {
   description: string
   ctaLabel: string
   ctaHref: string
+  /** CSS object-position focal point for the crop, e.g. '50% 72%'. Defaults to center. */
+  position?: string
 }
 
 const SLIDES: FeatureSlide[] = [
   {
-    src: '/assets/mosque-2.jpg',
-    alt: 'Jeju Central Masjid community',
-    title: 'A Welcoming Home',
+    src: '/assets/five-time-prayer-01.jpeg',
+    alt: 'Congregation praying together at Jeju Central Masjid',
+    position: '50% 72%',
+    title: 'Five Daily Prayers',
     description:
-      'Jeju Central Masjid is a welcoming home for Muslims and the wider community, offering the five daily prayers, Islamic guidance, educational support, and a peaceful space for worship, reflection, and connection.',
-    ctaLabel: 'View All Services',
-    ctaHref: '/services',
+      'All five daily prayers are held in congregation at the masjid, with our doors open around the clock. Come pray with us — brothers and sisters each have their own dedicated space.',
+    ctaLabel: 'Visit Us',
+    ctaHref: '/contact',
   },
   {
     src: '/assets/mosque-3.jpg',
@@ -42,6 +45,7 @@ const SLIDES: FeatureSlide[] = [
     ctaLabel: 'Support Us',
     ctaHref: '/donate',
   },
+  
 ]
 
 const SLIDE_DURATION_MS = 7000
@@ -121,6 +125,7 @@ export default function Hero() {
                   priority={i === 0}
                   sizes="100vw"
                   className="object-cover"
+                  style={{ objectPosition: slide.position ?? '50% 50%' }}
                 />
               </div>
 

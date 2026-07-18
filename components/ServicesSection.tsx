@@ -42,8 +42,8 @@ const services: Service[] = [
   },
   {
     icon: HeartIcon,
-    title: 'Nikah',
-    description: 'Islamic marriage ceremonies and basic family guidance — by appointment.',
+    title: 'Marriage & Family',
+    description: 'Nikah ceremonies, pre-marriage preparation, and family guidance — by appointment.',
     href: '/services',
   },
 ]
