@@ -35,4 +35,12 @@ export const MASJID_CHAT_PHONE = { display: '+82 10 4346 9202', tel: '+821043469
 /** KakaoTalk ID to search & add for instant chat. */
 export const MASJID_KAKAO_ID = 'asifsgr97'
 
+/**
+ * KakaoTalk 1:1 Open Chat link — direct click-to-chat like WhatsApp.
+ * Create in the KakaoTalk app: 채팅 탭 → 말풍선+ → 오픈채팅 → 1:1 채팅 →
+ * name it "제주 중앙 마스지드" → share → copy link (open.kakao.com/o/…).
+ * Paste it here and the floating chat widget switches to direct chat.
+ */
+export const MASJID_KAKAO_OPENCHAT = ''
+
 export const MASJID_WHATSAPP = `https://wa.me/${MASJID_CHAT_PHONE.tel.replace('+', '')}`

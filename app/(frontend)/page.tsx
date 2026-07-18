@@ -11,7 +11,6 @@ import EventsSection from '@/components/EventsSection'
 import NewsSection from '@/components/NewsSection'
 import SupportAppeal from '@/components/SupportAppeal'
 import VisitUsSection from '@/components/VisitUsSection'
-import KoreanIntro from '@/components/KoreanIntro'
 
 export const revalidate = 120
 
@@ -58,9 +57,6 @@ export default function Home() {
 
       {/* 7. Visit */}
       <VisitUsSection />
-
-      {/* Korean-language introduction — visible Korean content for local visitors & Naver */}
-      <KoreanIntro />
 
       <Footer />
     </main>
