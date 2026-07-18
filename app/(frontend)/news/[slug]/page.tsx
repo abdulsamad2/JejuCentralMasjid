@@ -27,6 +27,13 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: `${item.title} | Jeju Central Masjid`,
     description: item.excerpt,
+    openGraph: {
+      type: 'article',
+      title: item.title,
+      description: item.excerpt,
+      publishedTime: `${item.date}T09:00:00+09:00`,
+      ...(item.image ? { images: [{ url: item.image }] } : {}),
+    },
   }
 }
 
@@ -37,8 +44,40 @@ export default async function NewsDetailPage({ params }: Props) {
 
   const related = (await getAllNews()).filter((n) => n.slug !== item.slug).slice(0, 3)
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: item.title,
+        description: item.excerpt,
+        datePublished: `${item.date}T09:00:00+09:00`,
+        ...(item.image ? { image: `https://jejumasjid.kr${item.image}` } : {}),
+        author: { '@type': 'Organization', name: 'Jeju Central Masjid' },
+        publisher: {
+          '@type': 'Organization',
+          name: 'Jeju Central Masjid',
+          logo: { '@type': 'ImageObject', url: 'https://jejumasjid.kr/assets/jeju-masjid-logo-icon.png' },
+        },
+        mainEntityOfPage: `https://jejumasjid.kr/news/${item.slug}`,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jejumasjid.kr' },
+          { '@type': 'ListItem', position: 2, name: 'News', item: 'https://jejumasjid.kr/news' },
+          { '@type': 'ListItem', position: 3, name: item.title },
+        ],
+      },
+    ],
+  }
+
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <Navbar />
 
       <article>

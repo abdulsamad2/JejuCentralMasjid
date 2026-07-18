@@ -12,7 +12,7 @@ export const revalidate = 120
 export const metadata = {
   title: 'News & Announcements | Jeju Central Masjid',
   description:
-    'Latest announcements, events, and updates from Jeju Central Masjid — Eid timings, Ramadan schedule, community iftars, and the permanent masjid appeal.',
+    'Latest announcements, events, and updates from Jeju Central Masjid — Eid timings, Ramadan schedule, community iftars, and the permanent masjid appeal. 제주 이슬람 사원의 새 소식과 공지사항.',
 }
 
 export default async function NewsListingPage() {

@@ -1,8 +1,10 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Inter, Amiri, Scheherazade_New, Noto_Sans_Arabic } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import FloatingContact from '@/components/FloatingContact'
+import TrackPageview from '@/components/TrackPageview'
 import {
   MASJID_ADDRESS_EN_LINES,
   MASJID_COORDS,
@@ -51,8 +53,26 @@ export const metadata: Metadata = {
     '할랄',
     '기도 시간',
   ],
-  alternates: { canonical: './' },
-  icons: { icon: '/assets/jeju-masjid-logo-icon.png' },
+  alternates: {
+    canonical: './',
+    types: { 'application/rss+xml': '/feed.xml' },
+  },
+  // Site ownership verification for Google Search Console & Naver Search Advisor.
+  // Set the env vars in Vercel after registering the site with each service.
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION
+      ? { other: { 'naver-site-verification': process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION } }
+      : {}),
+  },
+  other: {
+    'geo.region': 'KR-49',
+    'geo.placename': 'Jeju-si, Jeju-do, South Korea',
+    'geo.position': '33.4996;126.5312',
+    ICBM: '33.4996, 126.5312',
+  },
   openGraph: {
     type: 'website',
     siteName: 'Jeju Central Masjid',
@@ -77,9 +97,14 @@ const mosqueJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Mosque',
   name: 'Jeju Central Masjid',
-  alternateName: '제주 중앙 마스지드',
+  alternateName: ['제주 중앙 마스지드', '제주 이슬람 사원', 'Jeju Islamic Center'],
+  description:
+    'A welcoming mosque on Jeju Island, South Korea, open 24/7 with the five daily prayers, Jummah every Friday, halal guidance, Islamic education, and community events. Everyone is welcome.',
   url: 'https://jejumasjid.kr',
+  image: 'https://jejumasjid.kr/assets/mosque-2.jpg',
+  logo: 'https://jejumasjid.kr/assets/jeju-masjid-logo-icon.png',
   telephone: MASJID_PHONES[0].tel,
+  email: 'info@jejumasjid.kr',
   address: {
     '@type': 'PostalAddress',
     streetAddress: MASJID_ADDRESS_EN_LINES[0],
@@ -92,8 +117,19 @@ const mosqueJsonLd = {
     latitude: MASJID_COORDS.lat,
     longitude: MASJID_COORDS.lng,
   },
-  openingHours: 'Mo-Su 00:00-24:00',
+  hasMap: [
+    `https://map.kakao.com/?q=${encodeURIComponent('제주특별자치도 제주시 산천단동 2길 15')}`,
+    `https://www.google.com/maps/search/?api=1&query=${MASJID_COORDS.lat},${MASJID_COORDS.lng}`,
+  ],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '00:00',
+    closes: '23:59',
+  },
   isAccessibleForFree: true,
+  keywords:
+    'mosque, masjid, Jeju, prayer times, Jummah, halal, Islam Korea, 제주 모스크, 제주 이슬람 사원, 할랄, 기도',
   sameAs: [
     'https://www.facebook.com/JejuCentralMasjid',
     'https://www.instagram.com/jejucentralmasjid/',
@@ -118,7 +154,16 @@ export default function RootLayout({
         />
         {children}
         <FloatingContact />
+        <TrackPageview />
         <Analytics />
+        {/* Umami (open-source analytics) — enabled by setting the env vars. */}
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <Script
+            defer
+            src={process.env.NEXT_PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/script.js'}
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          />
+        )}
       </body>
     </html>
   )

@@ -72,6 +72,7 @@ export interface Config {
     'contact-submissions': ContactSubmission;
     media: Media;
     users: User;
+    pageviews: Pageview;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    pageviews: PageviewsSelect<false> | PageviewsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -258,6 +260,25 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Raw visitor data, recorded automatically. See the dashboard for the summary charts.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pageviews".
+ */
+export interface Pageview {
+  id: number;
+  path: string;
+  day: string;
+  source?: string | null;
+  referrer?: string | null;
+  campaign?: string | null;
+  country?: string | null;
+  device?: string | null;
+  visitor?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -300,6 +321,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'pageviews';
+        value: number | Pageview;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -429,6 +454,22 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pageviews_select".
+ */
+export interface PageviewsSelect<T extends boolean = true> {
+  path?: T;
+  day?: T;
+  source?: T;
+  referrer?: T;
+  campaign?: T;
+  country?: T;
+  device?: T;
+  visitor?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -11,6 +11,7 @@ import { Media } from './cms/collections/Media'
 import { News } from './cms/collections/News'
 import { Events } from './cms/collections/Events'
 import { ContactSubmissions } from './cms/collections/ContactSubmissions'
+import { PageViews } from './cms/collections/PageViews'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -29,11 +30,21 @@ export default buildConfig({
     meta: { titleSuffix: ' · Jeju Central Masjid' },
     importMap: { baseDir: dirname },
     components: {
-      beforeDashboard: ['/cms/components/StorageUsage#StorageUsage'],
+      beforeDashboard: [
+        '/cms/components/VisitorAnalytics#VisitorAnalytics',
+        '/cms/components/StorageUsage#StorageUsage',
+      ],
+      afterNavLinks: ['/cms/components/AnalyticsNavLink#AnalyticsNavLink'],
       logout: { Button: '/cms/components/LogoutButton#LogoutButton' },
+      views: {
+        analytics: {
+          Component: '/cms/views/AnalyticsView#AnalyticsView',
+          path: '/analytics',
+        },
+      },
     },
   },
-  collections: [News, Events, ContactSubmissions, Media, Users],
+  collections: [News, Events, ContactSubmissions, Media, Users, PageViews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'jcm-dev-only-secret-change-in-production',
   typescript: {

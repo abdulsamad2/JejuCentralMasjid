@@ -20,7 +20,7 @@ import {
 export const metadata = {
   title: 'Services | Jeju Central Masjid',
   description:
-    'Services at Jeju Central Masjid — daily prayers, weekly halaqas, Children\u2019s classes, Monthly Gathering, Mashwara (consultation), Korean visitor outreach, library, and Ramadan programs.',
+    'Services at Jeju Central Masjid — daily prayers, weekly halaqas, Children\u2019s classes, Monthly Gathering, Mashwara (consultation), Korean visitor outreach, library, and Ramadan programs. 제주 이슬람 사원의 예배, 교육, 혼인(니카), 도서관 안내.',
 }
 
 type Service = {

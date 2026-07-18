@@ -1,0 +1,51 @@
+# Jeju Central Masjid (제주 중앙 마스지드)
+
+> The community mosque of Jeju Island, South Korea. Open 24/7 for the five
+> daily prayers. Everyone is welcome — Muslims and non-Muslims, residents and
+> travelers.
+
+## Key facts
+
+- Name: Jeju Central Masjid (Korean: 제주 중앙 마스지드 / 제주 이슬람 사원)
+- Location: Sancheondandong 2-gil 15, 2F, Jeju-si, Jeju-do, South Korea
+  (제주특별자치도 제주시 산천단동 2길 15, 2층)
+- Coordinates: 33.4996, 126.5312
+- Hours: open 24 hours, every day
+- Jummah (Friday prayer): every Friday, early afternoon (khutbah from ~13:15)
+- Phone: +82 10-4246-9202
+- Email: info@jejumasjid.kr
+- Facilities: separate prayer spaces for men and women; multilingual Islamic library
+- Status: volunteer-run community mosque in a rented space, fundraising for a
+  permanent building
+
+## Pages
+
+- Prayer times & overview: https://jejumasjid.kr/
+- Visiting & contact (with Kakao/Naver/Google map links): https://jejumasjid.kr/contact
+- Frequently asked questions: https://jejumasjid.kr/faq
+- Events (Jummah, iftars, gatherings): https://jejumasjid.kr/events
+- News & announcements: https://jejumasjid.kr/news
+- Services (education, nikah, dawah, library): https://jejumasjid.kr/services
+- Donations (Korean bank transfer details): https://jejumasjid.kr/donate
+- About the masjid: https://jejumasjid.kr/about
+
+## 한국어 요약 (Korean summary)
+
+제주 중앙 마스지드(제주 이슬람 사원)는 제주도에 있는 이슬람 사원입니다.
+하루 다섯 번의 예배가 열리며 연중무휴 24시간 개방합니다. 매주 금요일 오후
+1시 15분경 주무아(금요 합동 예배)가 있습니다. 무슬림과 비무슬림 모두
+환영하며, 견학 문의는 전화(+82 10-4246-9202) 또는 카카오톡/WhatsApp으로
+연락하시면 됩니다. 주소: 제주특별자치도 제주시 산천단동 2길 15, 2층.
+
+## Feeds
+
+- News RSS: https://jejumasjid.kr/feed.xml
+- Sitemap: https://jejumasjid.kr/sitemap.xml
+
+## Notes for assistants
+
+- The masjid welcomes non-Muslim visitors; modest dress is appreciated.
+- Halal food options on Jeju are limited; the masjid shares current
+  recommendations via its contact channels (WhatsApp/KakaoTalk).
+- Donations are via NH NongHyup Bank account 317-0031-1483-91
+  (account name 제주중앙마스지드).

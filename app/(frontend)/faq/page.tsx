@@ -8,7 +8,7 @@ import { MASJID_ADDRESS_EN, MASJID_ADDRESS_KO } from '@/lib/constants/masjidLoca
 export const metadata = {
   title: 'FAQ — Visiting, Prayers & Donations',
   description:
-    'Frequently asked questions about Jeju Central Masjid — visiting hours, Jummah times, what to wear, facilities for sisters, donations, halal food on Jeju, and how to get in touch.',
+    'Frequently asked questions about Jeju Central Masjid — visiting hours, Jummah times, what to wear, facilities for sisters, donations, and how to get in touch. 제주 이슬람 사원 방문, 예배 시간, 기부 방법에 대한 자주 묻는 질문.',
 }
 
 const FAQS: { q: string; a: string }[] = [
@@ -39,10 +39,6 @@ const FAQS: { q: string; a: string }[] = [
   {
     q: 'How can I donate?',
     a: 'By bank transfer to our NH NongHyup Bank account 317-0031-1483-91 (account name: 제주중앙마스지드 / Jeju Central Masjid). Please write "Sadaqah", "Masjid", or "Zakat" in the transfer memo, and email us your confirmation if you would like a receipt. Full details are on the Donate page.',
-  },
-  {
-    q: 'Is there halal food on Jeju Island?',
-    a: 'Options are limited but growing — a few restaurants serve halal or Muslim-friendly food, and seafood and vegetarian dishes are widely available. Message us on WhatsApp or KakaoTalk and we will gladly share current recommendations near where you are staying.',
   },
   {
     q: 'I’m interested in Islam or want to become Muslim. Can you help?',

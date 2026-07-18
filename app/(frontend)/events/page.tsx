@@ -19,7 +19,7 @@ export const revalidate = 120
 export const metadata = {
   title: 'Events | Jeju Central Masjid',
   description:
-    'Upcoming events and gatherings at Jeju Central Masjid. To RSVP, please contact us — no online form required.',
+    'Upcoming events and gatherings at Jeju Central Masjid. To RSVP, please contact us — no online form required. 제주 이슬람 사원의 행사와 모임 안내.',
 }
 
 function calendarUrl(ev: {
@@ -62,8 +62,39 @@ function fmt(iso: string) {
 
 export default async function EventsPage() {
   const UPCOMING = await getEvents()
+  const eventsJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': UPCOMING.map((ev) => ({
+      '@type': 'Event',
+      name: ev.title,
+      description: ev.description || 'Event at Jeju Central Masjid',
+      startDate: ev.startTime ? `${ev.startDate}T${ev.startTime}:00+09:00` : ev.startDate,
+      ...(ev.endTime ? { endDate: `${ev.startDate}T${ev.endTime}:00+09:00` } : {}),
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      eventStatus: 'https://schema.org/EventScheduled',
+      isAccessibleForFree: true,
+      location: {
+        '@type': 'Place',
+        name: 'Jeju Central Masjid',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Sancheondandong 2-gil 15, 2F',
+          addressLocality: 'Jeju-si',
+          addressRegion: 'Jeju-do',
+          addressCountry: 'KR',
+        },
+      },
+      organizer: { '@type': 'Organization', name: 'Jeju Central Masjid', url: 'https://jejumasjid.kr' },
+    })),
+  }
   return (
     <main className="min-h-screen bg-white">
+      {UPCOMING.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventsJsonLd) }}
+        />
+      )}
       <Navbar />
 
       <PageHeader

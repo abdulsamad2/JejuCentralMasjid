@@ -98,7 +98,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   { src: '/assets/children-quran.jpg', title: 'Children\'s classes', category: 'Education' },
   { src: '/assets/library-books.jpg', title: 'Islamic library', category: 'Education' },
   { src: '/assets/qari-teaching.jpg', title: 'Qur\'an class', category: 'Education' },
-  { src: '/assets/mosque-1.jpg', title: 'Masjid exterior', category: 'Masjid' },
+  { src: '/assets/mosque-1.jpg', title: 'Inside the masjid', category: 'Masjid' },
   { src: '/assets/mosque-2.jpg', title: 'Prayer hall', category: 'Masjid' },
   { src: '/assets/mosque-3.jpg', title: 'Around the masjid', category: 'Masjid' },
 ]
