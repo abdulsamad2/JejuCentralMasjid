@@ -2,7 +2,7 @@ import { getAllNews } from '@/lib/cms'
 
 export const revalidate = 600
 
-const BASE = 'https://jejumasjid.kr'
+const BASE = 'https://jejucentralmasjid.kr'
 
 const escapeXml = (s: string): string =>
   s

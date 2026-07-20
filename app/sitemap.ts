@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllNews } from '@/lib/cms'
 
-const BASE = 'https://jejumasjid.kr'
+const BASE = 'https://jejucentralmasjid.kr'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [

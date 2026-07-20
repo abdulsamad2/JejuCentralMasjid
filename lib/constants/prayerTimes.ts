@@ -8,7 +8,7 @@ export const CURRENT_PRAYER_TIMES = {
   asr: '16:45',
   maghrib: '18:10',
   isha: '20:30',
-  jumma: '13:30', // Friday prayer time (Iqama)
+  jumma: '13:05', // Friday prayer — khutbah begins (13:05–14:00)
 }
 
 export const PRAYER_NAMES = {
@@ -42,8 +42,8 @@ export const MOSQUE_LOCATION = {
 
 // Special Friday Prayer (Jummah) Times
 export const FRIDAY_PRAYER_TIMES = {
-  khutbah: '13:15', // Khutbah starts 15 minutes before Iqama
-  iqama: '13:30',   // Congregation (Iqama) time
+  khutbah: '13:05', // Khutbah begins
+  iqama: '13:30',   // Salah follows the khutbah; concludes by 14:00
 };
 
 // Monthly prayer schedule for October 2025

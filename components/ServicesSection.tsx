@@ -18,8 +18,8 @@ type Service = {
 const services: Service[] = [
   {
     icon: UserGroupIcon,
-    title: 'Prayers & Halaqas',
-    description: 'Five daily prayers, Jummah, and weekly halaqas (A’mal, Gasht, Community Gathering), and a daily hadith session after Isha.',
+    title: 'Prayers & Faith Learning',
+    description: 'Five daily prayers, Jummah, weekly faith learning sessions (A’mal, Gasht, Community Gathering), and a daily hadith session after Isha.',
     href: '/services',
   },
   {

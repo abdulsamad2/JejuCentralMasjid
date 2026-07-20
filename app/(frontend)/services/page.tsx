@@ -37,17 +37,17 @@ const SERVICES: Service[] = [
     summary: 'Five daily prayers and Friday Jummah in a welcoming community setting.',
     bullets: [
       'Separate section for sisters — dedicated prayer area',
-      'Jummah every Friday · Iqama 13:30',
+      'Jummah every Friday · 13:05 – 14:00',
       'Open 24/7 — doors are always open',
     ],
   },
   {
     icon: SparklesIcon,
-    title: 'Halaqas & Hadith',
+    title: 'Faith Learning Sessions & Hadith',
     summary: 'Regular learning circles and a nightly hadith session — open to all, no registration needed.',
     bullets: [
       "A'mal (Islamic Activity) · Thursdays after Maghrib",
-      'Gasht (Dawat o Tableegh) · Saturdays after Maghrib',
+      'Gasht (Dawat o Tableegh) · Sundays after Maghrib',
       'Community Gathering · Sundays after Asr',
       'Daily Hadith session · every day after Isha',
     ],

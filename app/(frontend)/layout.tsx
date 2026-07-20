@@ -29,7 +29,7 @@ const notoSansArabic = Noto_Sans_Arabic({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://jejumasjid.kr'),
+  metadataBase: new URL('https://jejucentralmasjid.kr'),
   title: {
     default: 'Jeju Central Masjid · 제주 이슬람 사원 | Mosque on Jeju Island, Korea',
     template: '%s | Jeju Central Masjid',
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     siteName: 'Jeju Central Masjid',
     locale: 'en_US',
     alternateLocale: 'ko_KR',
-    url: 'https://jejumasjid.kr',
+    url: 'https://jejucentralmasjid.kr',
     title: 'Jeju Central Masjid · 제주 이슬람 사원',
     description:
       'A welcoming mosque on Jeju Island, South Korea — daily prayers, Jummah, halal guidance, and community. Everyone is welcome.',
@@ -100,9 +100,9 @@ const mosqueJsonLd = {
   alternateName: ['제주 중앙 마스지드', '제주 이슬람 사원', 'Jeju Islamic Center'],
   description:
     'A welcoming mosque on Jeju Island, South Korea, open 24/7 with the five daily prayers, Jummah every Friday, halal guidance, Islamic education, and community events. Everyone is welcome.',
-  url: 'https://jejumasjid.kr',
-  image: 'https://jejumasjid.kr/assets/mosque-2.jpg',
-  logo: 'https://jejumasjid.kr/assets/jeju-masjid-logo-icon.png',
+  url: 'https://jejucentralmasjid.kr',
+  image: 'https://jejucentralmasjid.kr/assets/mosque-2.jpg',
+  logo: 'https://jejucentralmasjid.kr/assets/jeju-masjid-logo-icon.png',
   telephone: MASJID_PHONES[0].tel,
   email: 'info@jejucentralmasjid.kr',
   address: {

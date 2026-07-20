@@ -62,8 +62,8 @@ const services = [
 const timings = [
   { label: 'Open 24/7', detail: 'Doors are always open — come anytime, day or night' },
   { label: 'Daily Prayers', detail: 'Five prayers — Fajr through Isha' },
-  { label: 'Jummah', detail: 'Every Friday · Iqama 13:30 (Khutbah from 13:15)' },
-  { label: 'Weekly Circles', detail: 'Thu (A’mal), Sat (Gasht), Sun (Community)' },
+  { label: 'Jummah', detail: 'Every Friday · 13:05 – 14:00' },
+  { label: 'Weekly Circles', detail: 'Thu (A’mal), Sun (Gasht & Community)' },
 ]
 
 const guidelines = [

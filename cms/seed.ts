@@ -74,7 +74,7 @@ const EVENTS = [
     title: 'Jummah Prayer',
     description: 'Weekly congregational prayer and khutbah — open to all.',
     startDate: '2026-04-24',
-    startTime: '13:15',
+    startTime: '13:05',
     endTime: '14:00',
     location: 'Jeju Central Masjid',
     recurring: 'Every Friday',

@@ -18,7 +18,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'When is Jummah (Friday prayer)?',
-    a: 'Jummah is held every Friday in the early afternoon, with the khutbah beginning around 13:15. Times can shift slightly with the season, so please check the prayer times on our homepage before you come, and arrive a few minutes early to find a place.',
+    a: 'Jummah is held every Friday from 13:05 to 14:00 — the khutbah first, followed by the salah. Please arrive a few minutes early to find a place.',
   },
   {
     q: 'Is the masjid open every day?',

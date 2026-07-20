@@ -84,7 +84,7 @@ export default async function EventsPage() {
           addressCountry: 'KR',
         },
       },
-      organizer: { '@type': 'Organization', name: 'Jeju Central Masjid', url: 'https://jejumasjid.kr' },
+      organizer: { '@type': 'Organization', name: 'Jeju Central Masjid', url: 'https://jejucentralmasjid.kr' },
     })),
   }
   return (

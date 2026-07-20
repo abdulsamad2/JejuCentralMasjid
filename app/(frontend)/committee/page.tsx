@@ -75,7 +75,7 @@ const CLUSTERS: Cluster[] = [
     items: [
       {
         icon: BookOpenIcon,
-        role: 'Halaqas & Hadith',
+        role: 'Faith Learning & Hadith',
         body: "A'mal · Gasht · Community Gathering · Daily Hadith after Isha",
       },
       {

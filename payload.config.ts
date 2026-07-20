@@ -4,6 +4,7 @@ import { buildConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { resendAdapter } from '@payloadcms/email-resend'
 import sharp from 'sharp'
 
 import { Users } from './cms/collections/Users'
@@ -12,6 +13,8 @@ import { News } from './cms/collections/News'
 import { Events } from './cms/collections/Events'
 import { ContactSubmissions } from './cms/collections/ContactSubmissions'
 import { PageViews } from './cms/collections/PageViews'
+import { ReceiptRequests } from './cms/collections/ReceiptRequests'
+import { ReceiptScreenshots } from './cms/collections/ReceiptScreenshots'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -44,7 +47,27 @@ export default buildConfig({
       },
     },
   },
-  collections: [News, Events, ContactSubmissions, Media, Users, PageViews],
+  collections: [
+    News,
+    Events,
+    ContactSubmissions,
+    ReceiptRequests,
+    ReceiptScreenshots,
+    Media,
+    Users,
+    PageViews,
+  ],
+  // All outbound email (receipts, notifications, password resets) sends as
+  // info@jejucentralmasjid.kr via Resend; without the key it logs to console.
+  ...(process.env.RESEND_API_KEY
+    ? {
+        email: resendAdapter({
+          defaultFromAddress: 'info@jejucentralmasjid.kr',
+          defaultFromName: 'Jeju Central Masjid',
+          apiKey: process.env.RESEND_API_KEY,
+        }),
+      }
+    : {}),
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'jcm-dev-only-secret-change-in-production',
   typescript: {
@@ -61,7 +84,7 @@ export default buildConfig({
     ...(process.env.BLOB_READ_WRITE_TOKEN
       ? [
           vercelBlobStorage({
-            collections: { media: true },
+            collections: { media: true, 'receipt-screenshots': true },
             token: process.env.BLOB_READ_WRITE_TOKEN,
           }),
         ]

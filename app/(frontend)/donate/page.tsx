@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import ReceiptRequestForm from '@/components/ReceiptRequestForm'
 import {
   HomeIcon,
   HeartIcon,
@@ -110,13 +111,14 @@ export default function DonatePage() {
                 <p className="mt-4 rounded-xl bg-white p-3 text-xs leading-relaxed text-islamic-navy/65 ring-1 ring-islamic-navy/5">
                   Please include <span className="font-semibold text-islamic-navy">&quot;Sadaqah&quot;</span>,{' '}
                   <span className="font-semibold text-islamic-navy">&quot;Masjid&quot;</span> or{' '}
-                  <span className="font-semibold text-islamic-navy">&quot;Zakat&quot;</span> in the transfer memo. Email your confirmation to{' '}
-                  <a href="mailto:info@jejucentralmasjid.kr" className="font-semibold text-islamic-green hover:text-islamic-green-dark">
-                    info@jejucentralmasjid.kr
-                  </a>{' '}
-                  for a receipt.
+                  <span className="font-semibold text-islamic-navy">&quot;Zakat&quot;</span> in the transfer memo. Need a receipt? Use the form below.
                 </p>
               </div>
+            </div>
+
+            {/* Receipt request */}
+            <div className="mt-6 rounded-3xl border border-islamic-navy/8 bg-white p-6 shadow-sm sm:p-8">
+              <ReceiptRequestForm />
             </div>
           </div>
         </div>

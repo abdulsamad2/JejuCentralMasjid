@@ -1,3 +1,4 @@
+import { SendReceiptButton as SendReceiptButton_822dce8bfd30c56887853f04128debd7 } from '../../../cms/components/SendReceiptButton'
 import { LogoutButton as LogoutButton_4cf92acf98b0294214f5afd301721cda } from '../../../cms/components/LogoutButton'
 import { AnalyticsNavLink as AnalyticsNavLink_58baff6ccc766fb9b2666de8f0d5e388 } from '../../../cms/components/AnalyticsNavLink'
 import { VisitorAnalytics as VisitorAnalytics_e85a6ce110de66262d1dc3a2650224af } from '../../../cms/components/VisitorAnalytics'
@@ -8,6 +9,7 @@ import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } f
 
 /** @type import('payload').ImportMap */
 export const importMap = {
+  "/cms/components/SendReceiptButton#SendReceiptButton": SendReceiptButton_822dce8bfd30c56887853f04128debd7,
   "/cms/components/LogoutButton#LogoutButton": LogoutButton_4cf92acf98b0294214f5afd301721cda,
   "/cms/components/AnalyticsNavLink#AnalyticsNavLink": AnalyticsNavLink_58baff6ccc766fb9b2666de8f0d5e388,
   "/cms/components/VisitorAnalytics#VisitorAnalytics": VisitorAnalytics_e85a6ce110de66262d1dc3a2650224af,

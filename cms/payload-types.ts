@@ -70,6 +70,8 @@ export interface Config {
     news: News;
     events: Event;
     'contact-submissions': ContactSubmission;
+    'receipt-requests': ReceiptRequest;
+    'receipt-screenshots': ReceiptScreenshot;
     media: Media;
     users: User;
     pageviews: Pageview;
@@ -83,6 +85,8 @@ export interface Config {
     news: NewsSelect<false> | NewsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'receipt-requests': ReceiptRequestsSelect<false> | ReceiptRequestsSelect<true>;
+    'receipt-screenshots': ReceiptScreenshotsSelect<false> | ReceiptScreenshotsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     pageviews: PageviewsSelect<false> | PageviewsSelect<true>;
@@ -232,6 +236,56 @@ export interface ContactSubmission {
   createdAt: string;
 }
 /**
+ * Donation receipt requests. Verify the transfer in the bank app, then set Status to "Issued" — the receipt is numbered and emailed automatically.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "receipt-requests".
+ */
+export interface ReceiptRequest {
+  id: number;
+  name: string;
+  email: string;
+  /**
+   * Donation amount in KRW
+   */
+  amount: number;
+  transferDate: string;
+  designation?: ('Sadaqah' | 'Masjid' | 'Zakat') | null;
+  /**
+   * Payment screenshot uploaded by the donor.
+   */
+  screenshot?: (number | null) | ReceiptScreenshot;
+  note?: string | null;
+  /**
+   * Set to "Issued" AFTER verifying the transfer — this emails the receipt.
+   */
+  status: 'pending' | 'issued' | 'rejected';
+  receiptNumber?: string | null;
+  issuedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Payment screenshots uploaded with receipt requests. Admin-only.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "receipt-screenshots".
+ */
+export interface ReceiptScreenshot {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
  * Committee members who can log in to this admin panel.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -313,6 +367,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'receipt-requests';
+        value: number | ReceiptRequest;
+      } | null)
+    | ({
+        relationTo: 'receipt-screenshots';
+        value: number | ReceiptScreenshot;
       } | null)
     | ({
         relationTo: 'media';
@@ -413,6 +475,41 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   handled?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "receipt-requests_select".
+ */
+export interface ReceiptRequestsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  amount?: T;
+  transferDate?: T;
+  designation?: T;
+  screenshot?: T;
+  note?: T;
+  status?: T;
+  receiptNumber?: T;
+  issuedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "receipt-screenshots_select".
+ */
+export interface ReceiptScreenshotsSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -16,6 +16,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@payloadcms/db-vercel-postgres": "^3.86.0",
+    "@payloadcms/email-resend": "^3.86.0",
     "@payloadcms/next": "^3.86.0",
     "@payloadcms/richtext-lexical": "^3.86.0",
     "@payloadcms/storage-vercel-blob": "^3.86.0",

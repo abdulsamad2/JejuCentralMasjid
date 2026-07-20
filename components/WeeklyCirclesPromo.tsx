@@ -18,7 +18,7 @@ const circles = [
   {
     icon: UserGroupIcon,
     title: 'Gasht (Dawat o Tableegh)',
-    schedule: 'Saturdays · After Maghrib',
+    schedule: 'Sundays · After Maghrib',
   },
   {
     icon: BookOpenIcon,
@@ -53,7 +53,7 @@ export default function WeeklyCirclesPromo() {
           <div>
             <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-islamic-gold">
               <span className="h-px w-8 bg-islamic-gold" />
-              Halaqas · Weekly Circles
+              Faith Learning · Weekly Circles
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
               Learning circles for brothers, sisters, and children

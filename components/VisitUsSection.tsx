@@ -148,7 +148,7 @@ export default function VisitUsSection() {
                     24/7 · Always open
                   </p>
                   <p className="text-xs text-islamic-navy/65 sm:text-sm">
-                    Jummah Fri 13:30
+                    Jummah Fri 13:05 – 14:00
                   </p>
                 </div>
               </li>

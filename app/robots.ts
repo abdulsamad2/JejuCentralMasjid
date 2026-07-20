@@ -32,6 +32,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: DISALLOW,
       })),
     ],
-    sitemap: 'https://jejumasjid.kr/sitemap.xml',
+    sitemap: 'https://jejucentralmasjid.kr/sitemap.xml',
   }
 }

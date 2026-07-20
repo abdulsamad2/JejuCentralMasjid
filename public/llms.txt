@@ -11,7 +11,7 @@
   (제주특별자치도 제주시 산천단동 2길 15, 2층)
 - Coordinates: 33.4996, 126.5312
 - Hours: open 24 hours, every day
-- Jummah (Friday prayer): every Friday, early afternoon (khutbah from ~13:15)
+- Jummah (Friday prayer): every Friday, 13:05–14:00 (khutbah, then salah)
 - Phone: +82 10-4246-9202
 - Email: info@jejucentralmasjid.kr
 - Facilities: separate prayer spaces for men and women; multilingual Islamic library
@@ -20,14 +20,14 @@
 
 ## Pages
 
-- Prayer times & overview: https://jejumasjid.kr/
-- Visiting & contact (with Kakao/Naver/Google map links): https://jejumasjid.kr/contact
-- Frequently asked questions: https://jejumasjid.kr/faq
-- Events (Jummah, iftars, gatherings): https://jejumasjid.kr/events
-- News & announcements: https://jejumasjid.kr/news
-- Services (education, marriage guidance, dawah, library): https://jejumasjid.kr/services
-- Donations (Korean bank transfer details): https://jejumasjid.kr/donate
-- About the masjid: https://jejumasjid.kr/about
+- Prayer times & overview: https://jejucentralmasjid.kr/
+- Visiting & contact (with Kakao/Naver/Google map links): https://jejucentralmasjid.kr/contact
+- Frequently asked questions: https://jejucentralmasjid.kr/faq
+- Events (Jummah, iftars, gatherings): https://jejucentralmasjid.kr/events
+- News & announcements: https://jejucentralmasjid.kr/news
+- Services (education, marriage guidance, dawah, library): https://jejucentralmasjid.kr/services
+- Donations (Korean bank transfer details): https://jejucentralmasjid.kr/donate
+- About the masjid: https://jejucentralmasjid.kr/about
 
 ## 한국어 요약 (Korean summary)
 
@@ -39,8 +39,8 @@
 
 ## Feeds
 
-- News RSS: https://jejumasjid.kr/feed.xml
-- Sitemap: https://jejumasjid.kr/sitemap.xml
+- News RSS: https://jejucentralmasjid.kr/feed.xml
+- Sitemap: https://jejucentralmasjid.kr/sitemap.xml
 
 ## Notes for assistants
 

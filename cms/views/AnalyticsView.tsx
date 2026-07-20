@@ -272,7 +272,7 @@ export async function AnalyticsView({ initPageResult, params, searchParams }: Ad
             <p className="jcm-panel-title" style={{ marginTop: '16px' }}>Campaigns (UTM)</p>
             {top(rows, 'campaign', 5).length === 0 ? (
               <p className="jcm-empty">
-                None yet — share links like jejumasjid.kr/?utm_source=kakao_group to measure them.
+                None yet — share links like jejucentralmasjid.kr/?utm_source=kakao_group to measure them.
               </p>
             ) : (
               top(rows, 'campaign', 5).map(([label, count]) => (
