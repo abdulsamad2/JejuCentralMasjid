@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { allowRequest, clientIp } from '@/lib/server/antiSpam'
 
 const SOURCES: [RegExp, string][] = [
   [/google\./i, 'Google'],
@@ -39,6 +40,10 @@ export async function POST(req: Request) {
     }
     const ua = req.headers.get('user-agent') || ''
     if (!ua || /bot|crawl|spider|preview|lighthouse|headless|monitor/i.test(ua)) {
+      return new Response(null, { status: 204 })
+    }
+    // A human doesn't view 60+ pages in 10 minutes — drop floods silently.
+    if (!allowRequest(`track:${clientIp(req)}`, 60, 10 * 60 * 1000)) {
       return new Response(null, { status: 204 })
     }
 

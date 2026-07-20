@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import EmailLink from './EmailLink'
 import {
   MapPinIcon,
   ClockIcon,
@@ -172,13 +173,7 @@ export default function VisitUsSection() {
                       </a>
                     ))}
                   </span>
-                  <a
-                    href="mailto:info@jejucentralmasjid.kr"
-                    className="mt-0.5 inline-flex items-center gap-1 text-sm text-islamic-navy/70 hover:text-islamic-green"
-                  >
-                    <EnvelopeIcon className="h-3.5 w-3.5" />
-                    info@jejucentralmasjid.kr
-                  </a>
+                  <EmailLink className="mt-0.5 inline-flex items-center gap-1 text-sm text-islamic-navy/70 hover:text-islamic-green" />
                 </div>
               </li>
             </ul>

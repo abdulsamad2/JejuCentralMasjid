@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import EmailLink from '@/components/EmailLink'
 import {
   CalendarDaysIcon,
   ClockIcon,
@@ -251,20 +252,17 @@ export default async function EventsPage() {
               </div>
             </a>
 
-            <a
-              href="mailto:info@jejucentralmasjid.kr"
-              className="flex items-start gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-islamic-navy/5 transition hover:-translate-y-0.5 hover:ring-islamic-green/30"
-            >
+            <EmailLink className="flex items-start gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-islamic-navy/5 transition hover:-translate-y-0.5 hover:ring-islamic-green/30">
               <span className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
                 <EnvelopeIcon className="h-5 w-5" />
               </span>
               <div>
                 <p className="text-base font-bold text-islamic-navy">Email</p>
-                <p className="mt-0.5 text-sm text-islamic-navy/65 break-all">
-                  info@jejucentralmasjid.kr
+                <p className="mt-0.5 text-sm text-islamic-navy/65">
+                  For non-urgent questions — we reply within 1–2 days.
                 </p>
               </div>
-            </a>
+            </EmailLink>
           </div>
         </div>
       </section>

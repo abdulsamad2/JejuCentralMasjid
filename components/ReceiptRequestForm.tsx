@@ -23,6 +23,8 @@ export default function ReceiptRequestForm() {
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [honeypot, setHoneypot] = useState('')
+  const [startedAt] = useState(() => Date.now())
 
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm({ ...form, [k]: e.target.value })
@@ -33,27 +35,17 @@ export default function ReceiptRequestForm() {
     setBusy(true)
     setError(null)
     try {
-      let screenshotId: number | undefined
-      if (file) {
-        const fd = new FormData()
-        fd.append('file', file)
-        const up = await fetch('/api/receipt-screenshots', { method: 'POST', body: fd })
-        if (!up.ok) throw new Error(`upload failed (${up.status})`)
-        screenshotId = (await up.json()).doc?.id
-      }
-      const res = await fetch('/api/receipt-requests', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          amount: Number(form.amount),
-          transferDate: form.transferDate,
-          designation: form.designation,
-          ...(screenshotId ? { screenshot: screenshotId } : {}),
-        }),
-      })
-      if (!res.ok) throw new Error(`request failed (${res.status})`)
+      const fd = new FormData()
+      fd.append('name', form.name)
+      fd.append('email', form.email)
+      fd.append('amount', form.amount)
+      fd.append('transferDate', form.transferDate)
+      fd.append('designation', form.designation)
+      fd.append('website', honeypot)
+      fd.append('startedAt', String(startedAt))
+      if (file) fd.append('screenshot', file)
+      const res = await fetch('/api/receipt-request', { method: 'POST', body: fd })
+      if (!res.ok && res.status !== 204) throw new Error(`request failed (${res.status})`)
       setDone(true)
     } catch {
       setError('Sorry, the request could not be sent. Please try again or email us directly.')
@@ -126,6 +118,18 @@ export default function ReceiptRequestForm() {
           </span>
         </label>
       </div>
+
+      {/* Honeypot — humans never see or fill this */}
+      <input
+        type="text"
+        name="website"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
 
       {error && (
         <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>

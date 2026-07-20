@@ -8,8 +8,9 @@ export const ReceiptRequests: CollectionConfig = {
   labels: { singular: 'Receipt request', plural: 'Receipt requests' },
   defaultSort: '-createdAt',
   access: {
-    // Donors submit from the website; only admins can read and manage.
-    create: () => true,
+    // Requests come only via /api/receipt-request (spam-filtered, rate-limited);
+    // the raw REST create is closed. Only admins read and manage.
+    create: () => false,
     read: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),

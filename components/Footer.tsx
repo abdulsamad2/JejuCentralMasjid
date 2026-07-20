@@ -1,6 +1,7 @@
 import type { JSX } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import EmailLink from './EmailLink'
 import {
   MapPinIcon,
   PhoneIcon,
@@ -229,9 +230,7 @@ export default function Footer() {
                 <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-islamic-green/10 text-islamic-green">
                   <EnvelopeIcon className="h-4 w-4" />
                 </span>
-                <a href="mailto:info@jejucentralmasjid.kr" className="transition hover:text-islamic-green">
-                  info@jejucentralmasjid.kr
-                </a>
+                <EmailLink className="transition hover:text-islamic-green" />
               </li>
             </ul>
           </div>

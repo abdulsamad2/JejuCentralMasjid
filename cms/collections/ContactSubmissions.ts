@@ -26,8 +26,9 @@ export const ContactSubmissions: CollectionConfig = {
     ],
   },
   access: {
-    // Anyone can submit the website form; only logged-in admins can read/manage.
-    create: () => true,
+    // Submissions come only via /api/contact (spam-filtered, rate-limited);
+    // the raw REST create is closed. Only logged-in admins read/manage.
+    create: () => false,
     read: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),

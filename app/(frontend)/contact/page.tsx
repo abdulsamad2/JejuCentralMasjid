@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import EmailLink from '@/components/EmailLink'
 import {
   MapPinIcon,
   PhoneIcon,
@@ -45,6 +46,8 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [honeypot, setHoneypot] = useState('')
+  const [startedAt] = useState(() => Date.now())
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -58,12 +61,12 @@ export default function ContactPage() {
     setIsSubmitting(true)
     setSubmitError(null)
     try {
-      const res = await fetch('/api/contact-submissions', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, website: honeypot, startedAt }),
       })
-      if (!res.ok) throw new Error(`Request failed (${res.status})`)
+      if (!res.ok && res.status !== 204) throw new Error(`Request failed (${res.status})`)
       setSubmitted(true)
     } catch {
       setSubmitError(
@@ -168,12 +171,7 @@ export default function ContactPage() {
               <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-islamic-navy/55">
                 Email
               </p>
-              <a
-                href="mailto:info@jejucentralmasjid.kr"
-                className="mt-2 block text-base font-semibold text-islamic-navy hover:text-islamic-green"
-              >
-                info@jejucentralmasjid.kr
-              </a>
+              <EmailLink className="mt-2 block text-base font-semibold text-islamic-navy hover:text-islamic-green" />
               <p className="mt-1 text-sm text-islamic-navy/60">
                 For non-urgent questions — we reply within 1–2 days, insha&apos;Allah.
               </p>
@@ -351,6 +349,18 @@ export default function ContactPage() {
                       placeholder="Let us know how we can help..."
                     />
                   </div>
+
+                  {/* Honeypot — humans never see or fill this */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                  />
 
                   {submitError && (
                     <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">

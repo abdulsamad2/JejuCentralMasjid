@@ -8,9 +8,10 @@ export const ReceiptScreenshots: CollectionConfig = {
   slug: 'receipt-screenshots',
   labels: { singular: 'Receipt screenshot', plural: 'Receipt screenshots' },
   access: {
-    // Donors upload from the public receipt form; only admins can view.
-    // Screenshots contain bank details — never publicly readable.
-    create: () => true,
+    // Uploads come only via /api/receipt-request (validated, rate-limited);
+    // the raw REST create is closed. Screenshots contain bank details —
+    // never publicly readable.
+    create: () => false,
     read: ({ req }) => Boolean(req.user),
     update: () => false,
     delete: ({ req }) => Boolean(req.user),
