@@ -229,8 +229,8 @@ export default function Footer() {
                 <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-islamic-green/10 text-islamic-green">
                   <EnvelopeIcon className="h-4 w-4" />
                 </span>
-                <a href="mailto:info@jejumasjid.kr" className="transition hover:text-islamic-green">
-                  info@jejumasjid.kr
+                <a href="mailto:info@jejucentralmasjid.kr" className="transition hover:text-islamic-green">
+                  info@jejucentralmasjid.kr
                 </a>
               </li>
             </ul>

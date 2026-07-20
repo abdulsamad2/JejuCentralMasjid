@@ -29,7 +29,7 @@ const SLIDES: FeatureSlide[] = [
   },
   {
     src: '/assets/mosque-3.jpg',
-    alt: 'In the heart of Jeju',
+    alt: 'Around Jeju Central Masjid on Jeju Island',
     title: 'In the Heart of Jeju',
     description:
       'Located in the heart of Jeju, it serves students, workers, families, new Muslims, and visitors by providing opportunities to learn about Islam, ask questions, and take meaningful steps in faith.',
@@ -38,7 +38,7 @@ const SLIDES: FeatureSlide[] = [
   },
   {
     src: '/assets/mosque-1.jpg',
-    alt: 'Service, unity, and compassion',
+    alt: 'Inside the Jeju Central Masjid prayer hall',
     title: 'Service, Unity & Compassion',
     description:
       'Committed to service, unity, and compassion, the masjid aims to strengthen both spiritual life and community well-being through outreach, care, and positive engagement with society.',

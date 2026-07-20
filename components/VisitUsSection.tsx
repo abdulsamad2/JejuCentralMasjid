@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   MapPinIcon,
   ClockIcon,
@@ -22,10 +23,23 @@ export default function VisitUsSection() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
-          {/* Map — visual anchor on the left */}
+          {/* Building photo + map — visual anchor on the left */}
           <div className="lg:col-span-7">
             <div className="overflow-hidden rounded-3xl border border-islamic-navy/8 bg-white shadow-sm">
-              <div className="relative aspect-[4/3] w-full bg-islamic-navy sm:aspect-[16/10]">
+              {/* The actual building — so visitors know what to look for */}
+              <div className="relative aspect-[16/9] w-full bg-islamic-navy">
+                <Image
+                  src="/assets/masjid-exterior-front.jpg"
+                  alt="The Jeju Central Masjid building — grey three-storey building with multilingual welcome signs on the 2nd-floor windows"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="object-cover"
+                />
+                <span className="absolute bottom-3 left-3 rounded-full bg-islamic-navy/80 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm">
+                  Look for this building — we&rsquo;re on the 2nd floor
+                </span>
+              </div>
+              <div className="relative aspect-[4/3] w-full bg-islamic-navy sm:aspect-[16/7]">
                 <iframe
                   src={`https://www.google.com/maps?q=${encodeURIComponent(
                     MASJID_ADDRESS_KO,
@@ -71,8 +85,8 @@ export default function VisitUsSection() {
               Come pray with us
             </h2>
             <p className="mt-3 text-base leading-relaxed text-islamic-navy/75 sm:text-lg">
-              Everyone is welcome — Muslims and non-Muslims, residents and visitors. Our doors open
-              24/7 — our doors are always open, with separate spaces for brothers and sisters.
+              Everyone is welcome — Muslims and non-Muslims, residents and visitors. Our doors are open
+              24/7, with separate spaces for brothers and sisters.
             </p>
 
             <ul className="mt-7 space-y-4">
@@ -159,11 +173,11 @@ export default function VisitUsSection() {
                     ))}
                   </span>
                   <a
-                    href="mailto:info@jejumasjid.kr"
+                    href="mailto:info@jejucentralmasjid.kr"
                     className="mt-0.5 inline-flex items-center gap-1 text-sm text-islamic-navy/70 hover:text-islamic-green"
                   >
                     <EnvelopeIcon className="h-3.5 w-3.5" />
-                    info@jejumasjid.kr
+                    info@jejucentralmasjid.kr
                   </a>
                 </div>
               </li>

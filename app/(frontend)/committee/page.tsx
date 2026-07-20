@@ -19,7 +19,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Masjid Committee | Jeju Central Masjid',
+  title: 'Masjid Committee',
   description:
     'How Jeju Central Masjid is organised — the Imam, senior committee, and department coordinators who serve the community.',
 }
@@ -102,7 +102,7 @@ const CLUSTERS: Cluster[] = [
       {
         icon: HeartIcon,
         role: 'Sisters’ Affairs',
-        body: 'Daily hall access (2–4:30 PM) · monthly seerah',
+        body: 'Sisters’ prayer space, programs & monthly seerah',
       },
       {
         icon: UserGroupIcon,
@@ -152,8 +152,8 @@ const HOW_IT_WORKS = [
   },
   {
     step: '4',
-    title: 'Transparent monthly reporting',
-    body: 'Income, expenses, and donor contributions are published monthly.',
+    title: 'Handled with amanah',
+    body: 'Every contribution is managed with care and accountability by the committee.',
   },
 ]
 

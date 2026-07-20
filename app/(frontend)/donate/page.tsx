@@ -111,8 +111,8 @@ export default function DonatePage() {
                   Please include <span className="font-semibold text-islamic-navy">&quot;Sadaqah&quot;</span>,{' '}
                   <span className="font-semibold text-islamic-navy">&quot;Masjid&quot;</span> or{' '}
                   <span className="font-semibold text-islamic-navy">&quot;Zakat&quot;</span> in the transfer memo. Email your confirmation to{' '}
-                  <a href="mailto:info@jejumasjid.kr" className="font-semibold text-islamic-green hover:text-islamic-green-dark">
-                    info@jejumasjid.kr
+                  <a href="mailto:info@jejucentralmasjid.kr" className="font-semibold text-islamic-green hover:text-islamic-green-dark">
+                    info@jejucentralmasjid.kr
                   </a>{' '}
                   for a receipt.
                 </p>

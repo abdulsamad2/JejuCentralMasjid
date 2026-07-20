@@ -26,7 +26,7 @@ const INQUIRIES = [
   'General',
   'New Muslim',
   'Ask the Imam',
-  'Nikah',
+  'Marriage Guidance',
   'Halal Guidance',
   'Library',
   'Mosque Tour',
@@ -155,7 +155,9 @@ export default function ContactPage() {
                 ))}
               </div>
               <p className="mt-2 text-sm text-islamic-navy/60">
-                Best reached after prayers. For urgent matters, please use email.
+                <span className="font-semibold text-islamic-navy">Urgent? Call or message us</span>{' '}
+                (WhatsApp / KakaoTalk) — the fastest way to reach us. Calls are best answered
+                after prayer times.
               </p>
             </div>
 
@@ -167,13 +169,13 @@ export default function ContactPage() {
                 Email
               </p>
               <a
-                href="mailto:info@jejumasjid.kr"
+                href="mailto:info@jejucentralmasjid.kr"
                 className="mt-2 block text-base font-semibold text-islamic-navy hover:text-islamic-green"
               >
-                info@jejumasjid.kr
+                info@jejucentralmasjid.kr
               </a>
               <p className="mt-1 text-sm text-islamic-navy/60">
-                We reply within 1–2 days, insha&apos;Allah.
+                For non-urgent questions — we reply within 1–2 days, insha&apos;Allah.
               </p>
             </div>
           </div>
@@ -473,7 +475,7 @@ export default function ContactPage() {
                     </div>
                   </dl>
                   <p className="mt-3 text-xs leading-relaxed text-islamic-navy/60">
-                    Please include &quot;Sadaqah&quot; or &quot;Building Fund&quot; in the transfer memo. For a receipt, email us the confirmation.
+                    Please include &quot;Sadaqah&quot;, &quot;Masjid&quot; or &quot;Zakat&quot; in the transfer memo. For a receipt, email us the confirmation.
                   </p>
                   <Link
                     href="/donate"

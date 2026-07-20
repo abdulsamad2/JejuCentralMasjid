@@ -104,7 +104,7 @@ const mosqueJsonLd = {
   image: 'https://jejumasjid.kr/assets/mosque-2.jpg',
   logo: 'https://jejumasjid.kr/assets/jeju-masjid-logo-icon.png',
   telephone: MASJID_PHONES[0].tel,
-  email: 'info@jejumasjid.kr',
+  email: 'info@jejucentralmasjid.kr',
   address: {
     '@type': 'PostalAddress',
     streetAddress: MASJID_ADDRESS_EN_LINES[0],

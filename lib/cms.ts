@@ -101,11 +101,21 @@ export async function getEvents(): Promise<EventItem[]> {
       limit: 100,
     })
     // Hide one-off events once their date has passed (Korea time);
-    // recurring events (e.g. "Every Friday") stay visible.
+    // recurring events (e.g. "Every Friday") stay visible with their date
+    // rolled forward to the next occurrence of the same weekday.
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })
     return (docs as EventDoc[])
       .map(mapEvent)
       .filter((ev) => ev.recurring || ev.startDate >= today)
+      .map((ev) => {
+        if (!ev.recurring || ev.startDate >= today) return ev
+        const weekday = new Date(ev.startDate + 'T00:00:00Z').getUTCDay()
+        const todayDate = new Date(today + 'T00:00:00Z')
+        const daysAhead = (weekday - todayDate.getUTCDay() + 7) % 7
+        const next = new Date(todayDate.getTime() + daysAhead * 86400000)
+        return { ...ev, startDate: next.toISOString().slice(0, 10) }
+      })
+      .sort((a, b) => a.startDate.localeCompare(b.startDate))
   } catch (err) {
     console.error('CMS unavailable — rendering without events:', err)
     return []

@@ -58,8 +58,8 @@ export default function SupportAppeal() {
                 in worship, learning, and community care that continues every single day.
               </p>
               <p className="text-islamic-navy/90">
-                Every person who prays, learns, or finds guidance through this masjid is a
-                potential share of reward for you, insha&rsquo;Allah.
+                Every person who prays, learns, or finds guidance here carries ongoing reward
+                for everyone who helped make it possible, insha&rsquo;Allah.
               </p>
             </div>
 

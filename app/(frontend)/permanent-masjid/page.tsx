@@ -17,7 +17,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Build a Permanent Masjid | Jeju Central Masjid',
+  title: 'Build a Permanent Masjid',
   description:
     'Jeju Central Masjid currently operates from a rented hall. Help us build a permanent masjid and Islamic centre on Jeju Island, insha’Allah.',
 }
@@ -241,8 +241,8 @@ export default function PermanentMasjidPage() {
               </span>
               <h3 className="mt-4 text-lg font-bold text-islamic-navy">Donate</h3>
               <p className="mt-2 flex-1 text-sm text-islamic-navy/65">
-                Choose &ldquo;Masjid Building&rdquo; to direct your contribution to the permanent
-                masjid fund.
+                Write &ldquo;Masjid&rdquo; in the transfer memo to direct your contribution to the
+                permanent masjid fund.
               </p>
               <Link
                 href="/donate"

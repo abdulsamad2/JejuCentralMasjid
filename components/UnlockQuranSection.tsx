@@ -54,10 +54,10 @@ export default function UnlockQuranSection() {
               Unlock Qur&rsquo;an
             </h2>
             <p className="mt-3 text-lg font-semibold text-islamic-green sm:text-xl">
-              Start your day with the Qur&rsquo;an
+              Draw closer to the Qur&rsquo;an
             </p>
             <p className="mt-1 text-sm italic text-islamic-navy/60 sm:text-base">
-              Teach yourself
+              Beginner-friendly — everyone is welcome
             </p>
 
             {/* Curriculum list */}

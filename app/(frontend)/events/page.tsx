@@ -17,7 +17,7 @@ import { MASJID_CHAT_PHONE, MASJID_WHATSAPP } from '@/lib/constants/masjidLocati
 export const revalidate = 120
 
 export const metadata = {
-  title: 'Events | Jeju Central Masjid',
+  title: 'Events',
   description:
     'Upcoming events and gatherings at Jeju Central Masjid. To RSVP, please contact us — no online form required. 제주 이슬람 사원의 행사와 모임 안내.',
 }
@@ -252,7 +252,7 @@ export default async function EventsPage() {
             </a>
 
             <a
-              href="mailto:info@jejumasjid.kr"
+              href="mailto:info@jejucentralmasjid.kr"
               className="flex items-start gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-islamic-navy/5 transition hover:-translate-y-0.5 hover:ring-islamic-green/30"
             >
               <span className="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-islamic-green/10 text-islamic-green">
@@ -261,7 +261,7 @@ export default async function EventsPage() {
               <div>
                 <p className="text-base font-bold text-islamic-navy">Email</p>
                 <p className="mt-0.5 text-sm text-islamic-navy/65 break-all">
-                  info@jejumasjid.kr
+                  info@jejucentralmasjid.kr
                 </p>
               </div>
             </a>

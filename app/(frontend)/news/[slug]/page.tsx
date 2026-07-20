@@ -23,9 +23,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const item = await getNewsBySlug(slug)
-  if (!item) return { title: 'News | Jeju Central Masjid' }
+  if (!item) return { title: 'News' }
   return {
-    title: `${item.title} | Jeju Central Masjid`,
+    title: item.title,
     description: item.excerpt,
     openGraph: {
       type: 'article',

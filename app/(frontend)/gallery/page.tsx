@@ -4,8 +4,8 @@ import PageHeader from '@/components/PageHeader'
 import GalleryGrid from '@/components/GalleryGrid'
 
 export const metadata = {
-  title: 'Gallery | Central Jeju Masjid',
-  description: 'Browse photos from our community, events, and activities at Central Jeju Masjid.',
+  title: 'Gallery',
+  description: 'Browse photos from our community, events, and activities at Jeju Central Masjid.',
 }
 
 export default function GalleryPage() {

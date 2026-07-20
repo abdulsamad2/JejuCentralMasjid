@@ -18,9 +18,9 @@ import {
 } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Services | Jeju Central Masjid',
+  title: 'Services',
   description:
-    'Services at Jeju Central Masjid — daily prayers, weekly halaqas, Children\u2019s classes, Monthly Gathering, Mashwara (consultation), Korean visitor outreach, library, and Ramadan programs. 제주 이슬람 사원의 예배, 교육, 혼인(니카), 도서관 안내.',
+    'Services at Jeju Central Masjid — daily prayers, weekly halaqas, Children\u2019s classes, Monthly Gathering, Mashwara (consultation), Korean visitor outreach, library, and Ramadan programs. 제주 이슬람 사원의 예배, 교육, 혼인 상담, 도서관 안내.',
 }
 
 type Service = {
@@ -105,7 +105,7 @@ const SERVICES: Service[] = [
   {
     icon: HeartIcon,
     title: 'Islamic Marriage & Family Guidance',
-    summary: 'Nikah ceremonies and family guidance rooted in Islamic teachings — by appointment.',
+    summary: 'Guidance on Islamic marriage and family life, rooted in Islamic teachings — by appointment.',
     bullets: [
       'Guidance on Islamic marriage (Nikah) principles and requirements',
       'Pre-marriage guidance and preparation',

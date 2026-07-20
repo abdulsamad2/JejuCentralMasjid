@@ -16,7 +16,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'About | Jeju Central Masjid',
+  title: 'About',
   description:
     'About Jeju Central Masjid — a welcoming community mosque on Jeju Island with separate prayer areas, a small multilingual library, and a growing ummah.',
 }
@@ -55,7 +55,7 @@ const services = [
   'On-site halal food facility',
   'Community iftars & Taraweeh (Ramadan)',
   'Dawah, new Muslim & tourist welcome',
-  'Sisters’ daily hall access (2–4:30 PM)',
+  'Dedicated sisters’ prayer space',
   'Multilingual library & student support',
 ]
 
@@ -206,6 +206,49 @@ export default function AboutPage() {
                 <p className="mt-2 text-sm leading-relaxed text-islamic-navy/65">{f.description}</p>
               </div>
             ))}
+          </div>
+
+          {/* Inside our little library */}
+          <div className="mt-10">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+              {[
+                {
+                  src: '/assets/library-shelves.jpg',
+                  alt: 'Library shelves with labeled sections — Korean, English, Urdu, Bangla, Uzbek, and Turkish books',
+                },
+                {
+                  src: '/assets/library-01.jpg',
+                  alt: 'Display stand of Korean-language booklets about Islam',
+                },
+                {
+                  src: '/assets/library-02.jpg',
+                  alt: 'Islamic books in the masjid library',
+                },
+                {
+                  src: '/assets/library-04.jpg',
+                  alt: 'Bookshelves in the masjid library',
+                },
+              ].map((photo) => (
+                <Link
+                  key={photo.src}
+                  href="/gallery"
+                  className="group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-islamic-navy ring-1 ring-islamic-navy/5"
+                >
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                    className="object-cover transition duration-700 group-hover:scale-105"
+                  />
+                </Link>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-islamic-navy/65">
+              Our small multilingual library — Qur&apos;ans and Islamic books in Korean, English,
+              Urdu, Bangla, Uzbek, and Turkish. Free to read or borrow, and Korean-language
+              introductions to Islam for curious visitors.
+            </p>
           </div>
         </div>
       </section>

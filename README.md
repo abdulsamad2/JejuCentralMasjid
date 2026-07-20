@@ -1,6 +1,6 @@
-# Central Jeju Mosque Website
+# Jeju Central Masjid Website
 
-A modern, responsive website for the Central Jeju Mosque (مسجد جيجو المركزي) built with Next.js, React, TypeScript, and Tailwind CSS.
+A modern, responsive website for the Jeju Central Masjid (مسجد جيجو المركزي) built with Next.js, React, TypeScript, and Tailwind CSS.
 
 ## 🕌 About
 
@@ -221,8 +221,8 @@ JejuCentralMasjid/
 
 ## 📧 Contact Information
 
-**Central Jeju Mosque**
-- Email: info@jejumasjid.kr
+**Jeju Central Masjid**
+- Email: info@jejucentralmasjid.kr
 - Phone: +82-64-123-4567
 - Location: Jeju Island, South Korea
 
