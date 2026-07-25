@@ -29,7 +29,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Jeju Central Masjid · 제주 중앙 마스지드 — News</title>
+    <title>Jeju Central Masjid · 제주 이슬람 사원 — News</title>
     <link>${BASE}</link>
     <description>News and announcements from Jeju Central Masjid, the mosque of Jeju Island, South Korea. 제주 이슬람 사원 소식.</description>
     <language>en</language>

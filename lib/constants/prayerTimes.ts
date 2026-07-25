@@ -1,6 +1,8 @@
 // Centralized Prayer Times for Central Jeju Mosque
 // All prayer times are in KST (Korea Standard Time)
 
+import { MASJID_COORDS } from './masjidLocation'
+
 export const CURRENT_PRAYER_TIMES = {
   fajr: '06:00',
   sunrise: '07:15', // Updated based on Fajr time
@@ -33,8 +35,8 @@ export const PRAYERS_LIST = [
 export const MOSQUE_LOCATION = {
   address: "Jeju-do, Jeju-si, 특별자치도, Sancheondandong 2-gil, 15 2층",
   coordinates: {
-    latitude: 33.4996,
-    longitude: 126.5312
+    latitude: MASJID_COORDS.lat,
+    longitude: MASJID_COORDS.lng
   },
   city: "Jeju",
   country: "South Korea"

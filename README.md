@@ -22,7 +22,7 @@ This website serves the Muslim community in Jeju Island, South Korea, providing 
 - Smooth animations and transitions using Framer Motion
 
 ### 🕐 Prayer Times
-- Real-time prayer times calculated for Jeju Island (33.4996°N, 126.5312°E)
+- Real-time prayer times calculated for Jeju Island (33.449313°N, 126.558229°E)
 - Qibla direction indicator (292° NW to Makkah)
 - Monthly prayer schedule table
 - Next prayer countdown timer

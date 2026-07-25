@@ -3,6 +3,17 @@
  * Update here and the Footer, VisitUs section, Contact page all stay in sync.
  */
 
+/** Canonical names. Use these everywhere so listings stay byte-identical. */
+export const MASJID_NAME_EN = 'Jeju Central Masjid'
+export const MASJID_NAME_KO = '제주 이슬람 사원'
+/** Transliterated form — secondary, kept for search coverage only. */
+export const MASJID_NAME_KO_ALT = '제주 중앙 마스지드'
+/**
+ * NH NongHyup account holder name — must match the bank record exactly.
+ * Unspaced and NOT interchangeable with MASJID_NAME_KO; do not "fix" it.
+ */
+export const MASJID_BANK_ACCOUNT_NAME = '제주중앙마스지드'
+
 export const MASJID_ADDRESS_KO =
   '제주특별자치도 제주시 산천단동 2길 15, 2층 (아라일동)'
 
@@ -14,13 +25,23 @@ export const MASJID_ADDRESS_EN_LINES = [
 
 export const MASJID_ADDRESS_EN = MASJID_ADDRESS_EN_LINES.join(', ')
 
-export const MASJID_COORDS = { lat: 33.4996, lng: 126.5312 } as const
+/** Verified against the Google Maps listing (near the JNU back gate). */
+export const MASJID_COORDS = { lat: 33.449313, lng: 126.558229 } as const
+
+/** Google Maps place ID for "Jeju Central Masjid", as a decimal CID. */
+export const MASJID_GOOGLE_CID = '15156272360544769526'
+
+/** Kakao Map place ID for 제주 중앙 마스지드. */
+export const MASJID_KAKAO_PLACE_ID = '890609743'
 
 const KO_QUERY = encodeURIComponent(MASJID_ADDRESS_KO)
 
 export const MASJID_MAPS = {
-  google: `https://www.google.com/maps/search/?api=1&query=${KO_QUERY}`,
-  kakao: `https://map.kakao.com/?q=${KO_QUERY}`,
+  // Link to the claimed listings by place ID rather than an address search — a
+  // text search can land visitors on one of the other Jeju prayer locations.
+  google: `https://maps.google.com/?cid=${MASJID_GOOGLE_CID}`,
+  kakao: `https://place.map.kakao.com/${MASJID_KAKAO_PLACE_ID}`,
+  // TODO: replace with the Naver place URL once the SmartPlace listing is live.
   naver: `https://map.naver.com/p/search/${KO_QUERY}`,
 } as const
 
@@ -30,7 +51,7 @@ export const MASJID_PHONES = [
 ] as const
 
 /** Instant-chat number — reachable on both KakaoTalk and WhatsApp. */
-export const MASJID_CHAT_PHONE = { display: '+82 10 4346 9202', tel: '+821043469202' } as const
+export const MASJID_CHAT_PHONE = MASJID_PHONES[0]
 
 /** KakaoTalk ID to search & add for instant chat. */
 export const MASJID_KAKAO_ID = 'asifsgr97'

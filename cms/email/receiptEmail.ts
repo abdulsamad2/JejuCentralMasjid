@@ -26,7 +26,7 @@ export function receiptEmailHtml(r: ReceiptData): string {
   <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e0d0;">
     <div style="background:#0E3A5F;padding:24px;text-align:center;">
       <p style="margin:0;color:#ffffff;font-size:20px;font-weight:bold;">Jeju Central Masjid</p>
-      <p style="margin:4px 0 0;color:#C9A24B;font-size:13px;">제주 중앙 마스지드 · 제주 이슬람 사원</p>
+      <p style="margin:4px 0 0;color:#C9A24B;font-size:13px;">제주 이슬람 사원 · Jeju Central Masjid</p>
     </div>
     <div style="padding:28px;">
       <p style="margin:0 0 4px;color:#0B8F4A;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;">Donation Receipt · 기부 확인증</p>

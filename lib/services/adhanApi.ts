@@ -1,6 +1,8 @@
 // Adhan API Service for fetching prayer times
 // Location: Jeju-do, Jeju-si, South Korea
 
+import { MASJID_COORDS } from '@/lib/constants/masjidLocation'
+
 export interface AdhanPrayerTimes {
   fajr: string;
   sunrise: string;
@@ -84,8 +86,8 @@ export interface AdhanResponse {
 
 // Jeju coordinates
 const JEJU_COORDINATES = {
-  latitude: 33.4996,
-  longitude: 126.5312,
+  latitude: MASJID_COORDS.lat,
+  longitude: MASJID_COORDS.lng,
   city: 'Jeju',
   country: 'South Korea'
 };

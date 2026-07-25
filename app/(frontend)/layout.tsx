@@ -8,6 +8,10 @@ import TrackPageview from '@/components/TrackPageview'
 import {
   MASJID_ADDRESS_EN_LINES,
   MASJID_COORDS,
+  MASJID_MAPS,
+  MASJID_NAME_EN,
+  MASJID_NAME_KO,
+  MASJID_NAME_KO_ALT,
   MASJID_PHONES,
 } from '@/lib/constants/masjidLocation'
 
@@ -35,7 +39,7 @@ export const metadata: Metadata = {
     template: '%s | Jeju Central Masjid',
   },
   description:
-    'Jeju Central Masjid (제주 중앙 마스지드) — a welcoming mosque on Jeju Island, South Korea. Daily prayers, Jummah, halal guidance, community events, and Islamic education. 제주도의 이슬람 사원 — 기도 시간, 할랄 안내, 커뮤니티 행사.',
+    'Jeju Central Masjid (제주 이슬람 사원) — a welcoming mosque on Jeju Island, South Korea. Daily prayers, Jummah, halal guidance, community events, and Islamic education. 제주도의 이슬람 사원 — 기도 시간, 할랄 안내, 커뮤니티 행사.',
   keywords: [
     'mosque',
     'masjid',
@@ -70,8 +74,8 @@ export const metadata: Metadata = {
   other: {
     'geo.region': 'KR-49',
     'geo.placename': 'Jeju-si, Jeju-do, South Korea',
-    'geo.position': '33.4996;126.5312',
-    ICBM: '33.4996, 126.5312',
+    'geo.position': `${MASJID_COORDS.lat};${MASJID_COORDS.lng}`,
+    ICBM: `${MASJID_COORDS.lat}, ${MASJID_COORDS.lng}`,
   },
   openGraph: {
     type: 'website',
@@ -93,15 +97,34 @@ export const metadata: Metadata = {
   },
 }
 
-const mosqueJsonLd = {
+/** Next Friday (Asia/Seoul) as YYYY-MM-DD — keeps the Jummah Event from going stale. */
+function nextFridayISO(): string {
+  const seoulNow = new Date(Date.now() + 9 * 60 * 60 * 1000)
+  const daysAhead = (5 - seoulNow.getUTCDay() + 7) % 7
+  const friday = new Date(seoulNow.getTime() + daysAhead * 24 * 60 * 60 * 1000)
+  return friday.toISOString().slice(0, 10)
+}
+
+const MASJID_ID = 'https://jejucentralmasjid.kr/#masjid'
+
+// Built per render (not module scope) so the Jummah date tracks ISR revalidation.
+const buildMosqueJsonLd = () => ({
   '@context': 'https://schema.org',
   '@type': 'Mosque',
-  name: 'Jeju Central Masjid',
-  alternateName: ['제주 중앙 마스지드', '제주 이슬람 사원', 'Jeju Islamic Center'],
+  '@id': MASJID_ID,
+  name: MASJID_NAME_EN,
+  // 'Jeju Islamic Center' deliberately excluded — that is a different
+  // organisation in Nohyeong-dong, and claiming it as an alias feeds the
+  // exact mix-up that sends travellers to the wrong building.
+  alternateName: [MASJID_NAME_KO, MASJID_NAME_KO_ALT],
   description:
     'A welcoming mosque on Jeju Island, South Korea, open 24/7 with the five daily prayers, Jummah every Friday, halal guidance, Islamic education, and community events. Everyone is welcome.',
   url: 'https://jejucentralmasjid.kr',
-  image: 'https://jejucentralmasjid.kr/assets/mosque-2.jpg',
+  image: [
+    'https://jejucentralmasjid.kr/assets/mosque-2.jpg',
+    'https://jejucentralmasjid.kr/assets/masjid-exterior-front.jpg',
+    'https://jejucentralmasjid.kr/assets/library-shelves.jpg',
+  ],
   logo: 'https://jejucentralmasjid.kr/assets/jeju-masjid-logo-icon.png',
   telephone: MASJID_PHONES[0].tel,
   email: 'info@jejucentralmasjid.kr',
@@ -110,6 +133,7 @@ const mosqueJsonLd = {
     streetAddress: MASJID_ADDRESS_EN_LINES[0],
     addressLocality: 'Jeju-si',
     addressRegion: 'Jeju-do',
+    postalCode: '63243',
     addressCountry: 'KR',
   },
   geo: {
@@ -117,10 +141,7 @@ const mosqueJsonLd = {
     latitude: MASJID_COORDS.lat,
     longitude: MASJID_COORDS.lng,
   },
-  hasMap: [
-    `https://map.kakao.com/?q=${encodeURIComponent('제주특별자치도 제주시 산천단동 2길 15')}`,
-    `https://www.google.com/maps/search/?api=1&query=${MASJID_COORDS.lat},${MASJID_COORDS.lng}`,
-  ],
+  hasMap: [MASJID_MAPS.google, MASJID_MAPS.kakao, MASJID_MAPS.naver],
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -128,13 +149,46 @@ const mosqueJsonLd = {
     closes: '23:59',
   },
   isAccessibleForFree: true,
+  publicAccess: true,
+  religiousDenomination: 'Sunni Islam',
+  amenityFeature: [
+    {
+      '@type': 'LocationFeatureSpecification',
+      name: 'Separate prayer area for women',
+      value: true,
+    },
+    { '@type': 'LocationFeatureSpecification', name: 'Wudu facilities', value: true },
+    { '@type': 'LocationFeatureSpecification', name: 'Multilingual Islamic library', value: true },
+    { '@type': 'LocationFeatureSpecification', name: 'Open 24 hours', value: true },
+  ],
+  event: {
+    '@type': 'Event',
+    name: 'Jummah Prayer',
+    description: 'Friday congregational prayer and khutbah. Open to all.',
+    startDate: `${nextFridayISO()}T13:05:00+09:00`,
+    endDate: `${nextFridayISO()}T14:00:00+09:00`,
+    eventSchedule: {
+      '@type': 'Schedule',
+      byDay: 'https://schema.org/Friday',
+      startTime: '13:05',
+      endTime: '14:00',
+      repeatFrequency: 'P1W',
+      scheduleTimezone: 'Asia/Seoul',
+    },
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: { '@id': MASJID_ID },
+    isAccessibleForFree: true,
+  },
   keywords:
     'mosque, masjid, Jeju, prayer times, Jummah, halal, Islam Korea, 제주 모스크, 제주 이슬람 사원, 할랄, 기도',
   sameAs: [
     'https://www.facebook.com/JejuCentralMasjid',
     'https://www.instagram.com/jejucentralmasjid/',
+    MASJID_MAPS.google,
+    MASJID_MAPS.kakao,
   ],
-}
+})
 
 export default function RootLayout({
   children,
@@ -150,7 +204,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(mosqueJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildMosqueJsonLd()) }}
         />
         {children}
         <FloatingContact />
