@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import ReceiptRequestForm from '@/components/ReceiptRequestForm'
 import {
   HomeIcon,
@@ -39,6 +40,8 @@ export default function DonatePage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+
+      <BreadcrumbJsonLd trail={[{ name: 'Donate', path: '/donate' }]} />
 
       <PageHeader
         eyebrow="Support Our Masjid"

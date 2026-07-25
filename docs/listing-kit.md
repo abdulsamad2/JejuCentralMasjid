@@ -340,9 +340,12 @@ prayer times, location, and services without anyone submitting a form:
 - `FAQPage` — `app/(frontend)/faq/page.tsx`
 - `Event` — `app/(frontend)/events/page.tsx`
 - `NewsArticle` — `app/(frontend)/news/[slug]/page.tsx`
+- `BreadcrumbList` — every page. Article pages build it inline; the other
+  ten use `<BreadcrumbJsonLd trail={...}>` next to their `<PageHeader>`,
+  which prepends Home for you. New pages should add one line to match.
 
-Still open: `BreadcrumbList` site-wide. Validate any change at
-https://validator.schema.org and https://search.google.com/test/rich-results.
+Nothing outstanding. Validate any change at https://validator.schema.org
+and https://search.google.com/test/rich-results.
 
 ## Rules
 

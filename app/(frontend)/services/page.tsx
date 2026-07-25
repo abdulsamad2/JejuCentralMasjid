@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import {
   UserGroupIcon,
   UserPlusIcon,
@@ -139,6 +140,8 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+
+      <BreadcrumbJsonLd trail={[{ name: 'Services', path: '/services' }]} />
 
       <PageHeader
         eyebrow="Khidmat · Our Services"

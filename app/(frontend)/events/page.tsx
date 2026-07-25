@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import EmailLink from '@/components/EmailLink'
 import {
   CalendarDaysIcon,
@@ -97,6 +98,8 @@ export default async function EventsPage() {
         />
       )}
       <Navbar />
+
+      <BreadcrumbJsonLd trail={[{ name: 'Events', path: '/events' }]} />
 
       <PageHeader
         eyebrow="Masjid Calendar"

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import {
   BookOpenIcon,
   UserGroupIcon,
@@ -77,6 +78,8 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+
+      <BreadcrumbJsonLd trail={[{ name: 'About', path: '/about' }]} />
 
       <PageHeader
         eyebrow="About Us"

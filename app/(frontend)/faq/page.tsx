@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { MASJID_ADDRESS_EN, MASJID_ADDRESS_KO } from '@/lib/constants/masjidLocation'
 
@@ -68,6 +69,8 @@ export default function FaqPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <Navbar />
+
+      <BreadcrumbJsonLd trail={[{ name: 'FAQ', path: '/faq' }]} />
 
       <PageHeader
         eyebrow="Questions & Answers"

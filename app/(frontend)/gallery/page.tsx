@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import GalleryGrid from '@/components/GalleryGrid'
 
 export const metadata = {
@@ -12,6 +13,7 @@ export default function GalleryPage() {
   return (
     <main className="min-h-screen">
       <Navbar />
+      <BreadcrumbJsonLd trail={[{ name: 'Gallery', path: '/gallery' }]} />
       <PageHeader
         eyebrow="Our Gallery"
         title="Moments from the masjid"

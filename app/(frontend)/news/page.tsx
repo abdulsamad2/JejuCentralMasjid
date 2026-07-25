@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { ChevronRightIcon, CalendarIcon } from '@heroicons/react/24/outline'
 import { formatNewsDate } from '@/lib/data/news'
 import { getAllNews } from '@/lib/cms'
@@ -21,6 +22,8 @@ export default async function NewsListingPage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+
+      <BreadcrumbJsonLd trail={[{ name: 'News', path: '/news' }]} />
 
       <PageHeader
         eyebrow="Akhbar · From the Masjid"

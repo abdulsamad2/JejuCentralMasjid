@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import {
   HomeIcon,
   HeartIcon,
@@ -72,6 +73,8 @@ export default function PermanentMasjidPage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+
+      <BreadcrumbJsonLd trail={[{ name: 'Permanent Masjid', path: '/permanent-masjid' }]} />
 
       <PageHeader
         eyebrow="Our Long-term Vision"
