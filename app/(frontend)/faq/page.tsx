@@ -100,7 +100,7 @@ export default function FaqPage() {
 
           <div className="mt-10 rounded-2xl border border-dashed border-islamic-navy/15 bg-islamic-cream-light p-8 text-center">
             <p className="text-base font-semibold text-islamic-navy">Still have a question?</p>
-            <p className="mt-1 text-sm text-islamic-navy/65">
+            <p className="mt-1 text-sm text-islamic-navy/70">
               We answer quickly on WhatsApp and KakaoTalk.
             </p>
             <Link

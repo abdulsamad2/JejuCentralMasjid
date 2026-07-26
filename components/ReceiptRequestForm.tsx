@@ -61,7 +61,7 @@ export default function ReceiptRequestForm() {
           <CheckIcon className="h-6 w-6" />
         </span>
         <p className="mt-3 text-base font-bold text-islamic-navy">Request received — jazakAllah khair!</p>
-        <p className="mt-1 text-sm text-islamic-navy/65">
+        <p className="mt-1 text-sm text-islamic-navy/70">
           We&apos;ll verify the transfer and email your receipt, usually within a day, insha&apos;Allah.
         </p>
       </div>

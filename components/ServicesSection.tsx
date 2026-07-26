@@ -63,11 +63,12 @@ export default function ServicesSection() {
                 <s.icon className="h-6 w-6" />
               </span>
               <h3 className="mt-5 text-lg font-bold text-islamic-navy sm:text-xl">{s.title}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-islamic-navy/65">
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-islamic-navy/70">
                 {s.description}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green">
                 Learn more
+                <span className="sr-only"> about {s.title}</span>
                 <ChevronRightIcon className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </span>
             </Link>

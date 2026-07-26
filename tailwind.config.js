@@ -22,7 +22,7 @@ export default {
         },
         islamic: {
           // Greens — drawn from the logo's flowing waves
-          green: '#0B8F4A',        // deeper, more readable on white
+          green: '#0A8746',        // 4.60:1 on white — WCAG AA for body text
           'green-light': '#34C77A',
           'green-dark': '#065F32',
           'green-hover': '#054D28',

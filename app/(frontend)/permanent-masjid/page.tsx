@@ -150,7 +150,7 @@ export default function PermanentMasjidPage() {
                   <r.icon className="h-5 w-5" />
                 </span>
                 <h3 className="mt-4 text-base font-bold text-islamic-navy">{r.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-islamic-navy/65">{r.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-islamic-navy/70">{r.body}</p>
               </div>
             ))}
           </div>
@@ -243,7 +243,7 @@ export default function PermanentMasjidPage() {
                 <HeartIcon className="h-5 w-5" />
               </span>
               <h3 className="mt-4 text-lg font-bold text-islamic-navy">Donate</h3>
-              <p className="mt-2 flex-1 text-sm text-islamic-navy/65">
+              <p className="mt-2 flex-1 text-sm text-islamic-navy/70">
                 Write &ldquo;Masjid&rdquo; in the transfer memo to direct your contribution to the
                 permanent masjid fund.
               </p>
@@ -261,7 +261,7 @@ export default function PermanentMasjidPage() {
                 <CheckBadgeIcon className="h-5 w-5" />
               </span>
               <h3 className="mt-4 text-lg font-bold text-islamic-navy">Set up monthly giving</h3>
-              <p className="mt-2 flex-1 text-sm text-islamic-navy/65">
+              <p className="mt-2 flex-1 text-sm text-islamic-navy/70">
                 A small recurring sadaqah every month adds up — and the reward continues,
                 insha&rsquo;Allah.
               </p>
@@ -279,7 +279,7 @@ export default function PermanentMasjidPage() {
                 <ChatBubbleLeftRightIcon className="h-5 w-5" />
               </span>
               <h3 className="mt-4 text-lg font-bold text-islamic-navy">Spread the word</h3>
-              <p className="mt-2 flex-1 text-sm text-islamic-navy/65">
+              <p className="mt-2 flex-1 text-sm text-islamic-navy/70">
                 Share this page with family and friends. Every brother or sister you tell could
                 be the one whose contribution opens the door.
               </p>

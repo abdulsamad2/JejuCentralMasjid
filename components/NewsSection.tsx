@@ -62,7 +62,7 @@ export default async function NewsSection() {
                 <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug text-islamic-navy transition group-hover:text-islamic-green sm:text-lg">
                   {item.title}
                 </h3>
-                <p className="mt-2 line-clamp-3 flex-1 text-sm text-islamic-navy/65">
+                <p className="mt-2 line-clamp-3 flex-1 text-sm text-islamic-navy/70">
                   {item.excerpt}
                 </p>
                 <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green">

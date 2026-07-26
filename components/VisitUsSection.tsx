@@ -104,7 +104,7 @@ export default function VisitUsSection() {
                     <br />
                     {MASJID_ADDRESS_EN_LINES[1]}, {MASJID_ADDRESS_EN_LINES[2]}
                   </p>
-                  <p className="mt-1 text-sm text-islamic-navy/65">{MASJID_ADDRESS_KO}</p>
+                  <p className="mt-1 text-sm text-islamic-navy/70">{MASJID_ADDRESS_KO}</p>
                   <div className="mt-4 flex flex-wrap gap-2.5">
                     <a
                       href={MASJID_MAPS.google}
@@ -148,7 +148,7 @@ export default function VisitUsSection() {
                   <p className="mt-1 text-sm font-semibold text-islamic-green sm:text-base">
                     24/7 · Always open
                   </p>
-                  <p className="text-xs text-islamic-navy/65 sm:text-sm">
+                  <p className="text-xs text-islamic-navy/70 sm:text-sm">
                     Jummah Fri 13:05 – 14:00
                   </p>
                 </div>
@@ -167,7 +167,7 @@ export default function VisitUsSection() {
                       <a
                         key={p.tel}
                         href={`tel:${p.tel}`}
-                        className="text-sm font-medium text-islamic-navy hover:text-islamic-green sm:text-base"
+                        className="inline-block py-1 text-sm font-medium text-islamic-navy hover:text-islamic-green sm:text-base"
                       >
                         {p.display}
                       </a>

@@ -115,7 +115,7 @@ export default function SupportAppeal() {
                 <p className="mt-1 text-2xl font-extrabold text-islamic-navy sm:text-3xl">
                   Sadaqah Jariyah
                 </p>
-                <p className="mt-1 text-xs text-islamic-navy/65 sm:text-sm">
+                <p className="mt-1 text-xs text-islamic-navy/70 sm:text-sm">
                   Continuing reward while the masjid serves
                 </p>
               </div>

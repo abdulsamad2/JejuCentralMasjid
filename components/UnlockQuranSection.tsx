@@ -162,7 +162,7 @@ export default function UnlockQuranSection() {
                   <p className="mt-0.5 text-base font-bold text-islamic-navy sm:text-lg">
                     Qur&rsquo;an Teacher
                   </p>
-                  <p className="text-xs text-islamic-navy/65 sm:text-sm">
+                  <p className="text-xs text-islamic-navy/70 sm:text-sm">
                     Daily class · Jeju Central Masjid
                   </p>
                 </div>

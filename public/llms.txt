@@ -23,14 +23,14 @@
 
 ## Pages
 
-- Prayer times & overview: https://jejucentralmasjid.kr/
-- Visiting & contact (with Kakao/Naver/Google map links): https://jejucentralmasjid.kr/contact
-- Frequently asked questions: https://jejucentralmasjid.kr/faq
-- Events (Jummah, iftars, gatherings): https://jejucentralmasjid.kr/events
-- News & announcements: https://jejucentralmasjid.kr/news
-- Services (education, marriage guidance, dawah, library): https://jejucentralmasjid.kr/services
-- Donations (Korean bank transfer details): https://jejucentralmasjid.kr/donate
-- About the masjid: https://jejucentralmasjid.kr/about
+- [Prayer times & overview](https://jejucentralmasjid.kr/): daily prayer times and what the masjid offers
+- [Visiting & contact](https://jejucentralmasjid.kr/contact): directions with Kakao, Naver and Google map links
+- [Frequently asked questions](https://jejucentralmasjid.kr/faq): visiting, dress, facilities for sisters, donations
+- [Events](https://jejucentralmasjid.kr/events): Jummah, iftars and community gatherings
+- [News & announcements](https://jejucentralmasjid.kr/news): Eid timings, Ramadan schedule, appeals
+- [Services](https://jejucentralmasjid.kr/services): education, marriage guidance, dawah, library
+- [Donations](https://jejucentralmasjid.kr/donate): Korean bank transfer details
+- [About the masjid](https://jejucentralmasjid.kr/about): history, committee and community
 
 ## 한국어 요약 (Korean summary)
 

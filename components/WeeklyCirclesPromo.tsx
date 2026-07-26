@@ -113,7 +113,7 @@ export default function WeeklyCirclesPromo() {
                 Open to all
               </p>
               <p className="mt-1 text-2xl font-extrabold">Free · No registration</p>
-              <p className="mt-1 text-xs text-islamic-navy/65">Walk-ins welcome</p>
+              <p className="mt-1 text-xs text-islamic-navy/70">Walk-ins welcome</p>
             </div>
           </div>
         </div>

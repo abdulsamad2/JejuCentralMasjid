@@ -161,6 +161,7 @@ export default function CommunityMoments() {
                     className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-sm ring-1 ring-white/20 transition hover:bg-white/20"
                   >
                     Learn more
+                    <span className="sr-only"> about {m.title}</span>
                     <ChevronRightIcon className="h-3.5 w-3.5" />
                   </Link>
                 </div>

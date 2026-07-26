@@ -74,7 +74,7 @@ export default function GalleryGrid() {
         {items.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-islamic-navy/15 bg-islamic-cream-light p-10 text-center">
             <p className="text-base font-semibold text-islamic-navy">No photos in this category yet</p>
-            <p className="mt-1 text-sm text-islamic-navy/65">Please check back soon, insha&apos;Allah.</p>
+            <p className="mt-1 text-sm text-islamic-navy/70">Please check back soon, insha&apos;Allah.</p>
           </div>
         ) : (
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">

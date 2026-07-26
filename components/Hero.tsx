@@ -123,6 +123,9 @@ export default function Hero() {
                   alt={slide.alt}
                   fill
                   priority={i === 0}
+                  // Lighthouse: the preload was emitted without fetchpriority,
+                  // so the LCP image raced the fonts instead of winning.
+                  fetchPriority={i === 0 ? 'high' : 'auto'}
                   sizes="100vw"
                   className="object-cover"
                   style={{ objectPosition: slide.position ?? '50% 50%' }}

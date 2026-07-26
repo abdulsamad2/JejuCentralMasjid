@@ -162,7 +162,7 @@ export default function ServicesPage() {
                   <s.icon className="h-6 w-6" />
                 </span>
                 <h2 className="mt-5 text-lg font-bold text-islamic-navy sm:text-xl">{s.title}</h2>
-                <p className="mt-2 text-sm text-islamic-navy/65 sm:text-base">{s.summary}</p>
+                <p className="mt-2 text-sm text-islamic-navy/70 sm:text-base">{s.summary}</p>
                 <ul className="mt-4 space-y-2 border-t border-islamic-navy/8 pt-4">
                   {s.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-2 text-sm text-islamic-navy/75">

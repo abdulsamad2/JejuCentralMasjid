@@ -110,7 +110,7 @@ export default function ContactPage() {
                 <br />
                 {MASJID_ADDRESS_EN_LINES[1]}, {MASJID_ADDRESS_EN_LINES[2]}
               </p>
-              <p className="mt-1 text-sm text-islamic-navy/65">{MASJID_ADDRESS_KO}</p>
+              <p className="mt-1 text-sm text-islamic-navy/70">{MASJID_ADDRESS_KO}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <a
                   href={MASJID_MAPS.google}
@@ -154,7 +154,7 @@ export default function ContactPage() {
                   <a
                     key={p.tel}
                     href={`tel:${p.tel}`}
-                    className="block text-base font-semibold text-islamic-navy hover:text-islamic-green"
+                    className="block py-1 text-base font-semibold text-islamic-navy hover:text-islamic-green"
                   >
                     {p.display}
                   </a>

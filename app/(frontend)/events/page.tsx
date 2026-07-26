@@ -127,7 +127,7 @@ export default async function EventsPage() {
               <p className="mt-3 text-base font-semibold text-islamic-navy">
                 No events scheduled right now
               </p>
-              <p className="mt-1 text-sm text-islamic-navy/65">
+              <p className="mt-1 text-sm text-islamic-navy/70">
                 Please check back soon, insha&apos;Allah.
               </p>
             </div>
@@ -169,7 +169,7 @@ export default async function EventsPage() {
                           </p>
                         )}
 
-                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-islamic-navy/65 sm:text-sm">
+                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-islamic-navy/70 sm:text-sm">
                           <span className="inline-flex items-center gap-1.5">
                             <CalendarDaysIcon className="h-3.5 w-3.5" />
                             {full}
@@ -249,7 +249,7 @@ export default async function EventsPage() {
                 <p className="text-base font-bold text-islamic-navy">
                   WhatsApp <span className="font-semibold text-islamic-navy/60">{MASJID_CHAT_PHONE.display}</span>
                 </p>
-                <p className="mt-0.5 text-sm text-islamic-navy/65">
+                <p className="mt-0.5 text-sm text-islamic-navy/70">
                   Fastest way — send us a short message with the event name.
                 </p>
               </div>
@@ -261,7 +261,7 @@ export default async function EventsPage() {
               </span>
               <div>
                 <p className="text-base font-bold text-islamic-navy">Email</p>
-                <p className="mt-0.5 text-sm text-islamic-navy/65">
+                <p className="mt-0.5 text-sm text-islamic-navy/70">
                   For non-urgent questions — we reply within 1–2 days.
                 </p>
               </div>
@@ -276,7 +276,7 @@ export default async function EventsPage() {
           <h2 className="text-xl font-bold text-islamic-navy sm:text-2xl">
             Have an event idea?
           </h2>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-islamic-navy/65 sm:text-base">
+          <p className="mx-auto mt-2 max-w-xl text-sm text-islamic-navy/70 sm:text-base">
             Talks, learning circles, family programs — if you&rsquo;d like to organise or
             suggest something, get in touch and we&rsquo;ll see what we can do together.
           </p>

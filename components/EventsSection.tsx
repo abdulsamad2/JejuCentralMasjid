@@ -41,7 +41,7 @@ export default async function EventsSection() {
         {events.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-islamic-navy/15 bg-islamic-cream-light p-8 text-center">
             <p className="text-base font-semibold text-islamic-navy">No events scheduled right now</p>
-            <p className="mt-1 text-sm text-islamic-navy/65">Please check back soon, insha&apos;Allah.</p>
+            <p className="mt-1 text-sm text-islamic-navy/70">Please check back soon, insha&apos;Allah.</p>
           </div>
         ) : (
           <ul className="space-y-3">
@@ -58,7 +58,7 @@ export default async function EventsSection() {
                       <h3 className="text-base font-bold text-islamic-navy sm:text-lg">
                         {ev.title}
                       </h3>
-                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-islamic-navy/65 sm:text-sm">
+                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-islamic-navy/70 sm:text-sm">
                         <span>{weekday}</span>
                         {ev.startTime && (
                           <span className="inline-flex items-center gap-1">

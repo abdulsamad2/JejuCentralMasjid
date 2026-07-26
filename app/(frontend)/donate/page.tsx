@@ -111,7 +111,7 @@ export default function DonatePage() {
                   )}
                 </button>
 
-                <p className="mt-4 rounded-xl bg-white p-3 text-xs leading-relaxed text-islamic-navy/65 ring-1 ring-islamic-navy/5">
+                <p className="mt-4 rounded-xl bg-white p-3 text-xs leading-relaxed text-islamic-navy/70 ring-1 ring-islamic-navy/5">
                   Please include <span className="font-semibold text-islamic-navy">&quot;Sadaqah&quot;</span>,{' '}
                   <span className="font-semibold text-islamic-navy">&quot;Masjid&quot;</span> or{' '}
                   <span className="font-semibold text-islamic-navy">&quot;Zakat&quot;</span> in the transfer memo. Need a receipt? Use the form below.
@@ -150,7 +150,7 @@ export default function DonatePage() {
                   </span>
                   <div className="flex-1">
                     <h3 className="text-base font-bold text-islamic-navy sm:text-lg">Permanent Masjid Building</h3>
-                    <p className="mt-1 text-sm text-islamic-navy/65">
+                    <p className="mt-1 text-sm text-islamic-navy/70">
                       A long-term fund to acquire and build a dedicated masjid with purpose-built prayer spaces.
                     </p>
                   </div>
@@ -161,7 +161,7 @@ export default function DonatePage() {
                   </span>
                   <div className="flex-1">
                     <h3 className="text-base font-bold text-islamic-navy sm:text-lg">Sadaqah &amp; Day-to-Day</h3>
-                    <p className="mt-1 text-sm text-islamic-navy/65">
+                    <p className="mt-1 text-sm text-islamic-navy/70">
                       Rent, utilities, library books, prayer mats, Qur&apos;an copies, and community iftars.
                     </p>
                   </div>
@@ -172,7 +172,7 @@ export default function DonatePage() {
                   </span>
                   <div className="flex-1">
                     <h3 className="text-base font-bold text-islamic-navy sm:text-lg">Zakat</h3>
-                    <p className="mt-1 text-sm text-islamic-navy/65">
+                    <p className="mt-1 text-sm text-islamic-navy/70">
                       Distributed to eligible recipients under qualified supervision, according to shari&apos;ah.
                     </p>
                   </div>

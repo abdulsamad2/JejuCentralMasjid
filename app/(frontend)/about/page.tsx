@@ -206,7 +206,7 @@ export default function AboutPage() {
                   <f.icon className="h-5 w-5" />
                 </span>
                 <h3 className="mt-4 text-base font-bold text-islamic-navy">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-islamic-navy/65">{f.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-islamic-navy/70">{f.description}</p>
               </div>
             ))}
           </div>
@@ -247,7 +247,7 @@ export default function AboutPage() {
                 </Link>
               ))}
             </div>
-            <p className="mt-4 text-sm text-islamic-navy/65">
+            <p className="mt-4 text-sm text-islamic-navy/70">
               Our small multilingual library — Qur&apos;ans and Islamic books in Korean, English,
               Urdu, Bangla, Uzbek, and Turkish. Free to read or borrow, and Korean-language
               introductions to Islam for curious visitors.
@@ -322,7 +322,7 @@ export default function AboutPage() {
                     </span>
                     <div className="flex-1">
                       <p className="text-sm font-bold text-islamic-navy sm:text-base">{t.label}</p>
-                      <p className="mt-0.5 text-sm text-islamic-navy/65">{t.detail}</p>
+                      <p className="mt-0.5 text-sm text-islamic-navy/70">{t.detail}</p>
                     </div>
                   </li>
                 ))}

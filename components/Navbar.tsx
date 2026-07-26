@@ -49,7 +49,9 @@ export default function Navbar() {
               width={311}
               height={227}
               className="h-12 w-auto flex-shrink-0 object-contain sm:h-14 lg:h-16"
-              priority
+              // Eager but not preloaded: `priority` here emitted a second
+              // High-priority image preload that competed with the hero LCP.
+              loading="eager"
             />
             <span className="flex min-w-0 flex-col leading-tight">
               <span className="truncate text-sm font-bold tracking-tight text-islamic-navy sm:text-base lg:text-lg">

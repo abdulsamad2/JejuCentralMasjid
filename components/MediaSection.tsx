@@ -192,7 +192,7 @@ export default function MediaSection() {
                   <h3 className="line-clamp-2 text-base font-bold leading-snug text-islamic-navy sm:text-lg">
                     {item.title}
                   </h3>
-                  <p className="line-clamp-2 text-sm text-islamic-navy/65">
+                  <p className="line-clamp-2 text-sm text-islamic-navy/70">
                     {item.description}
                   </p>
                   {item.externalUrl && (

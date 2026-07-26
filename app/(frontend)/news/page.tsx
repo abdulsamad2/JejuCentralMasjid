@@ -39,7 +39,7 @@ export default async function NewsListingPage() {
               <p className="text-base font-semibold text-islamic-navy">
                 No announcements right now
               </p>
-              <p className="mt-2 text-sm text-islamic-navy/65">
+              <p className="mt-2 text-sm text-islamic-navy/70">
                 Please check back soon, insha&apos;Allah.
               </p>
             </div>
@@ -75,7 +75,7 @@ export default async function NewsListingPage() {
                     <h2 className="mt-2 text-lg font-bold leading-snug text-islamic-navy transition group-hover:text-islamic-green sm:text-xl">
                       {item.title}
                     </h2>
-                    <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-islamic-navy/65">
+                    <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-islamic-navy/70">
                       {item.excerpt}
                     </p>
                     <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green">

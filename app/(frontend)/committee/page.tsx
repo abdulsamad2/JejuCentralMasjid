@@ -205,7 +205,7 @@ function TreeCard({ node, size = 'md' }: { node: Node; size?: 'sm' | 'md' | 'lg'
           )}
         </div>
       </div>
-      <p className="mt-3 text-xs leading-relaxed text-islamic-navy/65 sm:text-sm">{node.blurb}</p>
+      <p className="mt-3 text-xs leading-relaxed text-islamic-navy/70 sm:text-sm">{node.blurb}</p>
     </div>
   )
 }
@@ -309,7 +309,7 @@ export default function CommitteePage() {
                         </span>
                         <div className="min-w-0">
                           <p className="text-sm font-bold text-islamic-navy">{item.role}</p>
-                          <p className="mt-0.5 text-xs leading-relaxed text-islamic-navy/65">
+                          <p className="mt-0.5 text-xs leading-relaxed text-islamic-navy/70">
                             {item.body}
                           </p>
                         </div>
@@ -361,7 +361,7 @@ export default function CommitteePage() {
                 <h3 className="mt-4 text-base font-bold text-islamic-navy sm:text-lg">
                   {s.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-islamic-navy/65">{s.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-islamic-navy/70">{s.body}</p>
               </div>
             ))}
           </div>

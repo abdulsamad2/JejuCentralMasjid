@@ -219,7 +219,7 @@ export default function Footer() {
                     <a
                       key={p.tel}
                       href={`tel:${p.tel}`}
-                      className="transition hover:text-islamic-green"
+                      className="inline-block py-1 transition hover:text-islamic-green"
                     >
                       {p.display}
                     </a>

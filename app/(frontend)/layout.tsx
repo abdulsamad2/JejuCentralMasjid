@@ -16,20 +16,29 @@ import {
 } from '@/lib/constants/masjidLocation'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+
+// The three Arabic faces are ~480 KB combined and are used only for a handful
+// of decorative lines, never above the fold. Preloading them put six
+// High-priority font requests ahead of the LCP hero image on mobile.
+// `preload: false` still loads them when Arabic text renders (display: swap),
+// just not on the critical path.
 const amiri = Amiri({
   subsets: ['arabic'],
   weight: ['400', '700'],
   variable: '--font-amiri',
+  preload: false,
 })
 const scheherazade = Scheherazade_New({
   subsets: ['arabic'],
   weight: ['400', '700'],
   variable: '--font-scheherazade',
+  preload: false,
 })
 const notoSansArabic = Noto_Sans_Arabic({
   subsets: ['arabic'],
   weight: ['400', '500', '700'],
   variable: '--font-noto-arabic',
+  preload: false,
 })
 
 export const metadata: Metadata = {
