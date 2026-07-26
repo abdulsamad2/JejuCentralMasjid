@@ -119,7 +119,7 @@ const SERVICES: Service[] = [
     title: 'Multilingual Library',
     summary: 'A modest on-site collection of Islamic books — free to read or borrow.',
     bullets: [
-      'Books in Korean, Urdu, and English',
+      'Books in Korean, English, Urdu, Turkish, Uzbek, and Bangla',
       'Qur\u2019an, tafsir, hadith, and beginner guides',
       'Ask any volunteer to borrow a book',
     ],

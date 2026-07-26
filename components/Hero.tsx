@@ -28,6 +28,17 @@ const SLIDES: FeatureSlide[] = [
     ctaHref: '/contact',
   },
   {
+    src: '/assets/jummah-02.jpeg',
+    alt: 'Imam delivering the Friday khutbah at Jeju Central Masjid',
+    // Khateeb sits left-of-centre; hold him in frame on the narrow mobile crop.
+    position: '42% 54%',
+    title: 'Jummah at the Masjid',
+    description:
+      'Every Friday the whole island community gathers for the khutbah and Jummah salah — students, workers, families, and travellers side by side.',
+    ctaLabel: 'Jummah Times',
+    ctaHref: '/services',
+  },
+  {
     src: '/assets/mosque-3.jpg',
     alt: 'Around Jeju Central Masjid on Jeju Island',
     title: 'In the Heart of Jeju',

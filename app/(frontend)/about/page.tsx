@@ -33,7 +33,7 @@ const facilities = [
     icon: BookOpenIcon,
     title: 'Multilingual Library',
     description:
-      'A small on-site library of Islamic books in Korean, Urdu, and English — free to read or borrow.',
+      'A small on-site library of Islamic books in Korean, English, Urdu, Turkish, Uzbek, and Bangla — free to read or borrow.',
   },
   {
     icon: HomeIcon,

@@ -48,7 +48,10 @@ export default function SupportAppeal() {
               </p>
               <p>
                 Our on-site library offers Islamic books in{' '}
-                <span className="font-semibold text-islamic-navy">Korean, Urdu, and English</span> —
+                <span className="font-semibold text-islamic-navy">
+                  Korean, English, Urdu, Turkish, Uzbek, and Bangla
+                </span>{' '}
+                —
                 a place to learn, ask questions, and find guidance. During Ramadan we serve{' '}
                 <span className="font-semibold text-islamic-navy">community iftars</span> open to
                 all.

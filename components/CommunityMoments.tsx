@@ -90,7 +90,7 @@ const SNAPSHOTS = [
   { src: '/assets/volunteer-04.jpg', alt: 'Masjid volunteers at work' },
   { src: '/assets/visitor-06.jpg', alt: 'Visitors welcomed at the masjid' },
   { src: '/assets/eid-fitr-07.jpg', alt: 'Eid al-Fitr celebration' },
-  { src: '/assets/community-elders-04.jpg', alt: 'Elders of our community' },
+  { src: '/assets/community-elders-04.jpg', alt: 'Jeju community seniors' },
 ]
 
 export default function CommunityMoments() {

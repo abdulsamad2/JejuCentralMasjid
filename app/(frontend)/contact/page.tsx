@@ -217,7 +217,7 @@ export default function ContactPage() {
               </div>
               <h3 className="mt-4 text-lg font-bold text-islamic-navy">Small Library</h3>
               <p className="mt-2 text-sm leading-relaxed text-islamic-navy/70">
-                A modest collection of Islamic books in <span className="font-semibold text-islamic-navy">Korean, Urdu, and English</span> — free to read on-site or borrow.
+                A modest collection of Islamic books in <span className="font-semibold text-islamic-navy">Korean, English, Urdu, Turkish, Uzbek, and Bangla</span> — free to read on-site or borrow.
               </p>
             </div>
 
