@@ -46,7 +46,7 @@ export const MASJID_MAPS = {
 } as const
 
 export const MASJID_PHONES = [
-  { display: '+82 10 4246 9202', tel: '+821042469202' },
+  { display: '+82 10 4346 9202', tel: '+821043469202' },
   { display: '+82 10 2924 4670', tel: '+821029244670' },
 ] as const
 

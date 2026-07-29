@@ -17,7 +17,7 @@ everywhere** — consistent name/address/phone is itself a ranking signal.
 | Coordinates | 33.449313, 126.558229 |
 | Google Maps listing | https://maps.google.com/?cid=15156272360544769526 |
 | Kakao Map listing | https://place.map.kakao.com/890609743 |
-| Phone | +82 10-4246-9202 |
+| Phone | +82 10-4346-9202 |
 | Email | info@jejucentralmasjid.kr |
 | Website | https://jejucentralmasjid.kr |
 | Hours | Open 24 hours, 7 days |
@@ -61,7 +61,7 @@ everywhere** — consistent name/address/phone is itself a ranking signal.
 >
 > 무슬림뿐만 아니라 이슬람이 궁금한 분, 견학을 원하시는 분 모두 언제나
 > 환영합니다. 제주 여행 중인 무슬림 여행객을 위한 할랄 음식 안내도
-> 도와드립니다. 방문 전 전화 또는 카카오톡/WhatsApp(+82 10-4246-9202)으로
+> 도와드립니다. 방문 전 전화 또는 카카오톡/WhatsApp(+82 10-4346-9202)으로
 > 연락 주시면 친절히 안내해 드리겠습니다.
 >
 > 홈페이지: https://jejucentralmasjid.kr
@@ -195,7 +195,7 @@ name:ar=مسجد جيجو المركزي
 building:levels=3
 level=1
 website=https://jejucentralmasjid.kr/
-phone=+82 10-4246-9202
+phone=+82 10-4346-9202
 opening_hours=24/7
 service_times=Fr 13:05
 addr:full=제주특별자치도 제주시 산천단동 2길 15, 2층
@@ -340,7 +340,7 @@ Their entry template uses these fields, so give all of them:
 > **성원 이름**: 제주 이슬람 사원 (Jeju Central Masjid)
 > **주소**: 제주특별자치도 제주시 산천단동 2길 15, 2층 (아라일동)
 > **지도 정보**: CHX5+P7 제주시 (33.449313, 126.558229)
-> **전화**: +82 10-4246-9202
+> **전화**: +82 10-4346-9202
 > **카카오톡 ID**: asifsgr97
 > **웹사이트**: https://jejucentralmasjid.kr
 > **페이스북**: https://www.facebook.com/JejuCentralMasjid
@@ -428,7 +428,7 @@ Details to enter:
 - **Name**: Jeju Central Masjid
 - **Category**: Spiritual Center → Mosque
 - **Address**: Sancheondandong 2-gil 15, 2F, Jeju-si, Jeju-do 63243, KR
-- **Phone**: +82 10-4246-9202
+- **Phone**: +82 10-4346-9202
 - **Website**: https://jejucentralmasjid.kr
 - **Hours**: open 24 hours, 7 days
 
@@ -456,7 +456,7 @@ Field by field:
 | 업체명 (main name) | `제주 이슬람 사원` |
 | 지점명 (part name) | leave blank — we have no branches |
 | 주소 | Find Address → `산천단동 2길 15` → rest of address: `2층` |
-| 전화번호 | `010` · `4246` · `9202` |
+| 전화번호 | `010` · `4346` · `9202` |
 | 업종 | search `종교` → pick the 이슬람 사원 / 종교시설 entry |
 | 홈페이지 | `https://jejucentralmasjid.kr` |
 | 주차 | **answer honestly — see below** |
@@ -554,7 +554,7 @@ Subject: Update Jeju mosque listing — Jeju Central Masjid
 > Address: Sancheondandong 2-gil 15, 2F, Jeju-si, Jeju-do, South Korea
 > Hours: open 24/7 · Jummah Fridays 13:05
 > Website: https://jejucentralmasjid.kr
-> Phone/WhatsApp: +82 10-4246-9202
+> Phone/WhatsApp: +82 10-4346-9202
 >
 > The masjid welcomes Muslim travelers daily and has separate prayer
 > spaces for men and women. Photos are available on our website or on
@@ -574,7 +574,7 @@ Subject: Jeju mosque details for your Jeju halal travel guide
 >
 > Jeju Central Masjid (제주 이슬람 사원)
 > Sancheondandong 2-gil 15, 2F, Jeju-si · open 24/7 · Jummah Fri 13:05
-> https://jejucentralmasjid.kr · WhatsApp +82 10-4246-9202
+> https://jejucentralmasjid.kr · WhatsApp +82 10-4346-9202
 >
 > We're glad to answer questions or provide photos for the article.
 >
@@ -594,7 +594,7 @@ Subject: 제주 이슬람 사원 등록 요청 / Jeju mosque listing request
 >
 > Address: 제주특별자치도 제주시 산천단동 2길 15, 2층
 > Website: https://jejucentralmasjid.kr
-> Phone: +82 10-4246-9202 · Email: info@jejucentralmasjid.kr
+> Phone: +82 10-4346-9202 · Email: info@jejucentralmasjid.kr
 >
 > JazakAllah khair.
 
@@ -687,7 +687,7 @@ Subject: Correction for your Jeju Central Masjid listing
 >
 > JazakAllah khair,
 > Jeju Central Masjid committee
-> info@jejucentralmasjid.kr · +82 10-4246-9202
+> info@jejucentralmasjid.kr · +82 10-4346-9202
 
 **Short WhatsApp version:**
 
@@ -729,7 +729,7 @@ mosque.
 > 주소(도로명): 제주특별자치도 제주시 산천단동 2길 15, **2층** (우 63243)
 > — 현재 표시된 "368-80 아라일동"은 지번 주소이며, 건물 2층이라는 정보가
 > 빠져 있어 방문객이 1층에서 찾지 못하는 경우가 있습니다.
-> 전화: +82 10-4246-9202
+> 전화: +82 10-4346-9202
 > 홈페이지: https://jejucentralmasjid.kr
 > 운영시간: 연중무휴 24시간
 > 주무아(금요 예배): 매주 금요일 13:05
@@ -749,7 +749,7 @@ English, if the form is in English:
 > 63243 — the "368-80 Ara Il-dong" shown is the older lot-number format,
 > and the entry omits that we are on the 2nd floor, so visitors arrive at
 > street level and can't find us.
-> Phone: +82 10-4246-9202
+> Phone: +82 10-4346-9202
 > Website: https://jejucentralmasjid.kr
 > Hours: open 24/7 · Jummah every Friday 13:05
 > Facilities: separate prayer areas for men and women, wudu facilities,
