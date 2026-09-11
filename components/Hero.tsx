@@ -5,64 +5,12 @@ import Image from 'next/image'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
 
-type FeatureSlide = {
-  src: string
-  alt: string
-  title: string
-  description: string
-  ctaLabel: string
-  ctaHref: string
-  /** CSS object-position focal point for the crop, e.g. '50% 72%'. Defaults to center. */
-  position?: string
-}
-
-const SLIDES: FeatureSlide[] = [
-  {
-    src: '/assets/five-time-prayer-01.jpeg',
-    alt: 'Congregation praying together at Jeju Central Masjid',
-    position: '50% 72%',
-    title: 'Five Daily Prayers',
-    description:
-      'All five daily prayers are held in congregation at the masjid, with our doors open around the clock. Come pray with us — brothers and sisters each have their own dedicated space.',
-    ctaLabel: 'Visit Us',
-    ctaHref: '/contact',
-  },
-  {
-    src: '/assets/jummah-02.jpeg',
-    alt: 'Imam delivering the Friday khutbah at Jeju Central Masjid',
-    // Khateeb sits left-of-centre; hold him in frame on the narrow mobile crop.
-    position: '42% 54%',
-    title: 'Jummah at the Masjid',
-    description:
-      'Every Friday the whole island community gathers for the khutbah and Jummah salah — students, workers, families, and travellers side by side.',
-    ctaLabel: 'Jummah Times',
-    ctaHref: '/services',
-  },
-  {
-    src: '/assets/mosque-3.jpg',
-    alt: 'Around Jeju Central Masjid on Jeju Island',
-    title: 'In the Heart of Jeju',
-    description:
-      'Located in the heart of Jeju, it serves students, workers, families, new Muslims, and visitors by providing opportunities to learn about Islam, ask questions, and take meaningful steps in faith.',
-    ctaLabel: 'Learn More',
-    ctaHref: '/about',
-  },
-  {
-    src: '/assets/mosque-1.jpg',
-    alt: 'Inside the Jeju Central Masjid prayer hall',
-    title: 'Service, Unity & Compassion',
-    description:
-      'Committed to service, unity, and compassion, the masjid aims to strengthen both spiritual life and community well-being through outreach, care, and positive engagement with society.',
-    ctaLabel: 'Support Us',
-    ctaHref: '/donate',
-  },
-  
-]
+import type { HeroSlide } from '@/lib/data/heroSlides'
 
 const SLIDE_DURATION_MS = 7000
 const SWIPE_THRESHOLD = 50
 
-export default function Hero() {
+export default function Hero({ slides }: { slides: HeroSlide[] }) {
   const [index, setIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -77,9 +25,10 @@ export default function Hero() {
     return () => mq.removeEventListener('change', apply)
   }, [])
 
-  const goTo = useCallback((n: number) => {
-    setIndex(((n % SLIDES.length) + SLIDES.length) % SLIDES.length)
-  }, [])
+  const goTo = useCallback(
+    (n: number) => setIndex(((n % slides.length) + slides.length) % slides.length),
+    [slides.length],
+  )
 
   const next = useCallback(() => goTo(index + 1), [goTo, index])
   const prev = useCallback(() => goTo(index - 1), [goTo, index])
@@ -87,12 +36,12 @@ export default function Hero() {
   useEffect(() => {
     if (isPaused || reducedMotion) return
     timerRef.current = setInterval(() => {
-      setIndex((i) => (i + 1) % SLIDES.length)
+      setIndex((i) => (i + 1) % slides.length)
     }, SLIDE_DURATION_MS)
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
     }
-  }, [isPaused, reducedMotion])
+  }, [isPaused, reducedMotion, slides.length])
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
@@ -115,14 +64,14 @@ export default function Hero() {
       onTouchEnd={onTouchEnd}
     >
       <div className="relative h-[440px] w-full xs:h-[480px] sm:h-[560px] md:h-[620px] lg:h-[660px]">
-        {SLIDES.map((slide, i) => {
+        {slides.map((slide, i) => {
           const isActive = i === index
           return (
             <div
-              key={slide.src}
+              key={i}
               aria-hidden={!isActive}
               aria-roledescription="slide"
-              aria-label={`${i + 1} of ${SLIDES.length}`}
+              aria-label={`${i + 1} of ${slides.length}`}
               className={`absolute inset-0 transition-opacity duration-[1100ms] ease-out ${
                 isActive ? 'opacity-100' : 'pointer-events-none opacity-0'
               }`}
@@ -233,11 +182,11 @@ export default function Hero() {
 
         {/* Dot pagination — smooth pill shape, expands on active */}
         <div className="absolute inset-x-0 bottom-5 z-10 flex items-center justify-center gap-2 sm:bottom-7">
-          {SLIDES.map((s, i) => {
+          {slides.map((_, i) => {
             const isActive = i === index
             return (
               <button
-                key={s.src}
+                key={i}
                 type="button"
                 onClick={() => goTo(i)}
                 aria-label={`Go to slide ${i + 1}`}

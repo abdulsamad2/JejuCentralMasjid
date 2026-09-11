@@ -2,12 +2,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
+import { getPagePhotos, pickPhoto } from '@/lib/cms'
 /**
  * Support appeal — inspired by Green Lane Masjid's homepage appeal block.
  * Rewritten for Jeju Central Masjid: a small community mosque with real,
  * modest impact numbers. Honest over inflated.
  */
-export default function SupportAppeal() {
+export default async function SupportAppeal() {
+  const photo = pickPhoto((await getPagePhotos())?.supportAppeal, {
+    src: '/assets/mosque-1.jpg',
+    alt: 'Jeju Central Masjid community',
+  })
   return (
     <section
       aria-labelledby="support-heading"
@@ -101,11 +106,12 @@ export default function SupportAppeal() {
             <div className="relative mx-auto w-full max-w-lg lg:mx-0">
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-xl ring-1 ring-islamic-navy/5">
                 <Image
-                  src="/assets/mosque-1.jpg"
-                  alt="Jeju Central Masjid community"
+                  src={photo.src}
+                  alt={photo.alt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 42vw"
                   className="object-cover"
+                  style={photo.position ? { objectPosition: photo.position } : undefined}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-islamic-navy-dark/55 via-transparent to-transparent" />
               </div>

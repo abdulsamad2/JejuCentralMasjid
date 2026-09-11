@@ -9,8 +9,13 @@ import {
   MegaphoneIcon,
   CalendarDaysIcon,
 } from '@heroicons/react/24/outline'
+import { getPagePhotos, pickPhoto, pickPhotos } from '@/lib/cms'
+
+type MomentKey = 'dawah' | 'eid' | 'iftar' | 'children' | 'jummah' | 'gathering'
 
 type Moment = {
+  /** Page photos slot that can replace this card's photo (cms/globals/PagePhotos.ts). */
+  key: MomentKey
   src: string
   alt: string
   tag: string
@@ -22,6 +27,7 @@ type Moment = {
 
 const MOMENTS: Moment[] = [
   {
+    key: 'dawah',
     src: '/assets/dawah-korean-visitors.jpg',
     alt: 'Local Korean students and visitors listening to a talk at Jeju Central Masjid',
     tag: 'Dawah',
@@ -32,6 +38,7 @@ const MOMENTS: Moment[] = [
     href: '/services',
   },
   {
+    key: 'eid',
     src: '/assets/eid-prayer.jpg',
     alt: 'Eid prayer gathered outdoors in Jeju',
     tag: 'Eid',
@@ -42,6 +49,7 @@ const MOMENTS: Moment[] = [
     href: '/events',
   },
   {
+    key: 'iftar',
     src: '/assets/iftaar-gathering.jpg',
     alt: 'Community iftar gathering at Jeju Central Masjid',
     tag: 'Iftar',
@@ -52,6 +60,7 @@ const MOMENTS: Moment[] = [
     href: '/events',
   },
   {
+    key: 'children',
     src: '/assets/children-quran.jpg',
     alt: "Children learning Qur'an at Jeju Central Masjid",
     tag: "Children's Classes",
@@ -62,6 +71,7 @@ const MOMENTS: Moment[] = [
     href: '/services',
   },
   {
+    key: 'jummah',
     src: '/assets/jummah-05.jpeg',
     alt: 'Khutbah during Jummah prayer at Jeju Central Masjid',
     tag: 'Jummah',
@@ -72,6 +82,7 @@ const MOMENTS: Moment[] = [
     href: '/contact',
   },
   {
+    key: 'gathering',
     src: '/assets/gathering-04.jpg',
     alt: 'Monthly community gathering sharing a meal at the masjid',
     tag: 'Monthly Gathering',
@@ -93,7 +104,10 @@ const SNAPSHOTS = [
   { src: '/assets/community-elders-04.jpg', alt: 'Jeju community seniors' },
 ]
 
-export default function CommunityMoments() {
+export default async function CommunityMoments() {
+  const pagePhotos = await getPagePhotos()
+  const moments = MOMENTS.map((m) => ({ ...m, photo: pickPhoto(pagePhotos?.moments?.[m.key], m) }))
+  const snapshots = pickPhotos(pagePhotos?.momentsStrip, SNAPSHOTS)
   return (
     <section
       aria-labelledby="moments-heading"
@@ -128,15 +142,16 @@ export default function CommunityMoments() {
 
         {/* Feature cards */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-          {MOMENTS.map((m, i) => {
+          {moments.map((m, i) => {
             return (
               <article
                 key={i}
                 className="group relative aspect-[4/3] overflow-hidden rounded-3xl bg-islamic-navy-dark shadow-lg ring-1 ring-islamic-navy/5 transition hover:-translate-y-1 hover:shadow-2xl"
               >
                 <Image
-                  src={m.src}
-                  alt={m.alt}
+                  src={m.photo.src}
+                  alt={m.photo.alt}
+                  style={m.photo.position ? { objectPosition: m.photo.position } : undefined}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
                   className="object-cover transition duration-700 group-hover:scale-105"
@@ -173,15 +188,16 @@ export default function CommunityMoments() {
         {/* Snapshot strip — a taste of the full gallery */}
         <div className="mt-10 sm:mt-12">
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
-            {SNAPSHOTS.map((s) => (
+            {snapshots.map((s, i) => (
               <Link
-                key={s.src}
+                key={`${i}-${s.src}`}
                 href="/gallery"
                 className="group relative block aspect-square overflow-hidden rounded-xl bg-islamic-navy ring-1 ring-islamic-navy/5"
               >
                 <Image
                   src={s.src}
                   alt={s.alt}
+                  style={s.position ? { objectPosition: s.position } : undefined}
                   fill
                   sizes="(max-width: 640px) 33vw, 16vw"
                   className="object-cover transition duration-700 group-hover:scale-105"

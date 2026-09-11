@@ -5,17 +5,19 @@ import PageHeader from '@/components/PageHeader'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { MASJID_ADDRESS_EN, MASJID_ADDRESS_KO } from '@/lib/constants/masjidLocation'
+import { pageMetadata } from '@/lib/seo/pageMetadata'
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'FAQ — Visiting, Prayers & Donations',
   description:
     'Frequently asked questions about Jeju Central Masjid — visiting hours, Jummah times, what to wear, facilities for sisters, donations, and how to get in touch. 제주 이슬람 사원 방문, 예배 시간, 기부 방법에 대한 자주 묻는 질문.',
-}
+  path: '/faq',
+})
 
 const FAQS: { q: string; a: string }[] = [
   {
     q: 'Can non-Muslims visit the masjid?',
-    a: 'Yes — everyone is welcome, Muslims and non-Muslims, residents and travelers. Come during any prayer time or message us first if you would like someone to show you around and answer questions.',
+    a: 'Yes — everyone is welcome, Muslims and non-Muslims, residents and travelers. Come during any prayer time, or book a visit on our website (jejucentralmasjid.kr/visit) so someone is there to show you around and answer questions.',
   },
   {
     q: 'When is Jummah (Friday prayer)?',

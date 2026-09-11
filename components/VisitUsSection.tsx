@@ -16,7 +16,12 @@ import {
   MASJID_PHONES,
 } from '../lib/constants/masjidLocation'
 
-export default function VisitUsSection() {
+import { getPagePhotos, pickPhoto } from '@/lib/cms'
+export default async function VisitUsSection() {
+  const photo = pickPhoto((await getPagePhotos())?.visitUs, {
+    src: '/assets/masjid-exterior-front.jpg',
+    alt: 'The Jeju Central Masjid building — grey three-storey building with multilingual welcome signs on the 2nd-floor windows',
+  })
   return (
     <section
       aria-labelledby="visit-heading"
@@ -30,11 +35,12 @@ export default function VisitUsSection() {
               {/* The actual building — so visitors know what to look for */}
               <div className="relative aspect-[16/9] w-full bg-islamic-navy">
                 <Image
-                  src="/assets/masjid-exterior-front.jpg"
-                  alt="The Jeju Central Masjid building — grey three-storey building with multilingual welcome signs on the 2nd-floor windows"
+                  src={photo.src}
+                  alt={photo.alt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 58vw"
                   className="object-cover"
+                  style={photo.position ? { objectPosition: photo.position } : undefined}
                 />
                 <span className="absolute bottom-3 left-3 rounded-full bg-islamic-navy/80 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm">
                   Look for this building — we&rsquo;re on the 2nd floor
@@ -180,17 +186,17 @@ export default function VisitUsSection() {
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
-                href="/contact"
+                href="/visit"
                 className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-islamic-green px-6 py-3 text-sm font-semibold text-white shadow-md shadow-islamic-green/25 transition hover:-translate-y-0.5 hover:bg-islamic-green-dark sm:text-base"
               >
-                Contact us
+                Book a visit
                 <ChevronRightIcon className="h-4 w-4" />
               </Link>
               <Link
-                href="/about"
+                href="/contact"
                 className="inline-flex min-h-[48px] items-center gap-2 rounded-full border border-islamic-navy/15 bg-white px-6 py-3 text-sm font-semibold text-islamic-navy transition hover:border-islamic-green hover:text-islamic-green sm:text-base"
               >
-                More about us
+                Contact us
               </Link>
             </div>
           </div>

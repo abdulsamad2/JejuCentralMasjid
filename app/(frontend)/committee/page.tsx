@@ -18,12 +18,14 @@ import {
   ChevronRightIcon,
   UserIcon,
 } from '@heroicons/react/24/outline'
+import { pageMetadata } from '@/lib/seo/pageMetadata'
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Masjid Committee',
   description:
     'How Jeju Central Masjid is organised — the Imam, senior committee, and department coordinators who serve the community.',
-}
+  path: '/committee',
+})
 
 type Node = {
   role: string

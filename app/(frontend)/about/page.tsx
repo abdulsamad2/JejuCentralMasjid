@@ -15,12 +15,15 @@ import {
   ChevronRightIcon,
   CheckIcon,
 } from '@heroicons/react/24/outline'
+import { pageMetadata } from '@/lib/seo/pageMetadata'
 
-export const metadata = {
+import { getPagePhotos, pickPhoto, pickPhotos } from '@/lib/cms'
+export const metadata = pageMetadata({
   title: 'About',
   description:
     'About Jeju Central Masjid — a welcoming community mosque on Jeju Island with separate prayer areas, a small multilingual library, and a growing ummah.',
-}
+  path: '/about',
+})
 
 const facilities = [
   {
@@ -74,7 +77,32 @@ const guidelines = [
   'Non-Muslim visitors are welcome — please introduce yourself to a volunteer',
 ]
 
-export default function AboutPage() {
+// Built-in library photos; the Page photos "Library photos" slot can replace them.
+const LIBRARY_PHOTOS = [
+  {
+    src: '/assets/library-shelves.jpg',
+    alt: 'Library shelves with labeled sections — Korean, English, Urdu, Bangla, Uzbek, and Turkish books',
+  },
+  {
+    src: '/assets/library-01.jpg',
+    alt: 'Display stand of Korean-language booklets about Islam',
+  },
+  {
+    src: '/assets/library-02.jpg',
+    alt: 'Islamic books in the masjid library',
+  },
+  {
+    src: '/assets/library-04.jpg',
+    alt: 'Bookshelves in the masjid library',
+  },
+]
+
+export const revalidate = 120
+
+export default async function AboutPage() {
+  const pagePhotos = await getPagePhotos()
+  const mainPhoto = pickPhoto(pagePhotos?.aboutMain, { src: '/assets/mosque-2.jpg', alt: 'Jeju Central Masjid community' })
+  const libraryPhotos = pickPhotos(pagePhotos?.aboutLibrary, LIBRARY_PHOTOS)
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
@@ -145,11 +173,12 @@ export default function AboutPage() {
               <div className="relative overflow-hidden rounded-3xl shadow-xl ring-1 ring-islamic-navy/5">
                 <div className="relative aspect-[4/5] w-full">
                   <Image
-                    src="/assets/mosque-2.jpg"
-                    alt="Jeju Central Masjid community"
+                    src={mainPhoto.src}
+                    alt={mainPhoto.alt}
                     fill
                     sizes="(max-width: 1024px) 100vw, 42vw"
                     className="object-cover"
+                    style={mainPhoto.position ? { objectPosition: mainPhoto.position } : undefined}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-islamic-navy-dark/60 via-transparent to-transparent" />
                 </div>
@@ -214,26 +243,9 @@ export default function AboutPage() {
           {/* Inside our little library */}
           <div className="mt-10">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-              {[
-                {
-                  src: '/assets/library-shelves.jpg',
-                  alt: 'Library shelves with labeled sections — Korean, English, Urdu, Bangla, Uzbek, and Turkish books',
-                },
-                {
-                  src: '/assets/library-01.jpg',
-                  alt: 'Display stand of Korean-language booklets about Islam',
-                },
-                {
-                  src: '/assets/library-02.jpg',
-                  alt: 'Islamic books in the masjid library',
-                },
-                {
-                  src: '/assets/library-04.jpg',
-                  alt: 'Bookshelves in the masjid library',
-                },
-              ].map((photo) => (
+              {libraryPhotos.map((photo, i) => (
                 <Link
-                  key={photo.src}
+                  key={`${i}-${photo.src}`}
                   href="/gallery"
                   className="group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-islamic-navy ring-1 ring-islamic-navy/5"
                 >
@@ -243,6 +255,7 @@ export default function AboutPage() {
                     fill
                     sizes="(max-width: 640px) 50vw, 25vw"
                     className="object-cover transition duration-700 group-hover:scale-105"
+                    style={photo.position ? { objectPosition: photo.position } : undefined}
                   />
                 </Link>
               ))}

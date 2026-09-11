@@ -198,6 +198,13 @@ export default function ContactPage() {
               Jeju Central Masjid is a small community mosque currently operating from a rented space on the 2nd floor.
               Everyone is welcome — Muslims and non-Muslims alike.
             </p>
+            <p className="mt-3 text-base text-islamic-navy/70">
+              The masjid isn&apos;t always staffed.{' '}
+              <Link href="/visit" className="font-semibold text-islamic-green hover:text-islamic-green-dark">
+                Book a visit
+              </Link>{' '}
+              and someone will be there to welcome you and show you around.
+            </p>
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
@@ -388,7 +395,8 @@ export default function ContactPage() {
                   </div>
                   <h3 className="mt-4 text-2xl font-bold text-islamic-navy">Jazak&apos;Allah khair!</h3>
                   <p className="mt-2 text-islamic-navy/70">
-                    Your message has been received. We&apos;ll get back to you soon, insha&apos;Allah.
+                    Your message has been received, and we&apos;ve emailed you a copy. We&apos;ll get back to you
+                    soon, insha&apos;Allah.
                   </p>
                   <button
                     onClick={() => {

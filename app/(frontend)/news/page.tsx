@@ -7,17 +7,21 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { ChevronRightIcon, CalendarIcon } from '@heroicons/react/24/outline'
 import { formatNewsDate } from '@/lib/data/news'
 import { getAllNews } from '@/lib/cms'
+import { newsGrid } from '@/components/newsGrid'
+import { pageMetadata } from '@/lib/seo/pageMetadata'
 
 export const revalidate = 120
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'News & Announcements',
   description:
     'Latest announcements, events, and updates from Jeju Central Masjid — Eid timings, Ramadan schedule, community iftars, and the permanent masjid appeal. 제주 이슬람 사원의 새 소식과 공지사항.',
-}
+  path: '/news',
+})
 
 export default async function NewsListingPage() {
   const items = await getAllNews()
+  const grid = newsGrid(items.length)
 
   return (
     <main className="min-h-screen bg-white">
@@ -44,7 +48,7 @@ export default async function NewsListingPage() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            <div className={`grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-6 ${grid.className}`}>
               {items.map((item) => (
                 <Link
                   key={item.slug}
@@ -57,7 +61,7 @@ export default async function NewsListingPage() {
                         src={item.image}
                         alt={item.title}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        sizes={grid.sizes}
                         className="object-cover transition duration-700 group-hover:scale-105"
                       />
                     )}
@@ -75,10 +79,10 @@ export default async function NewsListingPage() {
                     <h2 className="mt-2 text-lg font-bold leading-snug text-islamic-navy transition group-hover:text-islamic-green sm:text-xl">
                       {item.title}
                     </h2>
-                    <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-islamic-navy/70">
+                    <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-islamic-navy/70">
                       {item.excerpt}
                     </p>
-                    <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green">
+                    <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold text-islamic-green">
                       Read more
                       <ChevronRightIcon className="h-4 w-4 transition group-hover:translate-x-0.5" />
                     </span>

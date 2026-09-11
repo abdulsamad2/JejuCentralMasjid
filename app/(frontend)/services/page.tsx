@@ -17,12 +17,15 @@ import {
   CheckIcon,
   HeartIcon,
 } from '@heroicons/react/24/outline'
+import { pageMetadata } from '@/lib/seo/pageMetadata'
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Services',
   description:
     'Services at Jeju Central Masjid — daily prayers, weekly halaqas, Children\u2019s classes, Monthly Gathering, Mashwara (consultation), Korean visitor outreach, library, and Ramadan programs. 제주 이슬람 사원의 예배, 교육, 혼인 상담, 도서관 안내.',
-}
+  path: '/services',
+  image: { url: '/assets/library-shelves.jpg', width: 1600, height: 1200, alt: 'The multilingual Islamic library at Jeju Central Masjid' },
+})
 
 type Service = {
   icon: typeof UserGroupIcon

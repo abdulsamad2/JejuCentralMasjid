@@ -9,12 +9,16 @@ import sharp from 'sharp'
 
 import { Users } from './cms/collections/Users'
 import { Media } from './cms/collections/Media'
+import { GalleryCategories } from './cms/collections/GalleryCategories'
 import { News } from './cms/collections/News'
 import { Events } from './cms/collections/Events'
 import { ContactSubmissions } from './cms/collections/ContactSubmissions'
 import { PageViews } from './cms/collections/PageViews'
 import { ReceiptRequests } from './cms/collections/ReceiptRequests'
 import { ReceiptScreenshots } from './cms/collections/ReceiptScreenshots'
+import { VisitRequests } from './cms/collections/VisitRequests'
+import { HomeSlider } from './cms/globals/HomeSlider'
+import { PagePhotos } from './cms/globals/PagePhotos'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -30,12 +34,28 @@ const db = vercelPostgresAdapter({
 export default buildConfig({
   admin: {
     user: Users.slug,
-    meta: { titleSuffix: ' · Jeju Central Masjid' },
+    meta: {
+      titleSuffix: ' · Admin Panel',
+      icons: [{ rel: 'icon', type: 'image/png', url: '/icon.png' }],
+    },
     importMap: { baseDir: dirname },
+    // Initials in the top bar instead of a grey silhouette.
+    avatar: { Component: '/cms/components/Avatar#Avatar' },
     components: {
+      // Masjid branding; styles in app/(payload)/custom.scss.
+      graphics: {
+        Logo: '/cms/components/Brand#Logo',
+        Icon: '/cms/components/Brand#Icon',
+      },
+      beforeLogin: ['/cms/components/Brand#LoginIntro'],
+      afterLogin: ['/cms/components/Brand#LoginFooter'],
+      beforeNavLinks: ['/cms/components/Brand#NavBrand'],
       beforeDashboard: [
-        '/cms/components/VisitorAnalytics#VisitorAnalytics',
+        '/cms/components/Brand#Welcome',
+        '/cms/components/InboxSummary#InboxSummary',
+        '/cms/components/AdminGuides#WebsitePhotos',
         '/cms/components/StorageUsage#StorageUsage',
+        '/cms/components/VisitorAnalytics#VisitorAnalytics',
       ],
       afterNavLinks: ['/cms/components/AnalyticsNavLink#AnalyticsNavLink'],
       logout: { Button: '/cms/components/LogoutButton#LogoutButton' },
@@ -50,13 +70,16 @@ export default buildConfig({
   collections: [
     News,
     Events,
+    Media,
+    GalleryCategories,
+    VisitRequests,
     ContactSubmissions,
     ReceiptRequests,
     ReceiptScreenshots,
-    Media,
     Users,
     PageViews,
   ],
+  globals: [HomeSlider, PagePhotos],
   // All outbound email (receipts, notifications, password resets) sends as
   // info@jejucentralmasjid.kr via Resend; without the key it logs to console.
   ...(process.env.RESEND_API_KEY
@@ -76,7 +99,7 @@ export default buildConfig({
   db,
   sharp,
   plugins: [
-    // News image uploads persist to Vercel Blob in production (serverless
+    // Image uploads persist to Vercel Blob in production (serverless
     // filesystems are ephemeral); locally they land in ./media.
     // Uploads go through the server so sharp can compress them (clientUploads
     // would bypass compression entirely). Vercel caps request bodies at 4.5MB,
@@ -84,7 +107,12 @@ export default buildConfig({
     ...(process.env.BLOB_READ_WRITE_TOKEN
       ? [
           vercelBlobStorage({
-            collections: { media: true, 'receipt-screenshots': true },
+            collections: {
+              // Public images are served straight from the Blob CDN rather
+              // than proxied through /api/<collection>/file/*.
+              media: { disablePayloadAccessControl: true },
+              'receipt-screenshots': true,
+            },
             token: process.env.BLOB_READ_WRITE_TOKEN,
           }),
         ]

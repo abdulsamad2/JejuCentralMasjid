@@ -3,18 +3,23 @@
 import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
-import { GALLERY_CATEGORIES, GALLERY_ITEMS } from '../lib/data/gallery'
+import type { GalleryItem } from '../lib/data/gallery'
 
-const FILTERS = ['All', ...GALLERY_CATEGORIES.filter((c) => GALLERY_ITEMS.some((i) => i.category === c))]
+type Props = {
+  /** Category names in display order (only those with photos). */
+  categories: string[]
+  photos: GalleryItem[]
+}
 
-export default function GalleryGrid() {
+export default function GalleryGrid({ categories, photos }: Props) {
   const [activeCategory, setActiveCategory] = useState('All')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
+  const filters = ['All', ...categories]
   const items =
     activeCategory === 'All'
-      ? GALLERY_ITEMS
-      : GALLERY_ITEMS.filter((i) => i.category === activeCategory)
+      ? photos
+      : photos.filter((i) => i.category === activeCategory)
 
   const selected = lightboxIndex === null ? null : items[lightboxIndex]
 
@@ -41,12 +46,12 @@ export default function GalleryGrid() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Category filter */}
         <div className="mb-8 flex flex-wrap gap-2 sm:mb-10">
-          {FILTERS.map((category) => {
+          {filters.map((category) => {
             const active = activeCategory === category
             const count =
               category === 'All'
-                ? GALLERY_ITEMS.length
-                : GALLERY_ITEMS.filter((i) => i.category === category).length
+                ? photos.length
+                : photos.filter((i) => i.category === category).length
             return (
               <button
                 key={category}
@@ -92,6 +97,7 @@ export default function GalleryGrid() {
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover transition duration-700 group-hover:scale-105"
+                    style={item.position ? { objectPosition: item.position } : undefined}
                   />
                   <span
                     aria-hidden="true"

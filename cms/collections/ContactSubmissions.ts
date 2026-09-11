@@ -1,25 +1,45 @@
 import type { CollectionConfig } from 'payload'
 
+import { acknowledgementHtml, committeeRecipients, esc, INFO_EMAIL } from '../email/notify'
+
+const SITE = 'https://jejucentralmasjid.kr'
+
 export const ContactSubmissions: CollectionConfig = {
   slug: 'contact-submissions',
   labels: { singular: 'Contact submission', plural: 'Contact submissions' },
   defaultSort: '-createdAt',
   hooks: {
     afterChange: [
-      // Email the committee inbox whenever the website form is submitted.
       async ({ doc, operation, req }) => {
         if (operation !== 'create') return doc
+        // Tell the committee (reply goes straight to the sender)…
         try {
           await req.payload.sendEmail({
-            to: 'info@jejucentralmasjid.kr',
+            ...committeeRecipients(),
             replyTo: doc.email,
             subject: `Website message — ${doc.inquiry || 'General'}: ${doc.subject || '(no subject)'}`,
-            html: `<p><strong>${doc.name}</strong> (${doc.email}${doc.phone ? ` · ${doc.phone}` : ''})</p>
-              <p style="white-space:pre-wrap">${doc.message}</p>
-              <p><a href="https://jejucentralmasjid.kr/admin/collections/contact-submissions/${doc.id}">Open in admin</a> — reply directly to this email to answer.</p>`,
+            html: `<p><strong>${esc(doc.name)}</strong> (${esc(doc.email)}${doc.phone ? ` · ${esc(doc.phone)}` : ''})</p>
+              <p style="white-space:pre-wrap">${esc(doc.message)}</p>
+              <p><a href="${SITE}/admin/collections/contact-submissions/${doc.id}">Open in admin</a> — reply directly to this email to answer.</p>`,
           })
         } catch (err) {
           req.payload.logger.error(`Contact notification email failed: ${String(err)}`)
+        }
+        // …and let the sender know it arrived.
+        try {
+          await req.payload.sendEmail({
+            to: doc.email,
+            replyTo: INFO_EMAIL,
+            subject: 'We received your message — Jeju Central Masjid',
+            html: acknowledgementHtml({
+              name: doc.name,
+              heading: 'We received your message',
+              intro: 'Thank you for getting in touch. Your message has reached the masjid committee.',
+              next: "We usually reply within 1–2 days, insha'Allah. You can reply to this email to add anything.",
+            }),
+          })
+        } catch (err) {
+          req.payload.logger.error(`Contact acknowledgement email failed: ${String(err)}`)
         }
         return doc
       },

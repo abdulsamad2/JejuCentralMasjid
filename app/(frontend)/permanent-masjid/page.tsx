@@ -16,12 +16,15 @@ import {
   ChatBubbleLeftRightIcon,
   CheckBadgeIcon,
 } from '@heroicons/react/24/outline'
+import { pageMetadata } from '@/lib/seo/pageMetadata'
 
-export const metadata = {
+import { getPagePhotos, pickPhoto } from '@/lib/cms'
+export const metadata = pageMetadata({
   title: 'Build a Permanent Masjid',
   description:
     'Jeju Central Masjid currently operates from a rented hall. Help us build a permanent masjid and Islamic centre on Jeju Island, insha’Allah.',
-}
+  path: '/permanent-masjid',
+})
 
 const REALITY = [
   {
@@ -69,7 +72,13 @@ const VISION = [
   },
 ]
 
-export default function PermanentMasjidPage() {
+export const revalidate = 120
+
+export default async function PermanentMasjidPage() {
+  const photo = pickPhoto((await getPagePhotos())?.permanentMasjid, {
+    src: '/assets/mosque-1.jpg',
+    alt: 'Jeju Central Masjid — current rented hall',
+  })
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
@@ -119,11 +128,12 @@ export default function PermanentMasjidPage() {
               <div className="relative overflow-hidden rounded-3xl shadow-xl ring-1 ring-islamic-navy/5">
                 <div className="relative aspect-[4/5] w-full">
                   <Image
-                    src="/assets/mosque-1.jpg"
-                    alt="Jeju Central Masjid — current rented hall"
+                    src={photo.src}
+                    alt={photo.alt}
                     fill
                     sizes="(max-width: 1024px) 100vw, 42vw"
                     className="object-cover"
+                    style={photo.position ? { objectPosition: photo.position } : undefined}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-islamic-navy-dark/55 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-5 text-white">

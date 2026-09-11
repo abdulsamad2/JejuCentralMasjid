@@ -8,6 +8,7 @@ import {
   MapPinIcon,
 } from '@heroicons/react/24/outline'
 
+import { getPagePhotos, pickPhoto } from '@/lib/cms'
 const CURRICULUM = [
   'Nazirah Qur\u2019an with Tajweed',
   'Hifz-ul-Qur\u2019an',
@@ -22,7 +23,11 @@ const CURRICULUM = [
  * Content adapted from the masjid flyer (same wording) into a responsive
  * web layout that doesn't rely on a static poster image.
  */
-export default function UnlockQuranSection() {
+export default async function UnlockQuranSection() {
+  const photo = pickPhoto((await getPagePhotos())?.quranTeacher, {
+    src: '/assets/qari.jpeg',
+    alt: 'Qur’an teacher at Jeju Central Masjid',
+  })
   return (
     <section
       aria-labelledby="unlock-quran-heading"
@@ -148,11 +153,12 @@ export default function UnlockQuranSection() {
               <div className="flex items-center gap-4 rounded-2xl border border-islamic-navy/8 bg-white p-3 shadow-sm sm:p-4">
                 <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl sm:h-24 sm:w-24">
                   <Image
-                    src="/assets/qari.jpeg"
-                    alt="Qur&rsquo;an teacher at Jeju Central Masjid"
+                    src={photo.src}
+                    alt={photo.alt}
                     fill
                     sizes="96px"
                     className="object-cover"
+                    style={photo.position ? { objectPosition: photo.position } : undefined}
                   />
                 </div>
                 <div className="min-w-0">

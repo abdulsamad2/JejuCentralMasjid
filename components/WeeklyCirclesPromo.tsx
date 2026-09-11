@@ -9,6 +9,7 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
+import { getPagePhotos, pickPhoto } from '@/lib/cms'
 const circles = [
   {
     icon: SparklesIcon,
@@ -37,7 +38,11 @@ const circles = [
   },
 ]
 
-export default function WeeklyCirclesPromo() {
+export default async function WeeklyCirclesPromo() {
+  const photo = pickPhoto((await getPagePhotos())?.weeklyCircles, {
+    src: '/assets/mosque-3.jpg',
+    alt: 'Weekly circles at Jeju Central Masjid',
+  })
   return (
     <section className="relative overflow-hidden bg-islamic-navy text-white">
       <div
@@ -100,11 +105,12 @@ export default function WeeklyCirclesPromo() {
           <div className="relative mx-auto w-full max-w-lg lg:mx-0">
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10">
               <Image
-                src="/assets/mosque-3.jpg"
-                alt="Weekly circles at Jeju Central Masjid"
+                src={photo.src}
+                alt={photo.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
+                style={photo.position ? { objectPosition: photo.position } : undefined}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-islamic-navy-dark/70 via-transparent to-transparent" />
             </div>

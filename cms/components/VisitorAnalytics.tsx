@@ -39,7 +39,7 @@ const cellStyle: React.CSSProperties = {
 function List({ title, items }: { title: string; items: [string, number][] }) {
   return (
     <div style={{ minWidth: '180px', flex: '1 1 180px' }}>
-      <p style={{ margin: '0 0 6px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--theme-elevation-500)' }}>
+      <p style={{ margin: '0 0 6px', fontSize: '13px', fontWeight: 600, color: 'var(--jcm-heading)' }}>
         {title}
       </p>
       {items.length === 0 ? (
@@ -79,26 +79,18 @@ export async function VisitorAnalytics({ payload }: { payload: Payload }) {
   const max = Math.max(1, ...series.map(([, v]) => v))
 
   return (
-    <div
-      style={{
-        border: '1px solid var(--theme-elevation-150)',
-        background: 'var(--theme-elevation-50)',
-        borderRadius: '8px',
-        padding: '16px 20px',
-        marginBottom: '24px',
-      }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '8px' }}>
-        <strong>
-          Visitors — last {DAYS} days{' '}
-          <a href="/admin/analytics" style={{ color: '#0B8F4A', fontSize: '13px', fontWeight: 600, marginLeft: '8px' }}>
-            Full analytics →
+    <section className="jcm-panel">
+      <div className="jcm-panel__head jcm-panel__head--row">
+        <h3>
+          Visitors in the last {DAYS} days{' '}
+          <a href="/admin/analytics" className="jcm-panel__link">
+            Full analytics
           </a>
-        </strong>
-        <span style={{ fontSize: '13px', color: 'var(--theme-elevation-600)' }}>
+        </h3>
+        <p>
           {views.toLocaleString()} page views · {visitors.toLocaleString()} unique visitors ·{' '}
           {views > 0 ? Math.round((mobile / views) * 100) : 0}% mobile
-        </span>
+        </p>
       </div>
 
       {/* Daily bar chart */}
@@ -114,7 +106,7 @@ export async function VisitorAnalytics({ payload }: { payload: Payload }) {
               flex: 1,
               height: `${Math.max(4, (count / max) * 100)}%`,
               borderRadius: '2px 2px 0 0',
-              background: count > 0 ? '#0B8F4A' : 'var(--theme-elevation-150)',
+              background: count > 0 ? 'var(--jcm-green)' : 'var(--theme-elevation-150)',
             }}
           />
         ))}
@@ -139,13 +131,13 @@ export async function VisitorAnalytics({ payload }: { payload: Payload }) {
               href={process.env.NEXT_PUBLIC_UMAMI_SHARE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#0B8F4A', fontWeight: 600 }}
+              style={{ color: 'var(--jcm-link)', fontWeight: 600 }}
             >
               Open full Umami dashboard →
             </a>
           </>
         )}
       </p>
-    </div>
+    </section>
   )
 }

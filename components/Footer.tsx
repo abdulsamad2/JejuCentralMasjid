@@ -26,6 +26,7 @@ const visit = [
   { href: '/gallery', label: 'Gallery' },
   { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
+  { href: '/visit', label: 'Book a visit' },
 ]
 
 const community = [

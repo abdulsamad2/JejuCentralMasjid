@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Services', href: '/services' },
   { name: 'Events', href: '/events' },
   { name: 'Gallery', href: '/gallery' },
+  { name: 'Visit', href: '/visit' },
   { name: 'Contact', href: '/contact' },
 ]
 
@@ -70,7 +71,7 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`relative rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  className={`relative rounded-full px-3 py-2 text-sm font-semibold transition-colors xl:px-4 ${
                     active
                       ? 'text-islamic-green'
                       : 'text-islamic-navy hover:text-islamic-green'
@@ -78,7 +79,7 @@ export default function Navbar() {
                 >
                   {item.name}
                   {active && (
-                    <span className="absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-islamic-green" />
+                    <span className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-islamic-green xl:inset-x-4" />
                   )}
                 </Link>
               )
@@ -88,7 +89,7 @@ export default function Navbar() {
                 catches the eye but doesn't compete with the primary action. */}
             <Link
               href={PERMANENT_MASJID_HREF}
-              className={`ml-2 inline-flex items-center gap-1.5 rounded-full border-2 border-islamic-gold/70 bg-islamic-gold/10 px-4 py-1.5 text-sm font-bold text-islamic-gold-dark transition hover:-translate-y-0.5 hover:border-islamic-gold hover:bg-islamic-gold/20 hover:shadow-md ${
+              className={`ml-2 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-islamic-gold/70 bg-islamic-gold/10 px-4 py-1.5 text-sm font-bold text-islamic-gold-dark transition hover:-translate-y-0.5 hover:border-islamic-gold hover:bg-islamic-gold/20 hover:shadow-md ${
                 pathname === PERMANENT_MASJID_HREF ? 'bg-islamic-gold/25 shadow-sm' : ''
               }`}
             >

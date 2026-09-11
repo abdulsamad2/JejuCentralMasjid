@@ -12,6 +12,7 @@ const fmt = (bytes: number): string => {
 }
 
 export async function StorageUsage({ payload }: { payload: Payload }) {
+  // Every public photo lives in Images (media).
   const { docs } = await payload.find({
     collection: 'media',
     limit: 0,
@@ -20,58 +21,33 @@ export async function StorageUsage({ payload }: { payload: Payload }) {
     select: { filesize: true },
   })
 
-  const used = docs.reduce((sum, d) => sum + (((d as { filesize?: number | null }).filesize) || 0), 0)
+  const used = docs.reduce((sum, d) => sum + (d.filesize || 0), 0)
   const pct = Math.min(100, (used / LIMIT_BYTES) * 100)
   const remaining = Math.max(0, LIMIT_BYTES - used)
-  const barColor = pct > 90 ? '#dc2626' : pct > 70 ? '#d97706' : '#0B8F4A'
+  const barColor = pct > 90 ? '#dc2626' : pct > 70 ? '#d97706' : 'var(--jcm-green)'
 
   return (
-    <div
-      style={{
-        border: '1px solid var(--theme-elevation-150)',
-        background: 'var(--theme-elevation-50)',
-        borderRadius: '8px',
-        padding: '16px 20px',
-        marginBottom: '24px',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          gap: '12px',
-          flexWrap: 'wrap',
-        }}
-      >
-        <strong>Image storage</strong>
-        <span style={{ fontSize: '13px', color: 'var(--theme-elevation-600)' }}>
-          {docs.length} image{docs.length === 1 ? '' : 's'} · {fmt(used)} used of {fmt(LIMIT_BYTES)} ·{' '}
-          {fmt(remaining)} remaining
-        </span>
+    <section className="jcm-panel">
+      <div className="jcm-panel__head jcm-panel__head--row">
+        <h3>Image storage</h3>
+        <p>
+          {fmt(used)} of {fmt(LIMIT_BYTES)} used, {fmt(remaining)} left
+        </p>
       </div>
       <div
-        style={{
-          marginTop: '10px',
-          height: '8px',
-          borderRadius: '4px',
-          background: 'var(--theme-elevation-150)',
-          overflow: 'hidden',
-        }}
+        className="jcm-meter"
+        role="meter"
+        aria-label="Image storage used"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(pct)}
       >
-        <div
-          style={{
-            width: `${Math.max(pct, 0.5)}%`,
-            height: '100%',
-            borderRadius: '4px',
-            background: barColor,
-          }}
-        />
+        <div className="jcm-meter__fill" style={{ width: `${Math.max(pct, 0.5)}%`, background: barColor }} />
       </div>
-      <p style={{ marginTop: '8px', marginBottom: 0, fontSize: '12px', color: 'var(--theme-elevation-500)' }}>
-        Uploads are auto-compressed (max 1600px, WebP) — a typical photo uses ~150 KB, so there is
-        room for roughly {Math.floor(remaining / (150 * 1024)).toLocaleString()} more photos.
+      <p className="jcm-panel__note">
+        {docs.length} photos stored. Uploads are compressed automatically (a typical photo uses about 150 KB), so
+        there is room for roughly {Math.floor(remaining / (150 * 1024)).toLocaleString()} more.
       </p>
-    </div>
+    </section>
   )
 }

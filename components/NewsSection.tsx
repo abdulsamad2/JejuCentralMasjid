@@ -3,10 +3,12 @@ import Image from 'next/image'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { formatNewsDate } from '../lib/data/news'
 import { getAllNews } from '../lib/cms'
+import { newsGrid } from './newsGrid'
 
 export default async function NewsSection() {
   const news = (await getAllNews()).slice(0, 4)
   if (news.length === 0) return null
+  const grid = newsGrid(news.length)
   return (
     <section id="news" className="bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -32,7 +34,7 @@ export default async function NewsSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <div className={`grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-6 ${grid.className}`}>
           {news.map((item) => (
             <Link
               key={item.slug}
@@ -45,7 +47,7 @@ export default async function NewsSection() {
                     src={item.image}
                     alt={item.title}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes={grid.sizes}
                     className="object-cover transition duration-700 group-hover:scale-105"
                   />
                 )}
@@ -62,10 +64,10 @@ export default async function NewsSection() {
                 <h3 className="mt-2 line-clamp-2 text-base font-bold leading-snug text-islamic-navy transition group-hover:text-islamic-green sm:text-lg">
                   {item.title}
                 </h3>
-                <p className="mt-2 line-clamp-3 flex-1 text-sm text-islamic-navy/70">
+                <p className="mt-2 line-clamp-3 text-sm text-islamic-navy/70">
                   {item.excerpt}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-islamic-green">
+                <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-islamic-green">
                   Read more
                   <ChevronRightIcon className="h-4 w-4 transition group-hover:translate-x-0.5" />
                 </span>

@@ -8,25 +8,7 @@ import React from 'react'
  */
 export function LogoutButton() {
   return (
-    <a
-      href="/admin/logout"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        width: '100%',
-        padding: '12px 16px',
-        borderRadius: '6px',
-        border: 'none',
-        background: '#dc2626',
-        color: '#ffffff',
-        fontSize: '14px',
-        fontWeight: 700,
-        letterSpacing: '0.02em',
-        textDecoration: 'none',
-      }}
-    >
+    <a href="/admin/logout" className="jcm-logout">
       <svg
         width="15"
         height="15"

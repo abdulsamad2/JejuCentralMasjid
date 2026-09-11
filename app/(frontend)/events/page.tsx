@@ -15,14 +15,17 @@ import {
 
 import { getEvents } from '@/lib/cms'
 import { MASJID_CHAT_PHONE, MASJID_WHATSAPP } from '@/lib/constants/masjidLocation'
+import { pageMetadata } from '@/lib/seo/pageMetadata'
 
 export const revalidate = 120
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Events',
   description:
     'Upcoming events and gatherings at Jeju Central Masjid. To RSVP, please contact us — no online form required. 제주 이슬람 사원의 행사와 모임 안내.',
-}
+  path: '/events',
+  image: { url: '/assets/jummah-02.jpeg', width: 1440, height: 1080, alt: 'Jummah at Jeju Central Masjid' },
+})
 
 function calendarUrl(ev: {
   title: string

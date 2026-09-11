@@ -11,6 +11,7 @@ import EventsSection from '@/components/EventsSection'
 import NewsSection from '@/components/NewsSection'
 import SupportAppeal from '@/components/SupportAppeal'
 import VisitUsSection from '@/components/VisitUsSection'
+import { getHeroSlides } from '@/lib/cms'
 
 export const revalidate = 120
 
@@ -23,7 +24,8 @@ export const revalidate = 120
  *   5. Timely   — events & news
  *   6. Action   — donate (with context built) → visit us
  */
-export default function Home() {
+export default async function Home() {
+  const heroSlides = await getHeroSlides()
   return (
     <main className="min-h-screen">
       <h1 className="sr-only">
@@ -35,7 +37,7 @@ export default function Home() {
       <NewsTicker />
 
       {/* 1. Identity */}
-      <Hero />
+      <Hero slides={heroSlides} />
 
       {/* 2. Authoritative prayer times (Mawaqit) */}
       <MawaqitWidget />

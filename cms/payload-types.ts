@@ -69,10 +69,12 @@ export interface Config {
   collections: {
     news: News;
     events: Event;
+    media: Media;
+    'gallery-categories': GalleryCategory;
+    'visit-requests': VisitRequest;
     'contact-submissions': ContactSubmission;
     'receipt-requests': ReceiptRequest;
     'receipt-screenshots': ReceiptScreenshot;
-    media: Media;
     users: User;
     pageviews: Pageview;
     'payload-kv': PayloadKv;
@@ -80,14 +82,20 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'gallery-categories': {
+      photos: 'media';
+    };
+  };
   collectionsSelect: {
     news: NewsSelect<false> | NewsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    'gallery-categories': GalleryCategoriesSelect<false> | GalleryCategoriesSelect<true>;
+    'visit-requests': VisitRequestsSelect<false> | VisitRequestsSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'receipt-requests': ReceiptRequestsSelect<false> | ReceiptRequestsSelect<true>;
     'receipt-screenshots': ReceiptScreenshotsSelect<false> | ReceiptScreenshotsSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     pageviews: PageviewsSelect<false> | PageviewsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -99,8 +107,14 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'home-slider': HomeSlider;
+    'page-photos': PagePhoto;
+  };
+  globalsSelect: {
+    'home-slider': HomeSliderSelect<false> | HomeSliderSelect<true>;
+    'page-photos': PagePhotosSelect<false> | PagePhotosSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -161,17 +175,20 @@ export interface News {
   createdAt: string;
 }
 /**
- * Photos uploaded for news posts. Images are automatically resized and compressed (WebP).
- *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
+  _order?: string | null;
   /**
-   * Optional: short description of the photo. Filled from the filename if left empty.
+   * A few words about the photo, e.g. "Eid prayer 2026". Shown in the gallery and read aloud to blind visitors. Filled from the file name if left empty.
    */
   alt?: string | null;
+  /**
+   * Choose a category to show this photo on the Gallery page. Leave empty to keep it out of the gallery.
+   */
+  galleryCategory?: (number | null) | GalleryCategory;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -183,6 +200,30 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * The filter buttons on the Gallery page (e.g. "Eid", "Prayers"). Drag a row by the grip on its left to change the order of the buttons. Categories with no photos are hidden on the website.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-categories".
+ */
+export interface GalleryCategory {
+  id: number;
+  _order?: string | null;
+  /**
+   * The text on the filter button, e.g. "Eid".
+   */
+  name: string;
+  /**
+   * Photos in this category. To move a photo, open it and change its Gallery category.
+   */
+  photos?: {
+    docs?: (number | Media)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Events shown on the homepage calendar and the Events page.
@@ -208,6 +249,53 @@ export interface Event {
    * Shown as a badge, e.g. "Every Friday". Leave empty for one-off events.
    */
   recurring?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Visit bookings from the website. Find someone who can be at the masjid, then set Status to "Confirmed" and save — the visitor is emailed the details automatically.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visit-requests".
+ */
+export interface VisitRequest {
+  id: number;
+  /**
+   * Choosing "Confirmed" and saving emails the visitor the date, time and address. For "Declined", reply to them by email with another option.
+   */
+  status: 'new' | 'confirmed' | 'declined' | 'visited';
+  name: string;
+  email: string;
+  phone?: string | null;
+  visitorType?: ('local' | 'overseas-muslim' | 'group' | 'other') | null;
+  organisation?: string | null;
+  /**
+   * The masjid is up a flight of stairs with no lift.
+   */
+  accessibility?: string | null;
+  date: string;
+  /**
+   * 24h, e.g. 14:00
+   */
+  time?: string | null;
+  altDate?: string | null;
+  groupSize: number;
+  language?: ('en' | 'ko' | 'other') | null;
+  message?: string | null;
+  confirmedDate?: string | null;
+  confirmedTime?: string | null;
+  /**
+   * Optional, e.g. "Brother Ahmed".
+   */
+  host?: string | null;
+  /**
+   * Optional. Added to the confirmation email.
+   */
+  visitorNote?: string | null;
+  /**
+   * Only visible to admins.
+   */
+  adminNotes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -365,6 +453,18 @@ export interface PayloadLockedDocument {
         value: number | Event;
       } | null)
     | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'gallery-categories';
+        value: number | GalleryCategory;
+      } | null)
+    | ({
+        relationTo: 'visit-requests';
+        value: number | VisitRequest;
+      } | null)
+    | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
       } | null)
@@ -375,10 +475,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'receipt-screenshots';
         value: number | ReceiptScreenshot;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: number | Media;
       } | null)
     | ({
         relationTo: 'users';
@@ -463,6 +559,63 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  _order?: T;
+  alt?: T;
+  galleryCategory?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-categories_select".
+ */
+export interface GalleryCategoriesSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  photos?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "visit-requests_select".
+ */
+export interface VisitRequestsSelect<T extends boolean = true> {
+  status?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  visitorType?: T;
+  organisation?: T;
+  accessibility?: T;
+  date?: T;
+  time?: T;
+  altDate?: T;
+  groupSize?: T;
+  language?: T;
+  message?: T;
+  confirmedDate?: T;
+  confirmedTime?: T;
+  host?: T;
+  visitorNote?: T;
+  adminNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-submissions_select".
  */
 export interface ContactSubmissionsSelect<T extends boolean = true> {
@@ -499,24 +652,6 @@ export interface ReceiptRequestsSelect<T extends boolean = true> {
  * via the `definition` "receipt-screenshots_select".
  */
 export interface ReceiptScreenshotsSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -607,6 +742,163 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * The big rotating banner at the top of the homepage.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-slider".
+ */
+export interface HomeSlider {
+  id: number;
+  slides: {
+    /**
+     * Untick to hide this slide without deleting it.
+     */
+    visible?: boolean | null;
+    /**
+     * A wide (landscape) photo, at least 1200 pixels wide. Any file size is fine — it is compressed automatically.
+     */
+    image: number | Media;
+    /**
+     * 2–5 words, e.g. "Jummah at the Masjid".
+     */
+    title: string;
+    /**
+     * One or two sentences shown under the heading.
+     */
+    description: string;
+    /**
+     * e.g. "Visit Us" or "Support Us".
+     */
+    ctaLabel: string;
+    /**
+     * A page on this site, e.g. /donate — or a full https:// link.
+     */
+    ctaHref: string;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Choose the photo for each section of the website, from Images.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-photos".
+ */
+export interface PagePhoto {
+  id: number;
+  /**
+   * The six photo cards in the "Moments from the masjid" section. Each is shown as a 4:3 card with text over the bottom.
+   */
+  moments?: {
+    /**
+     * Leave empty to keep the current photo.
+     */
+    dawah?: (number | null) | Media;
+    /**
+     * Leave empty to keep the current photo.
+     */
+    eid?: (number | null) | Media;
+    /**
+     * Leave empty to keep the current photo.
+     */
+    iftar?: (number | null) | Media;
+    /**
+     * Leave empty to keep the current photo.
+     */
+    children?: (number | null) | Media;
+    /**
+     * Leave empty to keep the current photo.
+     */
+    jummah?: (number | null) | Media;
+    /**
+     * Leave empty to keep the current photo.
+     */
+    gathering?: (number | null) | Media;
+  };
+  /**
+   * The row of small photos under the cards, linking to the gallery. Shown as squares; choose up to 6, in order. Leave empty to keep the current photo.
+   */
+  momentsStrip?: (number | Media)[] | null;
+  /**
+   * The "Weekly circles" section. Shown tall (4:5). Leave empty to keep the current photo.
+   */
+  weeklyCircles?: (number | null) | Media;
+  /**
+   * The small round portrait in the "Unlock the Qur'an" section. Shown as a small circle. Leave empty to keep the current photo.
+   */
+  quranTeacher?: (number | null) | Media;
+  /**
+   * The donation appeal section. Shown tall (4:5). Leave empty to keep the current photo.
+   */
+  supportAppeal?: (number | null) | Media;
+  /**
+   * The "Come pray with us" section above the map — ideally the building. Shown wide (16:9). Leave empty to keep the current photo.
+   */
+  visitUs?: (number | null) | Media;
+  /**
+   * Beside the introduction on the About page. Shown tall (4:5). Leave empty to keep the current photo.
+   */
+  aboutMain?: (number | null) | Media;
+  /**
+   * The library section of the About page. Shown as 4:3 tiles; choose up to 4, in order. Leave empty to keep the current photo.
+   */
+  aboutLibrary?: (number | Media)[] | null;
+  /**
+   * The photo of the current rented hall. Shown tall (4:5). Leave empty to keep the current photo.
+   */
+  permanentMasjid?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-slider_select".
+ */
+export interface HomeSliderSelect<T extends boolean = true> {
+  slides?:
+    | T
+    | {
+        visible?: T;
+        image?: T;
+        title?: T;
+        description?: T;
+        ctaLabel?: T;
+        ctaHref?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-photos_select".
+ */
+export interface PagePhotosSelect<T extends boolean = true> {
+  moments?:
+    | T
+    | {
+        dawah?: T;
+        eid?: T;
+        iftar?: T;
+        children?: T;
+        jummah?: T;
+        gathering?: T;
+      };
+  momentsStrip?: T;
+  weeklyCircles?: T;
+  quranTeacher?: T;
+  supportAppeal?: T;
+  visitUs?: T;
+  aboutMain?: T;
+  aboutLibrary?: T;
+  permanentMasjid?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

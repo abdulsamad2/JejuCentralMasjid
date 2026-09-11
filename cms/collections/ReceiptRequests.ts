@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { receiptEmailHtml } from '../email/receiptEmail'
-
-const INFO_EMAIL = 'info@jejucentralmasjid.kr'
+import { acknowledgementHtml, committeeRecipients, esc, INFO_EMAIL } from '../email/notify'
 
 export const ReceiptRequests: CollectionConfig = {
   slug: 'receipt-requests',
@@ -42,17 +41,41 @@ export const ReceiptRequests: CollectionConfig = {
       async ({ doc, previousDoc, operation, req }) => {
         try {
           if (operation === 'create') {
-            // Notify the committee inbox of the new request.
+            // Notify the committee of the new request.
             await req.payload.sendEmail({
-              to: INFO_EMAIL,
+              ...committeeRecipients(),
+              replyTo: doc.email,
               subject: `Receipt request — ${doc.name} · ₩${Number(doc.amount).toLocaleString()}`,
               html: `<p>New donation receipt request on the website:</p>
-                <p><strong>${doc.name}</strong> (${doc.email})<br/>
+                <p><strong>${esc(doc.name)}</strong> (${esc(doc.email)})<br/>
                 Amount: ₩${Number(doc.amount).toLocaleString()}<br/>
-                Transfer date: ${doc.transferDate?.slice(0, 10)}<br/>
-                Designation: ${doc.designation || '—'}</p>
+                Transfer date: ${esc(doc.transferDate?.slice(0, 10))}<br/>
+                Designation: ${esc(doc.designation || '—')}</p>
                 <p>Verify the transfer in the bank app, then open the admin panel and set Status to "Issued":<br/>
                 <a href="https://jejucentralmasjid.kr/admin/collections/receipt-requests/${doc.id}">Open request</a></p>`,
+            })
+          }
+        } catch (err) {
+          req.payload.logger.error(`Receipt request notification email failed: ${String(err)}`)
+        }
+        try {
+          if (operation === 'create') {
+            // Let the donor know the request arrived.
+            await req.payload.sendEmail({
+              to: doc.email,
+              replyTo: INFO_EMAIL,
+              subject: 'We received your receipt request — Jeju Central Masjid',
+              html: acknowledgementHtml({
+                name: doc.name,
+                heading: 'We received your receipt request',
+                intro: 'JazakAllah khair for your donation. Your request for a receipt has reached the masjid committee.',
+                details: [
+                  ['Amount', `₩${Number(doc.amount).toLocaleString('en-US')}`],
+                  ['Transfer date', doc.transferDate?.slice(0, 10) || ''],
+                  ['Designation', doc.designation || 'Sadaqah'],
+                ],
+                next: "We'll check the transfer and email your receipt, usually within a day, insha'Allah.",
+              }),
             })
           }
           if (operation === 'update' && doc.status === 'issued' && previousDoc?.status !== 'issued') {

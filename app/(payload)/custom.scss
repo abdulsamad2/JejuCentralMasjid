@@ -1,1 +1,865 @@
-// Custom styles for the Payload admin panel.
+// Jeju Central Masjid — admin panel theme.
+//
+// Payload's own styles live in `@layer payload-default`, so these unlayered
+// rules win without specificity battles. Theme-specific values must stay
+// scoped to html[data-theme=…]: an unlayered :root value would override
+// Payload's dark theme too. Brand components use the `jcm-` prefix
+// (cms/components/Brand.tsx, AdminGuides.tsx).
+
+// --- Brand tokens (same palette as the public site) ------------------------
+
+:root {
+  --jcm-navy: #0e3a5f;
+  --jcm-navy-deep: #15263d;
+  --jcm-green: #0a8746;
+  --jcm-green-dark: #065f32;
+  --jcm-gold: #c9a24b;
+  --jcm-gold-light: #ddb970;
+  --jcm-cream: #fbf8f0;
+  --jcm-cream-edge: #ede5cf;
+
+  // Neutrals tinted towards the logo's navy, replacing Payload's greys.
+  // Dark mode maps the same scale in reverse.
+  --color-base-0: #ffffff;
+  --color-base-50: #f4f6f9;
+  --color-base-100: #eaeef3;
+  --color-base-150: #dce2ea;
+  --color-base-200: #cdd5df;
+  --color-base-250: #bdc7d3;
+  --color-base-300: #aeb9c7;
+  --color-base-350: #9eaab9;
+  --color-base-400: #8795a8;
+  --color-base-450: #76859a;
+  --color-base-500: #66768b;
+  --color-base-550: #58687d;
+  --color-base-600: #4b5b70;
+  --color-base-650: #3f4e63;
+  --color-base-700: #334257;
+  --color-base-750: #28364b;
+  --color-base-800: #1d2b3f;
+  --color-base-850: #162234;
+  --color-base-900: #0f1a2a;
+  --color-base-950: #0a1320;
+  --color-base-1000: #050b14;
+
+  // "Success" drives toasts, focus rings and confirmations: masjid green.
+  --color-success-50: #eef8f2;
+  --color-success-100: #ddf1e5;
+  --color-success-150: #c2e7d1;
+  --color-success-200: #a6dcbc;
+  --color-success-250: #88d0a6;
+  --color-success-300: #6ac390;
+  --color-success-350: #4db57b;
+  --color-success-400: #34a868;
+  --color-success-450: #1f9a58;
+  --color-success-500: #0f8f4d;
+  --color-success-550: #0a8746;
+  --color-success-600: #087a3f;
+  --color-success-650: #076c38;
+  --color-success-700: #065f32;
+  --color-success-750: #06532c;
+  --color-success-800: #054726;
+  --color-success-850: #053b20;
+  --color-success-900: #042f1a;
+  --color-success-950: #032414;
+
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --jcm-font-greeting: var(--font-amiri), Georgia, serif;
+
+  --style-radius-s: 6px;
+  --style-radius-m: 8px;
+  --style-radius-l: 12px;
+  --accessibility-outline: 2px solid var(--jcm-green);
+
+  --jcm-shadow: 0 1px 2px rgba(14, 58, 95, 0.06), 0 4px 16px -8px rgba(14, 58, 95, 0.12);
+}
+
+html[data-theme='light'] {
+  // A faint mist behind white cards and inputs, so content sits on a page.
+  --theme-bg: #f6f8fb;
+  --jcm-note-bg: var(--jcm-cream);
+  --jcm-note-edge: var(--jcm-cream-edge);
+  --jcm-heading: var(--jcm-navy);
+  --jcm-link: var(--jcm-green-dark);
+}
+
+html[data-theme='dark'] {
+  --jcm-note-bg: rgba(221, 185, 112, 0.07);
+  --jcm-note-edge: rgba(221, 185, 112, 0.2);
+  --jcm-heading: var(--theme-elevation-1000);
+  --jcm-link: var(--color-success-300);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// --- Buttons ----------------------------------------------------------------
+
+.btn--style-primary {
+  --bg-color: var(--jcm-green);
+  --hover-bg: var(--jcm-green-dark);
+  --color: #ffffff;
+  --hover-color: #ffffff;
+}
+
+.btn--style-primary.btn--disabled {
+  --bg-color: var(--theme-elevation-150);
+  --color: var(--theme-elevation-500);
+  --hover-bg: var(--bg-color);
+  --hover-color: var(--color);
+}
+
+.jcm-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: var(--style-radius-m);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+
+  &:focus-visible {
+    outline: 2px solid var(--jcm-gold-light);
+    outline-offset: 2px;
+  }
+}
+
+.jcm-button--gold {
+  background: var(--jcm-gold);
+  color: var(--jcm-navy-deep);
+
+  &:hover {
+    background: var(--jcm-gold-light);
+  }
+}
+
+.jcm-button--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+// --- Sidebar ------------------------------------------------------------------
+// Navy in both themes. Payload's nav reads its colours from the theme
+// variables, so re-pointing them here restyles every link, group and toggle.
+
+.nav {
+  --theme-text: rgba(255, 255, 255, 0.86);
+  --theme-elevation-0: var(--jcm-navy-deep);
+  --theme-elevation-100: rgba(255, 255, 255, 0.1);
+  --theme-elevation-400: rgba(255, 255, 255, 0.5);
+  --theme-elevation-800: rgba(255, 255, 255, 0.9);
+  --theme-elevation-1000: #ffffff;
+  background: var(--jcm-navy-deep);
+  border-right-color: transparent;
+  color: var(--theme-text);
+}
+
+.nav__link {
+  padding-block: 5px;
+  color: var(--theme-text);
+}
+
+.nav a.nav__link:hover,
+.nav a.nav__link:focus-visible {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.nav__link:has(.nav__link-indicator) {
+  color: #ffffff;
+}
+
+.nav__link-indicator {
+  background: var(--jcm-gold);
+  width: 3px;
+}
+
+.nav-group__toggle {
+  margin-top: 6px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+// The menu button floats over the sidebar's top corner while it is open.
+.template-default--nav-open .template-default__nav-toggler .hamburger {
+  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
+  }
+}
+
+.nav__controls > * {
+  width: 100%;
+}
+
+.jcm-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+}
+
+.jcm-nav-brand__tile {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #ffffff;
+
+  img {
+    width: 38px;
+    height: auto;
+  }
+}
+
+.jcm-nav-brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.jcm-nav-brand__name {
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.jcm-nav-brand__sub {
+  color: var(--jcm-gold-light);
+  font-size: 12.5px;
+}
+
+.jcm-nav-extras {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.jcm-nav-extra {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+
+  svg {
+    opacity: 0.8;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: #ffffff;
+  }
+}
+
+.jcm-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--style-radius-m);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s;
+
+  &:hover,
+  &:focus-visible {
+    background: #b91c1c;
+    border-color: #b91c1c;
+  }
+}
+
+// --- Top bar -------------------------------------------------------------------
+
+.jcm-icon {
+  display: block;
+  width: auto;
+  height: 22px;
+}
+
+a:has(.jcm-avatar) {
+  text-decoration: none;
+}
+
+.jcm-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--jcm-navy);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+// --- Sign-in pages (login, forgot password, reset) ----------------------------
+// The prayer hall under a navy wash, as on the homepage hero.
+
+.template-minimal {
+  background:
+    linear-gradient(160deg, rgba(14, 58, 95, 0.9) 0%, rgba(21, 38, 61, 0.86) 55%, rgba(21, 38, 61, 0.78) 100%),
+    url('/assets/mosque-1.jpg') center / cover no-repeat;
+  background-color: var(--jcm-navy-deep);
+}
+
+.template-minimal__wrap {
+  padding: 36px 36px 28px;
+  border-radius: 18px;
+  background: var(--theme-elevation-0);
+  box-shadow: 0 30px 80px -24px rgba(5, 11, 20, 0.6);
+}
+
+.template-minimal--width-normal .template-minimal__wrap {
+  max-width: 440px;
+}
+
+.login__brand {
+  margin-bottom: 12px;
+}
+
+.jcm-logo {
+  display: block;
+  width: auto;
+  height: 128px;
+  margin: 0 auto 8px;
+}
+
+.jcm-login-intro {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.jcm-login-intro__greeting {
+  margin: 0;
+  color: var(--jcm-heading);
+  font-family: var(--jcm-font-greeting);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.jcm-login-intro__text {
+  margin: 4px 0 0;
+  color: var(--theme-elevation-500);
+  font-size: 14px;
+}
+
+.template-minimal .btn--style-primary {
+  width: 100%;
+  min-height: 46px;
+}
+
+.jcm-login-footer {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--theme-elevation-100);
+  text-align: center;
+  font-size: 13px;
+
+  a {
+    color: var(--jcm-link);
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 480px) {
+  .template-minimal__wrap {
+    padding: 28px 22px 22px;
+  }
+
+  .jcm-logo {
+    height: 104px;
+  }
+}
+
+// --- Dashboard -------------------------------------------------------------------
+
+.jcm-welcome {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 230px;
+  margin-bottom: 20px;
+  border-radius: 18px;
+  background: var(--jcm-navy-deep);
+  color: #ffffff;
+
+  // Same diagonal navy wash as the homepage hero.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      102deg,
+      rgba(21, 38, 61, 0.97) 0%,
+      rgba(21, 38, 61, 0.9) 34%,
+      rgba(21, 38, 61, 0.5) 66%,
+      rgba(21, 38, 61, 0.2) 100%
+    );
+  }
+}
+
+.jcm-welcome__photo {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+
+.jcm-welcome__body {
+  padding: 36px 40px;
+  max-width: 640px;
+}
+
+.jcm-welcome__greeting {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--jcm-font-greeting);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.jcm-welcome__date {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 10px 0 0;
+  color: rgba(247, 243, 233, 0.82);
+  font-size: 14px;
+
+  // A gold hairline between the Gregorian and Hijri dates.
+  span + span::before {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 13px;
+    margin: 0 12px;
+    background: var(--jcm-gold);
+    vertical-align: -1px;
+  }
+}
+
+.jcm-welcome__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .jcm-welcome::before {
+    background: linear-gradient(180deg, rgba(21, 38, 61, 0.75) 0%, rgba(21, 38, 61, 0.95) 100%);
+  }
+
+  .jcm-welcome__body {
+    padding: 28px 22px;
+  }
+
+  .jcm-welcome__greeting {
+    font-size: 30px;
+  }
+
+  // Stack the two dates rather than wrapping the divider onto a new line.
+  .jcm-welcome__date {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+
+    span + span::before {
+      display: none;
+    }
+  }
+
+  .jcm-panel {
+    padding: 18px;
+  }
+}
+
+.jcm-panel {
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-l);
+  background: var(--theme-elevation-0);
+  box-shadow: var(--jcm-shadow);
+}
+
+.jcm-panel__head {
+  margin-bottom: 14px;
+
+  h3 {
+    margin: 0;
+    color: var(--jcm-heading);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  p {
+    margin: 2px 0 0;
+    color: var(--theme-elevation-500);
+    font-size: 13px;
+  }
+}
+
+.jcm-panel__head--row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-bottom: 10px;
+}
+
+.jcm-panel__note {
+  margin: 10px 0 0;
+  color: var(--theme-elevation-500);
+  font-size: 12.5px;
+}
+
+.jcm-meter {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--theme-elevation-100);
+}
+
+.jcm-meter__fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.jcm-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.jcm-shortcut {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-l);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s, background-color 0.15s;
+
+  strong {
+    color: var(--jcm-heading);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  span {
+    color: var(--theme-elevation-500);
+    font-size: 13px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--jcm-green);
+    background: var(--theme-success-50);
+
+    strong {
+      color: var(--jcm-link);
+    }
+  }
+}
+
+// Payload's collection cards below the custom panels.
+.collections__label {
+  color: var(--jcm-heading);
+  font-weight: 600;
+}
+
+.collections__card-list .card {
+  background: var(--theme-elevation-0);
+  border-color: var(--theme-elevation-150);
+  border-radius: var(--style-radius-l);
+  box-shadow: var(--jcm-shadow);
+
+  &:hover {
+    border-color: var(--jcm-green);
+  }
+}
+
+// --- In-form guides (AdminGuides.tsx) ------------------------------------------
+
+.jcm-guide {
+  margin-bottom: 28px;
+  padding: 18px 22px;
+  border: 1px solid var(--jcm-note-edge);
+  border-radius: var(--style-radius-l);
+  background: var(--jcm-note-bg);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.jcm-guide__lead {
+  max-width: 75ch;
+  margin: 0;
+}
+
+.jcm-guide__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px 24px;
+  margin: 14px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--jcm-note-edge);
+  list-style: none;
+
+  li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  strong {
+    color: var(--jcm-heading);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  span {
+    color: var(--theme-elevation-600);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+.jcm-guide summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--jcm-link);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  // Chevron that turns when the guide opens.
+  &::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.15s;
+  }
+
+  &:focus-visible {
+    outline: var(--accessibility-outline);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+.jcm-guide details[open] > summary::before,
+details.jcm-guide[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+.jcm-guide__more {
+  margin-top: 14px;
+}
+
+.jcm-guide__body {
+  max-width: 80ch;
+  padding-top: 4px;
+
+  h4 {
+    margin: 18px 0 4px;
+    color: var(--jcm-heading);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  ul {
+    margin: 4px 0 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 3px 0;
+  }
+}
+
+.jcm-guide--tips {
+  padding: 12px 18px;
+
+  .jcm-guide__body {
+    margin-top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jcm-button,
+  .jcm-logout,
+  .jcm-shortcut,
+  .jcm-guide summary::before {
+    transition: none;
+  }
+}
+
+// --- Fixes found in review --------------------------------------------------------
+
+// Breadcrumb home icon: Payload sizes this box for its own 16px square mark.
+.step-nav .step-nav__home {
+  width: auto;
+  height: 24px;
+}
+
+.step-nav .jcm-icon {
+  height: 24px;
+}
+
+.jcm-panel__link {
+  margin-left: 10px;
+  color: var(--jcm-link);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+// "Create New" / "Bulk Upload" at the top of lists: the main actions there.
+.list-header__title-actions .btn--style-pill {
+  --bg-color: var(--theme-success-100);
+  --color: var(--jcm-link);
+  --hover-bg: var(--theme-success-150);
+  --hover-color: var(--jcm-link);
+  font-weight: 600;
+}
+
+// --- Dashboard: Needs a reply (InboxSummary.tsx) -------------------------------------
+
+.jcm-inbox {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.jcm-inbox__item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-l);
+  color: var(--theme-elevation-500);
+  text-decoration: none;
+  transition: border-color 0.15s, background-color 0.15s;
+
+  strong {
+    color: var(--theme-elevation-400);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  span {
+    font-size: 13.5px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--jcm-green);
+  }
+}
+
+// Something is waiting: gold edge and full-strength text, so it reads at a glance.
+.jcm-inbox__item--waiting {
+  border-color: var(--jcm-gold);
+  background: var(--jcm-note-bg);
+  color: var(--jcm-heading);
+
+  strong {
+    color: var(--jcm-heading);
+  }
+}
+
+.jcm-inbox__upcoming {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--theme-elevation-100);
+
+  ul {
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li a {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    padding: 6px 0;
+    color: var(--theme-elevation-700);
+    font-size: 13.5px;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--jcm-link);
+    }
+  }
+}
+
+.jcm-inbox__upcoming-title {
+  margin: 0;
+  color: var(--jcm-heading);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.jcm-inbox__when {
+  min-width: 110px;
+  font-weight: 600;
+}

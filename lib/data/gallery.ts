@@ -2,7 +2,15 @@ export type GalleryItem = {
   src: string
   title: string
   category: string
+  /** CSS object-position focal point for the thumbnail crop, e.g. '50% 30%'. */
+  position?: string
 }
+
+/*
+ * The original static gallery. The live gallery is managed in the CMS
+ * (Gallery photos / Gallery categories); this list is only the source for the
+ * one-time import in cms/import-images.ts.
+ */
 
 export const GALLERY_CATEGORIES = [
   'Prayers',

@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     title: 'Jeju Central Masjid · 제주 이슬람 사원',
     description:
       'A welcoming mosque on Jeju Island, South Korea — daily prayers, Jummah, halal guidance, and community. Everyone is welcome.',
-    images: [{ url: '/assets/mosque-2.jpg', width: 1600, height: 1200, alt: 'Jeju Central Masjid' }],
+    images: [{ url: '/assets/mosque-2.jpg', width: 1600, height: 739, alt: 'Jeju Central Masjid prayer hall' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -159,6 +159,16 @@ const buildMosqueJsonLd = () => ({
   },
   isAccessibleForFree: true,
   publicAccess: true,
+  tourBookingPage: 'https://jejucentralmasjid.kr/visit',
+  potentialAction: {
+    '@type': 'ReserveAction',
+    name: 'Book a guided visit',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://jejucentralmasjid.kr/visit',
+      inLanguage: ['en', 'ko'],
+    },
+  },
   religiousDenomination: 'Sunni Islam',
   amenityFeature: [
     {
