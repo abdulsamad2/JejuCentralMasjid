@@ -1,5 +1,7 @@
 import { PhotoTips as PhotoTips_38342255632d52b4f1601c934bbd84f3 } from '../../../cms/components/AdminGuides'
 import { ImagesListGuide as ImagesListGuide_0867fba4b172e39f9d74b03500f27de7 } from '../../../cms/components/ImagesListGuide'
+import { ConfirmVisitPanel as ConfirmVisitPanel_a10678ee44736be0e1bdc16811b2c0b4 } from '../../../cms/components/ConfirmVisitPanel'
+import { EmailStatusNotice as EmailStatusNotice_aacab4cfbfd383473576343bc6d5f677 } from '../../../cms/components/EmailStatusNotice'
 import { SendReceiptButton as SendReceiptButton_822dce8bfd30c56887853f04128debd7 } from '../../../cms/components/SendReceiptButton'
 import { SliderGuide as SliderGuide_38342255632d52b4f1601c934bbd84f3 } from '../../../cms/components/AdminGuides'
 import { SlideRowLabel as SlideRowLabel_e7e0d5451825d51b98cdec6d922436c1 } from '../../../cms/components/SlideRowLabel'
@@ -25,6 +27,8 @@ import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } f
 export const importMap = {
   "/cms/components/AdminGuides#PhotoTips": PhotoTips_38342255632d52b4f1601c934bbd84f3,
   "/cms/components/ImagesListGuide#ImagesListGuide": ImagesListGuide_0867fba4b172e39f9d74b03500f27de7,
+  "/cms/components/ConfirmVisitPanel#ConfirmVisitPanel": ConfirmVisitPanel_a10678ee44736be0e1bdc16811b2c0b4,
+  "/cms/components/EmailStatusNotice#EmailStatusNotice": EmailStatusNotice_aacab4cfbfd383473576343bc6d5f677,
   "/cms/components/SendReceiptButton#SendReceiptButton": SendReceiptButton_822dce8bfd30c56887853f04128debd7,
   "/cms/components/AdminGuides#SliderGuide": SliderGuide_38342255632d52b4f1601c934bbd84f3,
   "/cms/components/SlideRowLabel#SlideRowLabel": SlideRowLabel_e7e0d5451825d51b98cdec6d922436c1,

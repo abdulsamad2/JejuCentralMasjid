@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { ChatBubbleOvalLeftIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {
   MASJID_CHAT_PHONE,
@@ -24,28 +25,43 @@ const WHATSAPP_CHAT = `${MASJID_WHATSAPP}?text=${encodeURIComponent(
   'Assalamu alaikum! I have a question about Jeju Central Masjid.',
 )}`
 const TEASER_KEY = 'jcm-chat-teaser-seen'
+// Pages whose whole job is a form: the teaser would sit on top of its fields.
+const NO_TEASER_PATHS = ['/visit']
+const isFormField = (el: EventTarget | Element | null) =>
+  el instanceof HTMLElement && el.matches('input, select, textarea')
 
 export default function FloatingContact() {
   const [open, setOpen] = useState(false)
   const [kakaoCopied, setKakaoCopied] = useState(false)
   const [teaser, setTeaser] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
 
   // One-time teaser: appears after a short delay on the visitor's first page,
-  // then never again this session.
+  // then never again this session. It stays out of the way of forms — never on
+  // form pages, not while a field is focused, and gone once someone starts
+  // filling one in.
   useEffect(() => {
+    if (NO_TEASER_PATHS.includes(pathname ?? '')) return
     try {
       if (sessionStorage.getItem(TEASER_KEY)) return
     } catch {
       return
     }
-    const show = setTimeout(() => setTeaser(true), 3000)
+    const show = setTimeout(() => {
+      if (!isFormField(document.activeElement)) setTeaser(true)
+    }, 3000)
     const hide = setTimeout(() => dismissTeaser(), 12000)
+    const onFocus = (e: FocusEvent) => {
+      if (isFormField(e.target) && !rootRef.current?.contains(e.target as Node)) dismissTeaser()
+    }
+    document.addEventListener('focusin', onFocus)
     return () => {
       clearTimeout(show)
       clearTimeout(hide)
+      document.removeEventListener('focusin', onFocus)
     }
-  }, [])
+  }, [pathname])
 
   const dismissTeaser = () => {
     setTeaser(false)

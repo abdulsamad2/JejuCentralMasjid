@@ -6,22 +6,13 @@ import {
   MASJID_MAPS,
   MASJID_PHONES,
 } from '../../lib/constants/masjidLocation'
-import { acknowledgementHtml, committeeRecipients, esc, INFO_EMAIL } from '../email/notify'
+import { acknowledgementHtml, committeeRecipients, esc, INFO_EMAIL, visitConfirmationHtml } from '../email/notify'
+import { emailsField, isSavingEmailResults, saveEmailResults, sendTracked } from '../email/tracking'
+
+import { labelOf, VISIT_LANGUAGES, VISITOR_TYPES } from '../../lib/constants/visits'
 
 const SITE = 'https://jejucentralmasjid.kr'
-
-export const VISITOR_TYPES = [
-  { label: 'Korean or local visitor', value: 'local' },
-  { label: 'Muslim traveller from overseas', value: 'overseas-muslim' },
-  { label: 'School, university or group', value: 'group' },
-  { label: 'Other', value: 'other' },
-] as const
-
-export const VISIT_LANGUAGES = [
-  { label: 'English', value: 'en' },
-  { label: 'Korean (한국어)', value: 'ko' },
-  { label: 'Other', value: 'other' },
-] as const
+const RESEND_CONFIRMATION = 'jcmResendVisitConfirmation'
 
 const day = (iso?: string | null): string =>
   iso
@@ -34,8 +25,6 @@ const day = (iso?: string | null): string =>
       })
     : ''
 
-const labelOf = (list: readonly { label: string; value: string }[], value?: string | null) =>
-  list.find((o) => o.value === value)?.label ?? value ?? ''
 
 export const VisitRequests: CollectionConfig = {
   slug: 'visit-requests',
@@ -54,10 +43,16 @@ export const VisitRequests: CollectionConfig = {
     group: 'Inbox',
     defaultColumns: ['name', 'date', 'groupSize', 'visitorType', 'status'],
     description:
-      'Visit bookings from the website. Find someone who can be at the masjid, then set Status to "Confirmed" and save — the visitor is emailed the details automatically.',
+      'Visit bookings from the website. Open a request, find someone who can be at the masjid, then use "Confirm visit" — the visitor is emailed a formal confirmation.',
   },
   hooks: {
     beforeChange: [
+      // "Send the confirmation again" is a virtual field (never stored): hand
+      // it to afterChange through the request context.
+      ({ data, context }) => {
+        if (data?.resendConfirmation) context[RESEND_CONFIRMATION] = true
+        return data
+      },
       // Confirming without changing the time keeps the visitor's requested slot.
       ({ data, originalDoc }) => {
         if (data?.status === 'confirmed' && originalDoc?.status !== 'confirmed') {
@@ -68,10 +63,13 @@ export const VisitRequests: CollectionConfig = {
       },
     ],
     afterChange: [
-      async ({ doc, previousDoc, operation, req }) => {
-        try {
-          if (operation === 'create') {
-            await req.payload.sendEmail({
+      async ({ doc, previousDoc, operation, req, context }) => {
+        if (isSavingEmailResults(context)) return doc
+        const results: Record<string, Awaited<ReturnType<typeof sendTracked>> | undefined> = {}
+        if (operation === 'create') {
+          results.committee = await sendTracked(
+            req,
+            {
               ...committeeRecipients(),
               replyTo: doc.email,
               subject: `Visit request — ${doc.name}, ${day(doc.date)} (${doc.groupSize} ${doc.groupSize === 1 ? 'person' : 'people'})`,
@@ -86,15 +84,13 @@ export const VisitRequests: CollectionConfig = {
                 ${doc.message ? `<p style="white-space:pre-wrap">${esc(doc.message)}</p>` : ''}
                 <p>Find someone who can be at the masjid, then confirm in the admin panel — the visitor is emailed automatically:<br/>
                 <a href="${SITE}/admin/collections/visit-requests/${doc.id}">Open request</a></p>`,
-            })
-          }
-        } catch (err) {
-          req.payload.logger.error(`Visit request notification email failed: ${String(err)}`)
-        }
-        try {
-          if (operation === 'create') {
-            // Let the visitor know it arrived — the visit isn't confirmed yet.
-            await req.payload.sendEmail({
+            },
+            'Visit request notification',
+          )
+          // Let the visitor know it arrived — the visit isn't confirmed yet.
+          results.acknowledgement = await sendTracked(
+            req,
+            {
               to: doc.email,
               replyTo: INFO_EMAIL,
               subject: 'We received your visit request — Jeju Central Masjid',
@@ -110,36 +106,45 @@ export const VisitRequests: CollectionConfig = {
                 ],
                 next: "Your visit isn't confirmed yet. We'll email you again once someone is arranged to meet you, usually within 1–2 days.",
               }),
-            })
-          }
-          if (operation === 'update' && doc.status === 'confirmed' && previousDoc?.status !== 'confirmed') {
-            await req.payload.sendEmail({
+            },
+            'Visit request acknowledgement',
+          )
+        }
+        const newlyConfirmed = doc.status === 'confirmed' && previousDoc?.status !== 'confirmed'
+        const resend = doc.status === 'confirmed' && Boolean(context?.[RESEND_CONFIRMATION])
+        if (operation === 'update' && (newlyConfirmed || resend)) {
+          results.confirmation = await sendTracked(
+            req,
+            {
               to: doc.email,
               replyTo: INFO_EMAIL,
               subject: `Your visit to Jeju Central Masjid is confirmed — ${day(doc.confirmedDate)}`,
-              html: `<p>Assalamu alaikum ${esc(doc.name)},</p>
-                <p>Thank you for booking a visit. Someone will be at the masjid to welcome you:</p>
-                <p><strong>${esc(day(doc.confirmedDate))}${doc.confirmedTime ? `, ${esc(doc.confirmedTime)}` : ''}</strong><br/>
-                ${doc.host ? `Meeting you: ${esc(doc.host)}<br/>` : ''}
-                ${esc(MASJID_ADDRESS_EN)}<br/>${esc(MASJID_ADDRESS_KO)}</p>
-                ${doc.visitorNote ? `<p style="white-space:pre-wrap">${esc(doc.visitorNote)}</p>` : ''}
-                <p>Maps: <a href="${MASJID_MAPS.kakao}">Kakao Map</a> · <a href="${MASJID_MAPS.naver}">Naver Map</a> · <a href="${MASJID_MAPS.google}">Google Maps</a></p>
-                <p>The masjid is on the 2nd floor, reached by stairs only (there is no lift). Please remove your
-                shoes at the entrance and wear clothing that covers shoulders and knees; sisters may wish to bring
-                a headscarf. Photos of the masjid are welcome, but please don't photograph people while they pray.</p>
-                <p>If your plans change, reply to this email or call ${esc(MASJID_PHONES.map((p) => p.display).join(' / '))}.</p>
-                <p>We look forward to meeting you.<br/>Jeju Central Masjid</p>`,
-            })
-            req.payload.logger.info(`Visit confirmation emailed to ${doc.email}`)
-          }
-        } catch (err) {
-          req.payload.logger.error(`Visit request email failed: ${String(err)}`)
+              html: visitConfirmationHtml({
+                name: doc.name,
+                date: day(doc.confirmedDate),
+                time: doc.confirmedTime,
+                host: doc.host,
+                people: doc.groupSize,
+                note: doc.visitorNote,
+                addressEn: MASJID_ADDRESS_EN,
+                addressKo: MASJID_ADDRESS_KO,
+                maps: MASJID_MAPS,
+                phones: MASJID_PHONES.map((p) => p.display),
+              }),
+            },
+            'Visit confirmation',
+          )
         }
-        return doc
+        return saveEmailResults({ collection: 'visit-requests', doc, req, results })
       },
     ],
   },
   fields: [
+    {
+      name: 'confirmPanel',
+      type: 'ui',
+      admin: { components: { Field: '/cms/components/ConfirmVisitPanel#ConfirmVisitPanel' } },
+    },
     {
       name: 'status',
       type: 'select',
@@ -154,7 +159,7 @@ export const VisitRequests: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description:
-          'Choosing "Confirmed" and saving emails the visitor the date, time and address. For "Declined", reply to them by email with another option.',
+          'Use "Confirm visit" at the top to confirm and email the visitor. For "Declined", reply to them by email with another option.',
       },
     },
     {
@@ -232,45 +237,22 @@ export const VisitRequests: CollectionConfig = {
       ],
     },
     { name: 'message', label: 'Message from the visitor', type: 'textarea' },
-    {
-      type: 'collapsible',
-      label: 'Confirmation (sent to the visitor)',
-      admin: {
-        description:
-          'Filled from the request when you confirm. Change the date or time here first if you agreed a different slot.',
-      },
-      fields: [
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'confirmedDate',
-              label: 'Confirmed date',
-              type: 'date',
-              admin: { width: '33%', date: { pickerAppearance: 'dayOnly', displayFormat: 'EEE d MMM yyyy' } },
-            },
-            { name: 'confirmedTime', label: 'Confirmed time', type: 'text', admin: { width: '33%' } },
-            {
-              name: 'host',
-              label: 'Who will meet them',
-              type: 'text',
-              admin: { width: '33%', description: 'Optional, e.g. "Brother Ahmed".' },
-            },
-          ],
-        },
-        {
-          name: 'visitorNote',
-          label: 'Note to the visitor',
-          type: 'textarea',
-          admin: { description: 'Optional. Added to the confirmation email.' },
-        },
-      ],
-    },
+    // Set through the "Confirm visit" panel (ConfirmVisitPanel), which shows them.
+    { name: 'confirmedDate', type: 'date', admin: { hidden: true } },
+    { name: 'confirmedTime', type: 'text', admin: { hidden: true } },
+    { name: 'host', label: 'Who will meet them', type: 'text', admin: { hidden: true } },
+    { name: 'visitorNote', label: 'Note to the visitor', type: 'textarea', admin: { hidden: true } },
+    { name: 'resendConfirmation', type: 'checkbox', virtual: true, admin: { hidden: true } },
     {
       name: 'adminNotes',
       label: 'Internal notes',
       type: 'textarea',
       admin: { position: 'sidebar', description: 'Only visible to admins.' },
     },
+    emailsField([
+      ['acknowledgement', '"We received your request" to the visitor'],
+      ['confirmation', 'Visit confirmation to the visitor'],
+      ['committee', 'Notification to the committee'],
+    ]),
   ],
 }

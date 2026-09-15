@@ -1,8 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { allowRequest, botCheck, clientIp, looksLikeSpam } from '@/lib/server/antiSpam'
-import { VISIT_LANGUAGES, VISITOR_TYPES } from '@/cms/collections/VisitRequests'
-import { VISIT_NOTICE_DAYS } from '@/lib/constants/visits'
+import { VISIT_LANGUAGES, VISIT_NOTICE_DAYS, VISITOR_TYPES } from '@/lib/constants/visits'
 
 const DAY_MS = 24 * 60 * 60 * 1000
 const koreaToday = (): string => new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' })

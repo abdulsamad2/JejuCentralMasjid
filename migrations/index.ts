@@ -8,6 +8,7 @@ import * as migration_20260911_061908_slider_visibility from './20260911_061908_
 import * as migration_20260911_084959_visit_requests from './20260911_084959_visit_requests';
 import * as migration_20260911_091129_visit_request_details from './20260911_091129_visit_request_details';
 import * as migration_20260911_094002_single_image_library from './20260911_094002_single_image_library';
+import * as migration_20260915_122457_email_tracking from './20260915_122457_email_tracking';
 
 export const migrations = [
   {
@@ -58,6 +59,11 @@ export const migrations = [
   {
     up: migration_20260911_094002_single_image_library.up,
     down: migration_20260911_094002_single_image_library.down,
-    name: '20260911_094002_single_image_library'
+    name: '20260911_094002_single_image_library',
+  },
+  {
+    up: migration_20260915_122457_email_tracking.up,
+    down: migration_20260915_122457_email_tracking.down,
+    name: '20260915_122457_email_tracking'
   },
 ];

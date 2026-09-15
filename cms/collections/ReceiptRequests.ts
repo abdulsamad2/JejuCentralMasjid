@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { receiptEmailHtml } from '../email/receiptEmail'
 import { acknowledgementHtml, committeeRecipients, esc, INFO_EMAIL } from '../email/notify'
+import { emailsField, isSavingEmailResults, saveEmailResults, sendTracked } from '../email/tracking'
 
 export const ReceiptRequests: CollectionConfig = {
   slug: 'receipt-requests',
@@ -30,6 +31,8 @@ export const ReceiptRequests: CollectionConfig = {
           const { totalDocs } = await req.payload.count({
             collection: 'receipt-requests',
             where: { receiptNumber: { like: `JCM-${year}-` } },
+            // Same transaction as the save being made.
+            req,
           })
           data.receiptNumber = `JCM-${year}-${String(totalDocs + 1).padStart(4, '0')}`
           data.issuedAt = new Date().toISOString()
@@ -38,11 +41,14 @@ export const ReceiptRequests: CollectionConfig = {
       },
     ],
     afterChange: [
-      async ({ doc, previousDoc, operation, req }) => {
-        try {
-          if (operation === 'create') {
-            // Notify the committee of the new request.
-            await req.payload.sendEmail({
+      async ({ doc, previousDoc, operation, req, context }) => {
+        if (isSavingEmailResults(context)) return doc
+        const results: Record<string, Awaited<ReturnType<typeof sendTracked>> | undefined> = {}
+        if (operation === 'create') {
+          // Notify the committee of the new request.
+          results.committee = await sendTracked(
+            req,
+            {
               ...committeeRecipients(),
               replyTo: doc.email,
               subject: `Receipt request — ${doc.name} · ₩${Number(doc.amount).toLocaleString()}`,
@@ -53,15 +59,13 @@ export const ReceiptRequests: CollectionConfig = {
                 Designation: ${esc(doc.designation || '—')}</p>
                 <p>Verify the transfer in the bank app, then open the admin panel and set Status to "Issued":<br/>
                 <a href="https://jejucentralmasjid.kr/admin/collections/receipt-requests/${doc.id}">Open request</a></p>`,
-            })
-          }
-        } catch (err) {
-          req.payload.logger.error(`Receipt request notification email failed: ${String(err)}`)
-        }
-        try {
-          if (operation === 'create') {
-            // Let the donor know the request arrived.
-            await req.payload.sendEmail({
+            },
+            'Receipt request notification',
+          )
+          // Let the donor know the request arrived.
+          results.acknowledgement = await sendTracked(
+            req,
+            {
               to: doc.email,
               replyTo: INFO_EMAIL,
               subject: 'We received your receipt request — Jeju Central Masjid',
@@ -76,11 +80,15 @@ export const ReceiptRequests: CollectionConfig = {
                 ],
                 next: "We'll check the transfer and email your receipt, usually within a day, insha'Allah.",
               }),
-            })
-          }
-          if (operation === 'update' && doc.status === 'issued' && previousDoc?.status !== 'issued') {
-            // Send the receipt to the donor.
-            await req.payload.sendEmail({
+            },
+            'Receipt request acknowledgement',
+          )
+        }
+        if (operation === 'update' && doc.status === 'issued' && previousDoc?.status !== 'issued') {
+          // Send the receipt to the donor.
+          results.receipt = await sendTracked(
+            req,
+            {
               to: doc.email,
               subject: `Donation receipt ${doc.receiptNumber} — Jeju Central Masjid`,
               html: receiptEmailHtml({
@@ -90,13 +98,11 @@ export const ReceiptRequests: CollectionConfig = {
                 transferDate: doc.transferDate?.slice(0, 10) || '',
                 designation: doc.designation,
               }),
-            })
-            req.payload.logger.info(`Receipt ${doc.receiptNumber} emailed to ${doc.email}`)
-          }
-        } catch (err) {
-          req.payload.logger.error(`Receipt email failed: ${String(err)}`)
+            },
+            `Receipt ${doc.receiptNumber}`,
+          )
         }
-        return doc
+        return saveEmailResults({ collection: 'receipt-requests', doc, req, results })
       },
     ],
   },
@@ -170,5 +176,10 @@ export const ReceiptRequests: CollectionConfig = {
       admin: { position: 'sidebar', readOnly: true },
       access: { create: () => false, update: () => false },
     },
+    emailsField([
+      ['acknowledgement', '"We received your request" to the donor'],
+      ['receipt', 'Receipt to the donor'],
+      ['committee', 'Notification to the committee'],
+    ]),
   ],
 }

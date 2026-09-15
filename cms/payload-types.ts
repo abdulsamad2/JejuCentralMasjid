@@ -253,7 +253,7 @@ export interface Event {
   createdAt: string;
 }
 /**
- * Visit bookings from the website. Find someone who can be at the masjid, then set Status to "Confirmed" and save — the visitor is emailed the details automatically.
+ * Visit bookings from the website. Open a request, find someone who can be at the masjid, then use "Confirm visit" — the visitor is emailed a formal confirmation.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "visit-requests".
@@ -261,7 +261,7 @@ export interface Event {
 export interface VisitRequest {
   id: number;
   /**
-   * Choosing "Confirmed" and saving emails the visitor the date, time and address. For "Declined", reply to them by email with another option.
+   * Use "Confirm visit" at the top to confirm and email the visitor. For "Declined", reply to them by email with another option.
    */
   status: 'new' | 'confirmed' | 'declined' | 'visited';
   name: string;
@@ -284,18 +284,28 @@ export interface VisitRequest {
   message?: string | null;
   confirmedDate?: string | null;
   confirmedTime?: string | null;
-  /**
-   * Optional, e.g. "Brother Ahmed".
-   */
   host?: string | null;
-  /**
-   * Optional. Added to the confirmation email.
-   */
   visitorNote?: string | null;
+  resendConfirmation?: boolean | null;
   /**
    * Only visible to admins.
    */
   adminNotes?: string | null;
+  emails?: {
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    acknowledgement?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    confirmation?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    committee?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    lastError?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -320,6 +330,17 @@ export interface ContactSubmission {
    * Tick once someone has replied to this message.
    */
   handled?: boolean | null;
+  emails?: {
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    acknowledgement?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    committee?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    lastError?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -350,6 +371,21 @@ export interface ReceiptRequest {
   status: 'pending' | 'issued' | 'rejected';
   receiptNumber?: string | null;
   issuedAt?: string | null;
+  emails?: {
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    acknowledgement?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    receipt?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    /**
+     * Filled in automatically. After sending it yourself, choose "Sent manually".
+     */
+    committee?: ('sent' | 'failed' | 'off' | 'manual') | null;
+    lastError?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -610,7 +646,16 @@ export interface VisitRequestsSelect<T extends boolean = true> {
   confirmedTime?: T;
   host?: T;
   visitorNote?: T;
+  resendConfirmation?: T;
   adminNotes?: T;
+  emails?:
+    | T
+    | {
+        acknowledgement?: T;
+        confirmation?: T;
+        committee?: T;
+        lastError?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -626,6 +671,13 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   subject?: T;
   message?: T;
   handled?: T;
+  emails?:
+    | T
+    | {
+        acknowledgement?: T;
+        committee?: T;
+        lastError?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -644,6 +696,14 @@ export interface ReceiptRequestsSelect<T extends boolean = true> {
   status?: T;
   receiptNumber?: T;
   issuedAt?: T;
+  emails?:
+    | T
+    | {
+        acknowledgement?: T;
+        receipt?: T;
+        committee?: T;
+        lastError?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

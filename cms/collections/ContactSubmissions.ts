@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { acknowledgementHtml, committeeRecipients, esc, INFO_EMAIL } from '../email/notify'
+import { emailsField, isSavingEmailResults, saveEmailResults, sendTracked } from '../email/tracking'
 
 const SITE = 'https://jejucentralmasjid.kr'
 
@@ -10,24 +11,25 @@ export const ContactSubmissions: CollectionConfig = {
   defaultSort: '-createdAt',
   hooks: {
     afterChange: [
-      async ({ doc, operation, req }) => {
-        if (operation !== 'create') return doc
+      async ({ doc, operation, req, context }) => {
+        if (operation !== 'create' || isSavingEmailResults(context)) return doc
         // Tell the committee (reply goes straight to the sender)…
-        try {
-          await req.payload.sendEmail({
+        const committee = await sendTracked(
+          req,
+          {
             ...committeeRecipients(),
             replyTo: doc.email,
             subject: `Website message — ${doc.inquiry || 'General'}: ${doc.subject || '(no subject)'}`,
             html: `<p><strong>${esc(doc.name)}</strong> (${esc(doc.email)}${doc.phone ? ` · ${esc(doc.phone)}` : ''})</p>
               <p style="white-space:pre-wrap">${esc(doc.message)}</p>
               <p><a href="${SITE}/admin/collections/contact-submissions/${doc.id}">Open in admin</a> — reply directly to this email to answer.</p>`,
-          })
-        } catch (err) {
-          req.payload.logger.error(`Contact notification email failed: ${String(err)}`)
-        }
+          },
+          'Contact notification',
+        )
         // …and let the sender know it arrived.
-        try {
-          await req.payload.sendEmail({
+        const acknowledgement = await sendTracked(
+          req,
+          {
             to: doc.email,
             replyTo: INFO_EMAIL,
             subject: 'We received your message — Jeju Central Masjid',
@@ -37,11 +39,10 @@ export const ContactSubmissions: CollectionConfig = {
               intro: 'Thank you for getting in touch. Your message has reached the masjid committee.',
               next: "We usually reply within 1–2 days, insha'Allah. You can reply to this email to add anything.",
             }),
-          })
-        } catch (err) {
-          req.payload.logger.error(`Contact acknowledgement email failed: ${String(err)}`)
-        }
-        return doc
+          },
+          'Contact acknowledgement',
+        )
+        return saveEmailResults({ collection: 'contact-submissions', doc, req, results: { committee, acknowledgement } })
       },
     ],
   },
@@ -97,5 +98,9 @@ export const ContactSubmissions: CollectionConfig = {
         description: 'Tick once someone has replied to this message.',
       },
     },
+    emailsField([
+      ['acknowledgement', '"We received your message" to the sender'],
+      ['committee', 'Notification to the committee'],
+    ]),
   ],
 }

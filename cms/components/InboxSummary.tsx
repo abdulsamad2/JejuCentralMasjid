@@ -1,6 +1,9 @@
 import React from 'react'
 import type { Payload } from 'payload'
 
+import { visitCalendarLinks } from '@/lib/server/visitCalendarFeed'
+import { CalendarSubscribe } from './CalendarSubscribe'
+
 /**
  * Dashboard box: what's waiting for a reply, and who is coming to visit.
  * Each count links to its list, already filtered. Styles: `.jcm-inbox*` in
@@ -12,7 +15,32 @@ const kstToday = (): string => new Date().toLocaleDateString('en-CA', { timeZone
 const visitDay = (iso: string): string =>
   new Date(iso).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Asia/Seoul' })
 
+// Emails the person should have received (committee notifications aren't
+// counted — the request is on this dashboard anyway). See cms/email/tracking.ts.
+const UNSENT_EMAILS = [
+  { collection: 'visit-requests', label: 'visit request', emails: ['acknowledgement', 'confirmation'] },
+  { collection: 'contact-submissions', label: 'message', emails: ['acknowledgement'] },
+  { collection: 'receipt-requests', label: 'receipt request', emails: ['acknowledgement', 'receipt'] },
+] as const
+
+const unsentWhere = (emails: readonly string[]) => ({
+  or: emails.map((e) => ({ [`emails.${e}`]: { in: ['failed', 'off'] } })),
+})
+
+const unsentHref = (collection: string, emails: readonly string[]) =>
+  `/admin/collections/${collection}?` +
+  emails.map((e, i) => `where[or][${i}][emails.${e}][in]=failed,off`).join('&')
+
 export async function InboxSummary({ payload }: { payload: Payload }) {
+  const emailOff = payload.email?.name === 'console'
+  const calendarLinks = visitCalendarLinks()
+  const unsent = await Promise.all(
+    UNSENT_EMAILS.map(async (u) => ({
+      ...u,
+      count: (await payload.count({ collection: u.collection, where: unsentWhere(u.emails) })).totalDocs,
+    })),
+  )
+  const unsentTotal = unsent.reduce((n, u) => n + u.count, 0)
   const [visits, messages, receipts, upcoming] = await Promise.all([
     payload.count({ collection: 'visit-requests', where: { status: { equals: 'new' } } }),
     payload.count({ collection: 'contact-submissions', where: { handled: { not_equals: true } } }),
@@ -53,6 +81,33 @@ export async function InboxSummary({ payload }: { payload: Payload }) {
         <h3>Needs a reply</h3>
         <p>{waiting === 0 ? 'All caught up' : `${waiting} waiting`}</p>
       </div>
+      {emailOff && (
+        <div className="jcm-inbox__alert jcm-inbox__alert--off" role="alert">
+          <strong>Automatic emails are switched off</strong>
+          The website can&apos;t send email right now (RESEND_API_KEY isn&apos;t set where the site runs), so nobody
+          is emailed about new requests and visitors get no replies. Reply to people yourself until it&apos;s fixed.
+        </div>
+      )}
+      {unsentTotal > 0 && (
+        <div className="jcm-inbox__alert jcm-inbox__alert--unsent">
+          <strong>
+            {unsentTotal} {unsentTotal === 1 ? 'person is' : 'people are'} still waiting for an email
+          </strong>
+          These automatic emails didn&apos;t go out. Open each one to send it yourself.
+          <ul>
+            {unsent
+              .filter((u) => u.count > 0)
+              .map((u) => (
+                <li key={u.collection}>
+                  <a href={unsentHref(u.collection, u.emails)}>
+                    {u.count} {u.label}
+                    {u.count === 1 ? '' : 's'}
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
       <div className="jcm-inbox">
         {rows.map((r) => (
           <a key={r.href} href={r.href} className={`jcm-inbox__item${r.count > 0 ? ' jcm-inbox__item--waiting' : ''}`}>
@@ -82,6 +137,7 @@ export async function InboxSummary({ payload }: { payload: Payload }) {
           </ul>
         </div>
       )}
+      {calendarLinks && <CalendarSubscribe links={calendarLinks} />}
     </section>
   )
 }

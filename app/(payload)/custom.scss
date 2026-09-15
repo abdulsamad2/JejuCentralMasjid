@@ -863,3 +863,326 @@ details.jcm-guide[open] > summary::before {
   min-width: 110px;
   font-weight: 600;
 }
+
+// --- Emails group: unsent-email notice (EmailStatusNotice.tsx) ----------------------
+
+.jcm-email-notice {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--theme-warning-400);
+  border-radius: var(--style-radius-l);
+  background: var(--theme-warning-50);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.jcm-email-notice__title {
+  margin: 0;
+  color: var(--theme-warning-800);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.jcm-email-notice__why {
+  margin: 2px 0 10px;
+  color: var(--theme-elevation-700);
+}
+
+.jcm-email-notice__item {
+  margin: 8px 0 0;
+  color: var(--theme-elevation-800);
+
+  > span {
+    display: block;
+  }
+}
+
+.jcm-email-notice__action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  margin-top: 6px;
+  padding: 6px 12px;
+  border-radius: var(--style-radius-m);
+  background: var(--jcm-green);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  word-break: break-all;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--jcm-green-dark);
+  }
+}
+
+.jcm-email-notice__hint {
+  margin: 12px 0 0;
+  color: var(--theme-elevation-600);
+  font-size: 12.5px;
+}
+
+// --- Dashboard: email warnings (InboxSummary.tsx) -------------------------------------
+
+.jcm-inbox__alert {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: var(--style-radius-l);
+  font-size: 13.5px;
+  line-height: 1.5;
+
+  strong {
+    display: block;
+    font-size: 14px;
+  }
+
+  a {
+    color: inherit;
+    font-weight: 600;
+  }
+}
+
+.jcm-inbox__alert--off {
+  border: 1px solid var(--theme-error-400);
+  background: var(--theme-error-50);
+  color: var(--theme-error-800);
+}
+
+.jcm-inbox__alert--unsent {
+  border: 1px solid var(--theme-warning-400);
+  background: var(--theme-warning-50);
+  color: var(--theme-warning-900);
+
+  ul {
+    margin: 4px 0 0;
+    padding-left: 18px;
+  }
+}
+
+// --- Visit requests: Confirm visit panel (ConfirmVisitPanel.tsx) -------------------
+
+.jcm-confirm {
+  margin-bottom: 28px;
+  padding: 20px 22px;
+  border: 1px solid var(--jcm-gold);
+  border-radius: var(--style-radius-l);
+  background: var(--jcm-note-bg);
+}
+
+.jcm-confirm--done {
+  border-color: var(--theme-success-400);
+  background: var(--theme-success-50);
+}
+
+.jcm-confirm__head {
+  h3 {
+    margin: 0;
+    color: var(--jcm-heading);
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: var(--theme-elevation-700);
+    font-size: 14px;
+  }
+}
+
+.jcm-confirm__email {
+  font-weight: 600;
+}
+
+.jcm-confirm__email--ok {
+  color: var(--jcm-link) !important;
+}
+
+.jcm-confirm__email--warn {
+  color: var(--theme-warning-800) !important;
+}
+
+.jcm-confirm__form {
+  margin-top: 16px;
+}
+
+.jcm-confirm__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.jcm-confirm__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  > span {
+    color: var(--jcm-heading);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: var(--style-radius-m);
+    background: var(--theme-input-bg);
+    color: var(--theme-text);
+    font: inherit;
+    font-size: 14px;
+
+    &:focus {
+      border-color: var(--jcm-green);
+      outline: var(--accessibility-outline);
+      outline-offset: 0;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.jcm-confirm__field--wide {
+  grid-column: span 2;
+
+  @media (max-width: 600px) {
+    grid-column: auto;
+  }
+}
+
+.jcm-confirm__preview {
+  margin: 12px 0 0;
+  color: var(--theme-elevation-700);
+  font-size: 13.5px;
+}
+
+.jcm-confirm__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.jcm-confirm__primary,
+.jcm-confirm__secondary {
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--style-radius-m);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.jcm-confirm__primary {
+  border: 0;
+  background: var(--jcm-green);
+  color: #ffffff;
+
+  &:hover:not(:disabled) {
+    background: var(--jcm-green-dark);
+  }
+}
+
+.jcm-confirm__secondary {
+  border: 1px solid var(--theme-elevation-250);
+  background: var(--theme-elevation-0);
+  color: var(--jcm-heading);
+
+  &:hover:not(:disabled) {
+    border-color: var(--jcm-green);
+  }
+}
+
+.jcm-confirm__decline {
+  margin: 14px 0 0;
+  color: var(--theme-elevation-600);
+  font-size: 13px;
+}
+
+.jcm-confirm__link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+// --- Dashboard: calendar subscription (CalendarSubscribe.tsx) ----------------------
+
+.jcm-calendar {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--theme-elevation-100);
+
+  summary {
+    color: var(--jcm-link);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.jcm-calendar__body {
+  margin-top: 10px;
+  font-size: 13.5px;
+  line-height: 1.55;
+
+  p {
+    margin: 0;
+    color: var(--theme-elevation-700);
+  }
+}
+
+.jcm-calendar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.jcm-calendar__button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--theme-elevation-250);
+  border-radius: var(--style-radius-m);
+  background: var(--theme-elevation-0);
+  color: var(--jcm-heading);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--jcm-green);
+  }
+}
+
+p.jcm-calendar__note {
+  color: var(--theme-elevation-500);
+  font-size: 12.5px;
+}
+
+.jcm-calendar__url {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-m);
+  background: var(--theme-elevation-50);
+  color: var(--theme-elevation-700);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
