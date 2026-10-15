@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url'
 import { APIError, type CollectionConfig } from 'payload'
 
 import { revalidatePaths } from '../revalidate'
-import { copyUploadBuffers, photoUpload } from '../uploads'
+import { enforceImageLimit, photoUpload } from '../uploads'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -27,7 +27,7 @@ export const Media: CollectionConfig = {
     components: { Description: '/cms/components/ImagesListGuide#ImagesListGuide' },
   },
   hooks: {
-    beforeChange: [copyUploadBuffers],
+    beforeChange: [enforceImageLimit],
     // Images appear across the site — refresh every page.
     afterChange: [revalidatePaths({ path: '/', type: 'layout' })],
     afterDelete: [revalidatePaths({ path: '/', type: 'layout' })],

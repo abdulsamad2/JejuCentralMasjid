@@ -50,6 +50,8 @@ export default buildConfig({
       beforeLogin: ['/cms/components/Brand#LoginIntro'],
       afterLogin: ['/cms/components/Brand#LoginFooter'],
       beforeNavLinks: ['/cms/components/Brand#NavBrand'],
+      // Shrinks photos in the browser before upload (Vercel's 4.5MB body limit).
+      providers: ['/cms/components/UploadCompressor#UploadCompressor'],
       beforeDashboard: [
         '/cms/components/Brand#Welcome',
         '/cms/components/InboxSummary#InboxSummary',

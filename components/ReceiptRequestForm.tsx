@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { ReceiptPercentIcon, CheckIcon } from '@heroicons/react/24/outline'
 
+import { compressImage } from '@/lib/compressImage'
+
 const inputCls =
   'w-full rounded-xl border border-islamic-navy/15 bg-white px-4 py-3 text-sm text-islamic-navy placeholder:text-islamic-navy/40 focus:border-islamic-green focus:outline-none focus:ring-2 focus:ring-islamic-green/20'
 
@@ -43,7 +45,8 @@ export default function ReceiptRequestForm() {
       fd.append('designation', form.designation)
       fd.append('website', honeypot)
       fd.append('startedAt', String(startedAt))
-      if (file) fd.append('screenshot', file)
+      // Shrink phone screenshots first: Vercel rejects request bodies over 4.5MB.
+      if (file) fd.append('screenshot', await compressImage(file))
       const res = await fetch('/api/receipt-request', { method: 'POST', body: fd })
       if (!res.ok && res.status !== 204) throw new Error(`request failed (${res.status})`)
       setDone(true)

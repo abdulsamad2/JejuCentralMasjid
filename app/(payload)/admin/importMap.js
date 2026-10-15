@@ -20,6 +20,7 @@ import { VisitorAnalytics as VisitorAnalytics_e85a6ce110de66262d1dc3a2650224af }
 import { LoginIntro as LoginIntro_bc64442ee066953691f85c8dc29a6959 } from '../../../cms/components/Brand'
 import { NavBrand as NavBrand_bc64442ee066953691f85c8dc29a6959 } from '../../../cms/components/Brand'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
+import { UploadCompressor as UploadCompressor_7984c1e9429e7bd218479ccf405ebcbb } from '../../../cms/components/UploadCompressor'
 import { AnalyticsView as AnalyticsView_162867a0f5a782e3b6a8bf5bd83990c4 } from '../../../cms/views/AnalyticsView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
@@ -47,6 +48,7 @@ export const importMap = {
   "/cms/components/Brand#LoginIntro": LoginIntro_bc64442ee066953691f85c8dc29a6959,
   "/cms/components/Brand#NavBrand": NavBrand_bc64442ee066953691f85c8dc29a6959,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e,
+  "/cms/components/UploadCompressor#UploadCompressor": UploadCompressor_7984c1e9429e7bd218479ccf405ebcbb,
   "/cms/views/AnalyticsView#AnalyticsView": AnalyticsView_162867a0f5a782e3b6a8bf5bd83990c4,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
