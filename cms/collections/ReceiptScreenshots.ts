@@ -2,6 +2,8 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import type { CollectionConfig } from 'payload'
 
+import { copyUploadBuffers } from '../uploads'
+
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export const ReceiptScreenshots: CollectionConfig = {
@@ -19,6 +21,9 @@ export const ReceiptScreenshots: CollectionConfig = {
   admin: {
     group: 'Inbox',
     description: 'Payment screenshots uploaded with receipt requests. Admin-only.',
+  },
+  hooks: {
+    beforeChange: [copyUploadBuffers],
   },
   upload: {
     staticDir: path.resolve(dirname, '../../receipt-screenshots'),
