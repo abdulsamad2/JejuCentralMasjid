@@ -14,7 +14,7 @@ import { pageMetadata } from '@/lib/seo/pageMetadata'
 import { VISIT_NOTICE_DAYS } from '@/lib/constants/visits'
 
 export const metadata = pageMetadata({
-  title: 'Book a Visit',
+  title: 'Visit the Mosque in Jeju — Free Guided Tour',
   description:
     'Visit Jeju Central Masjid on Jeju Island — book a free guided visit and someone will welcome you, show you around and answer your questions. Non-Muslim visitors, travellers, schools and groups are all welcome.',
   path: '/visit',

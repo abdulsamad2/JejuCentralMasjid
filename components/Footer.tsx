@@ -27,6 +27,7 @@ const visit = [
   { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
   { href: '/visit', label: 'Book a visit' },
+  { href: '/ko', label: '한국어 안내' },
 ]
 
 const community = [

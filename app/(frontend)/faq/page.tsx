@@ -40,6 +40,22 @@ const FAQS: { q: string; a: string }[] = [
     a: `We are at ${MASJID_ADDRESS_EN} (${MASJID_ADDRESS_KO}). The easiest way to navigate is with the Kakao Map or Naver Map buttons on our contact page.`,
   },
   {
+    q: 'Is this the only mosque in Jeju? Is it the same as the Jeju Islamic Center?',
+    a: 'Jeju Central Masjid is the main congregational mosque on Jeju Island — the five daily prayers, Jummah and Eid prayers are all held here, and the doors are open 24/7. It is not the same place as the Jeju Islamic Center in Nohyeong-dong or Masjid Indonesia (Baiturrahman) on Jungang-ro; those are separate locations. We are near the back gate of Jeju National University — use the map buttons on our contact page so you arrive at the right building.',
+  },
+  {
+    q: 'Is there halal food in Jeju?',
+    a: 'Halal options on Jeju are limited but growing. The masjid does not certify restaurants, but we are happy to share the community’s current recommendations — message us on WhatsApp or KakaoTalk before or during your trip.',
+  },
+  {
+    q: 'Are there wudu facilities? Is the masjid accessible?',
+    a: 'Yes, there are wudu facilities for brothers and sisters. Please note the masjid is on the 2nd floor and can only be reached by stairs — there is no lift.',
+  },
+  {
+    q: 'I am travelling in Jeju. Can I pray or rest at the masjid?',
+    a: 'Yes. Travellers are welcome at any time, day or night, to pray. Today’s prayer and iqamah times are on our homepage, and Jummah is every Friday at 13:05.',
+  },
+  {
     q: 'How can I donate?',
     a: 'By bank transfer to our NH NongHyup Bank account 317-0031-1483-91 (account name: 제주중앙마스지드 / Jeju Central Masjid). Please write "Sadaqah", "Masjid", or "Zakat" in the transfer memo, and email us your confirmation if you would like a receipt. Full details are on the Donate page.',
   },

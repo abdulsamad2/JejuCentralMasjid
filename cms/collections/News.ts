@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { pingIndexNow } from '../indexNow'
 
 const slugify = (value: string): string =>
   value
@@ -14,6 +15,15 @@ export const News: CollectionConfig = {
   defaultSort: '-date',
   access: {
     read: () => true,
+  },
+  hooks: {
+    // Awaited so the serverless function isn't frozen before the ping leaves;
+    // pingIndexNow never throws and times out after 5s.
+    afterChange: [
+      async ({ doc }) => {
+        await pingIndexNow(['/news', '/', ...(doc?.slug ? [`/news/${doc.slug}`] : [])])
+      },
+    ],
   },
   admin: {
     useAsTitle: 'title',

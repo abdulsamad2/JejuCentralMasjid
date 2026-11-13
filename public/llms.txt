@@ -31,6 +31,7 @@
 - [News & announcements](https://jejucentralmasjid.kr/news): Eid timings, Ramadan schedule, appeals
 - [Services](https://jejucentralmasjid.kr/services): education, marriage guidance, dawah, library
 - [Donations](https://jejucentralmasjid.kr/donate): Korean bank transfer details
+- [한국어 안내 (Korean guide)](https://jejucentralmasjid.kr/ko): 위치, 예배 시간, 방문 예절, 견학 예약, 후원 계좌
 - [About the masjid](https://jejucentralmasjid.kr/about): history, committee and community
 
 ## 한국어 요약 (Korean summary)

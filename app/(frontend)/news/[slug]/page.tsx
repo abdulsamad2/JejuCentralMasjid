@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { formatNewsDate } from '@/lib/data/news'
 import { getAllNews, getNewsBySlug } from '@/lib/cms'
+import { pageMetadata, DEFAULT_OG_IMAGE } from '@/lib/seo/pageMetadata'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -24,15 +25,22 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const item = await getNewsBySlug(slug)
   if (!item) return { title: 'News' }
-  return {
+  // pageMetadata supplies og:url, site name, twitter card and a fallback image —
+  // without it, shared articles previewed with the homepage's twitter title.
+  const meta = pageMetadata({
     title: item.title,
     description: item.excerpt,
+    path: `/news/${item.slug}`,
+    image: item.image
+      ? { url: item.image, width: 1200, height: 630, alt: item.title }
+      : DEFAULT_OG_IMAGE,
+  })
+  return {
+    ...meta,
     openGraph: {
+      ...meta.openGraph,
       type: 'article',
-      title: item.title,
-      description: item.excerpt,
       publishedTime: `${item.date}T09:00:00+09:00`,
-      ...(item.image ? { images: [{ url: item.image }] } : {}),
     },
   }
 }
@@ -52,7 +60,7 @@ export default async function NewsDetailPage({ params }: Props) {
         headline: item.title,
         description: item.excerpt,
         datePublished: `${item.date}T09:00:00+09:00`,
-        ...(item.image ? { image: `https://jejucentralmasjid.kr${item.image}` } : {}),
+        ...(item.image ? { image: new URL(item.image, 'https://jejucentralmasjid.kr').href } : {}),
         author: { '@type': 'Organization', name: 'Jeju Central Masjid' },
         publisher: {
           '@type': 'Organization',
@@ -129,6 +137,22 @@ export default async function NewsDetailPage({ params }: Props) {
               <p key={i}>{para}</p>
             ))}
           </div>
+
+          {/* Seasonal posts (Ramadan, Eid) are the busiest pages — ask here too. */}
+          <aside className="mt-10 rounded-2xl border border-islamic-gold/30 bg-islamic-cream-light p-6 sm:p-8">
+            <p className="text-lg font-bold text-islamic-navy">Support your masjid</p>
+            <p className="mt-2 text-sm leading-relaxed text-islamic-navy/75 sm:text-base">
+              Jeju Central Masjid is volunteer-run and still in a rented hall. Every sadaqah keeps
+              the doors open and brings a permanent masjid closer, insha&apos;Allah.
+            </p>
+            <Link
+              href="/donate"
+              className="mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-islamic-green px-6 text-sm font-semibold text-white shadow-md shadow-islamic-green/25 transition hover:bg-islamic-green-dark"
+            >
+              Donate
+              <ChevronRightIcon className="h-4 w-4" />
+            </Link>
+          </aside>
         </div>
       </article>
 

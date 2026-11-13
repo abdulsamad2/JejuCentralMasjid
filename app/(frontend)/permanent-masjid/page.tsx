@@ -20,7 +20,7 @@ import { pageMetadata } from '@/lib/seo/pageMetadata'
 
 import { getPagePhotos, pickPhoto } from '@/lib/cms'
 export const metadata = pageMetadata({
-  title: 'Build a Permanent Masjid',
+  title: 'Help Build a Permanent Mosque on Jeju Island',
   description:
     'Jeju Central Masjid currently operates from a rented hall. Help us build a permanent masjid and Islamic centre on Jeju Island, insha’Allah.',
   path: '/permanent-masjid',

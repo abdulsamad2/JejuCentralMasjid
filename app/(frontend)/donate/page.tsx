@@ -31,6 +31,12 @@ export default function DonatePage() {
     try {
       await navigator.clipboard.writeText(BANK_ACCOUNT)
       setCopied(true)
+      // shortcut: counts copies as a pseudo-page in the /admin analytics so the
+      // donate funnel is measurable; move to a real events table if more are needed.
+      navigator.sendBeacon?.(
+        '/api/track',
+        new Blob([JSON.stringify({ path: '/donate/copied-account' })], { type: 'application/json' }),
+      )
       setTimeout(() => setCopied(false), 1600)
     } catch {
       /* noop */
@@ -115,6 +121,11 @@ export default function DonatePage() {
                   Please include <span className="font-semibold text-islamic-navy">&quot;Sadaqah&quot;</span>,{' '}
                   <span className="font-semibold text-islamic-navy">&quot;Masjid&quot;</span> or{' '}
                   <span className="font-semibold text-islamic-navy">&quot;Zakat&quot;</span> in the transfer memo. Need a receipt? Use the form below.
+                </p>
+                <p lang="ko" className="mt-3 text-xs leading-relaxed text-islamic-navy/70">
+                  후원 계좌: 농협은행 {BANK_ACCOUNT} (예금주: 제주중앙마스지드). 보내시는 분 메모에
+                  &quot;Sadaqah&quot;, &quot;Masjid&quot; 또는 &quot;Zakat&quot;를 적어 주세요. 영수증이 필요하시면 아래
+                  양식을 이용해 주세요.
                 </p>
               </div>
             </div>

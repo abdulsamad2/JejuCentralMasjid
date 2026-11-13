@@ -6,6 +6,7 @@ const BASE = 'https://jejucentralmasjid.kr'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE}/`, changeFrequency: 'daily', priority: 1 },
+    { url: `${BASE}/ko`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/about`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/services`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/events`, changeFrequency: 'weekly', priority: 0.8 },

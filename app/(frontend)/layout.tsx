@@ -160,15 +160,23 @@ const buildMosqueJsonLd = () => ({
   isAccessibleForFree: true,
   publicAccess: true,
   tourBookingPage: 'https://jejucentralmasjid.kr/visit',
-  potentialAction: {
-    '@type': 'ReserveAction',
-    name: 'Book a guided visit',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: 'https://jejucentralmasjid.kr/visit',
-      inLanguage: ['en', 'ko'],
+  potentialAction: [
+    {
+      '@type': 'ReserveAction',
+      name: 'Book a guided visit',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://jejucentralmasjid.kr/visit',
+        inLanguage: ['en', 'ko'],
+      },
     },
-  },
+    {
+      '@type': 'DonateAction',
+      name: 'Donate to Jeju Central Masjid',
+      recipient: { '@id': MASJID_ID },
+      target: 'https://jejucentralmasjid.kr/donate',
+    },
+  ],
   religiousDenomination: 'Sunni Islam',
   amenityFeature: [
     {
@@ -206,6 +214,8 @@ const buildMosqueJsonLd = () => ({
     'https://www.instagram.com/jejucentralmasjid/',
     MASJID_MAPS.google,
     MASJID_MAPS.kakao,
+    'https://www.tripadvisor.com/Attraction_Review-g297885-d27972455-Reviews-Jeju_Central_Masjid-Jeju_Jeju_Island.html',
+    'https://mawaqit.net/en/jeju-central-masjid-15-sancheondandong-2-gil-jeju-si-jeju-do-63243-cheju-south-korea',
   ],
 })
 

@@ -564,19 +564,35 @@ Subject: Update Jeju mosque listing — Jeju Central Masjid
 
 ### B) Have Halal Will Travel — hello@havehalalwilltravel.com (or site contact form)
 
-Subject: Jeju mosque details for your Jeju halal travel guide
+Our listing already exists
+(https://www.havehalalwilltravel.com/prayer-places/detail/jeju-central-masjid),
+so this is a correction request plus the guide pitch.
+
+Subject: Jeju Central Masjid — updated details for your listing and Jeju guide
 
 > Assalamu alaikum HHWT team,
 >
-> Thank you for your Jeju halal travel guide — many visitors find us
-> through articles like yours. We'd love the guide to include the
-> island's mosque with current details:
+> Thank you for listing Jeju Central Masjid in your prayer places
+> (https://www.havehalalwilltravel.com/prayer-places/detail/jeju-central-masjid)
+> — many visitors find us through HHWT.
+>
+> Could you please update the listing with our current details, and
+> include them in your Jeju halal travel guide:
 >
 > Jeju Central Masjid (제주 이슬람 사원)
-> Sancheondandong 2-gil 15, 2F, Jeju-si · open 24/7 · Jummah Fri 13:05
-> https://jejucentralmasjid.kr · WhatsApp +82 10-4346-9202
+> Sancheondandong 2-gil 15, 2F, Jeju-si, Jeju-do 63243, South Korea
+> (near the back gate of Jeju National University)
+> Open 24/7 · Jummah every Friday 13:05
+> Website: https://jejucentralmasjid.kr
+> WhatsApp: +82 10-4346-9202
+> Email: info@jejucentralmasjid.kr
 >
-> We're glad to answer questions or provide photos for the article.
+> Separate prayer spaces for men and women. Please note we are a
+> different place from the Jeju Islamic Center in Nohyeong-dong —
+> travellers sometimes arrive at the wrong building.
+>
+> We're glad to answer questions or provide photos for the listing or an
+> article.
 >
 > JazakAllah khair,
 > Jeju Central Masjid committee

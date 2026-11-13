@@ -20,7 +20,7 @@ import { pageMetadata } from '@/lib/seo/pageMetadata'
 export const revalidate = 120
 
 export const metadata = pageMetadata({
-  title: 'Events',
+  title: 'Events — Jummah, Iftars & Eid Prayers in Jeju',
   description:
     'Upcoming events and gatherings at Jeju Central Masjid. To RSVP, please contact us — no online form required. 제주 이슬람 사원의 행사와 모임 안내.',
   path: '/events',

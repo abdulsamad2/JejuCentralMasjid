@@ -9,7 +9,7 @@ import { pageMetadata } from '@/lib/seo/pageMetadata'
 export const revalidate = 120
 
 export const metadata = pageMetadata({
-  title: 'Gallery',
+  title: 'Photo Gallery — Inside the Jeju Mosque',
   description: 'Browse photos from our community, events, and activities at Jeju Central Masjid.',
   path: '/gallery',
   image: { url: '/assets/gathering-04.jpg', width: 1536, height: 1536, alt: 'A community gathering at Jeju Central Masjid' },

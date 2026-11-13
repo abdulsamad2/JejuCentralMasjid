@@ -105,14 +105,23 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <button
-            type="button"
-            aria-label="Open main menu"
-            className="inline-flex items-center justify-center rounded-lg p-2 text-islamic-navy transition hover:bg-islamic-cream lg:hidden"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <Bars3Icon className="h-7 w-7" />
-          </button>
+          {/* Phones are most of the traffic: keep Donate one tap away, not inside the menu. */}
+          <div className="flex flex-shrink-0 items-center gap-1 lg:hidden">
+            <Link
+              href="/donate"
+              className="inline-flex min-h-[40px] items-center rounded-full bg-islamic-green px-4 text-sm font-semibold text-white shadow-md shadow-islamic-green/25"
+            >
+              Donate
+            </Link>
+            <button
+              type="button"
+              aria-label="Open main menu"
+              className="inline-flex items-center justify-center rounded-lg p-2 text-islamic-navy transition hover:bg-islamic-cream"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Bars3Icon className="h-7 w-7" />
+            </button>
+          </div>
         </nav>
 
         <div

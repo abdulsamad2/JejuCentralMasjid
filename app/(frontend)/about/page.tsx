@@ -19,7 +19,7 @@ import { pageMetadata } from '@/lib/seo/pageMetadata'
 
 import { getPagePhotos, pickPhoto, pickPhotos } from '@/lib/cms'
 export const metadata = pageMetadata({
-  title: 'About',
+  title: 'About the Mosque on Jeju Island',
   description:
     'About Jeju Central Masjid — a welcoming community mosque on Jeju Island with separate prayer areas, a small multilingual library, and a growing ummah.',
   path: '/about',

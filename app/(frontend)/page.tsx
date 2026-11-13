@@ -15,6 +15,15 @@ import { getHeroSlides } from '@/lib/cms'
 
 export const revalidate = 120
 
+// Page-level alternates replace the layout's, so the RSS link is repeated here.
+export const metadata = {
+  alternates: {
+    canonical: '/',
+    languages: { en: '/', ko: '/ko' },
+    types: { 'application/rss+xml': '/feed.xml' },
+  },
+}
+
 /**
  * Homepage narrative flow:
  *   1. Utility  — who's here / when is next prayer
