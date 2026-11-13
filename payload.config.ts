@@ -31,6 +31,13 @@ const db = vercelPostgresAdapter({
   push: false,
 })
 
+// The dev fallback is public in this repo: with it, anyone could forge an admin
+// login. Refuse to run in production without a real secret.
+if (process.env.VERCEL_ENV === 'production' && !process.env.PAYLOAD_SECRET) {
+  throw new Error('PAYLOAD_SECRET must be set in production')
+}
+const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET || 'jcm-dev-only-secret-change-in-production'
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -94,7 +101,7 @@ export default buildConfig({
       }
     : {}),
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || 'jcm-dev-only-secret-change-in-production',
+  secret: PAYLOAD_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, 'cms/payload-types.ts'),
   },

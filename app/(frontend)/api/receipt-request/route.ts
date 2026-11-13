@@ -43,7 +43,9 @@ export async function POST(req: Request) {
         overrideAccess: true,
         file: {
           data: Buffer.from(await file.arrayBuffer()),
-          name: file.name || 'screenshot.jpg',
+          // The Blob store is public and its host is visible in every site image
+          // URL, so a guessable name ("screenshot.jpg") would expose bank details.
+          name: `${crypto.randomUUID()}.jpg`,
           mimetype: file.type,
           size: file.size,
         },

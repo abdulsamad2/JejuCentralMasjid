@@ -189,6 +189,7 @@ export interface Media {
    * Choose a category to show this photo on the Gallery page. Leave empty to keep it out of the gallery.
    */
   galleryCategory?: (number | null) | GalleryCategory;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -397,6 +398,7 @@ export interface ReceiptRequest {
  */
 export interface ReceiptScreenshot {
   id: number;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -425,6 +427,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -601,6 +604,7 @@ export interface MediaSelect<T extends boolean = true> {
   _order?: T;
   alt?: T;
   galleryCategory?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -712,6 +716,7 @@ export interface ReceiptRequestsSelect<T extends boolean = true> {
  * via the `definition` "receipt-screenshots_select".
  */
 export interface ReceiptScreenshotsSelect<T extends boolean = true> {
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -737,6 +742,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
