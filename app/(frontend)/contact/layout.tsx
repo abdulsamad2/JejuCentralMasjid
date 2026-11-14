@@ -3,7 +3,7 @@ import { pageMetadata } from '@/lib/seo/pageMetadata'
 
 // The page itself is a client component, which cannot export metadata.
 export const metadata = pageMetadata({
-  title: 'Contact & Directions — How to Find the Jeju Mosque',
+  title: 'Contact & Directions to the Jeju Mosque',
   description:
     'Contact Jeju Central Masjid — address, directions with Kakao, Naver and Google Maps, phone, WhatsApp and email. 제주 이슬람 사원 연락처와 오시는 길.',
   path: '/contact',
